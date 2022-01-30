@@ -34,6 +34,7 @@ object MyApp extends SimpleSwingApplication {
             }
         }
     }
+ 
     def top = new MainFrame {
         title = "Arène"
         preferredSize = new Dimension(1000, 1000)

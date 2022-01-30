@@ -1,6 +1,7 @@
 package fighter
 
 import attack.Attack
+import math.rint
 
 abstract class Fighter {
     val name : String
@@ -12,7 +13,7 @@ abstract class Fighter {
     val thoughness : Int
 
     def fight(enemy : Fighter, attack : Attack) : Int = {
-        val powerModifier = if (enemy.thoughness >= this.strenght) 1 else this.strenght / enemy.thoughness
-        return this.strenght * powerModifier * attack.damageModifier
+        val powerModifier = this.strenght.toFloat / enemy.thoughness
+        return (this.strenght * powerModifier * attack.damageModifier).toInt
     }
 }
