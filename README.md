@@ -5,7 +5,7 @@ Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachv
 
 ### Partie frontend
 
-- [ ] Faire une fenêtre graphique
+- [x] Faire une fenêtre graphique
 - [ ] Afficher des sprites des alliés et des ennemis en réservant la place pour le choix des attaques
 - [ ] Afficher le choix des attaques
 
