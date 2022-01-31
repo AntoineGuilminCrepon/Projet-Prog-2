@@ -11,7 +11,9 @@ class Arena(allies: Array[TextField], enemies: Array[TextField]) extends GridPan
     preferredSize = new Dimension(1920, 600)
 
     for (i <- 0 to 2) {
-        contents += enemies(i)
+        contents += new Label{
+            icon = new javax.swing.ImageIcon("src/main/resources/red_squared.png")
+        }
     }
     for (i <- 0 to 2) {
         contents += allies(i)
