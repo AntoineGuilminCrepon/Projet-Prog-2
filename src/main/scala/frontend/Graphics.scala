@@ -1,15 +1,15 @@
 import swing._
 import swing.event._
 
-class AttackZone(b: Array[Button]) extends GridPanel(2, 2) {
-    override def bounds = new Rectangle(0, 0, 1000, 200)
+class AttackButtons(b: Array[Button]) extends GridPanel(2, 2) {
     for (i <- 0 to 3) {
         contents += b(i)
     }
 }
 
 class Arena(allies: Array[TextField], enemies: Array[TextField]) extends GridPanel(2, 3) {
-    override def bounds = new Rectangle(0, 0, 1000, 800)
+    preferredSize = new Dimension(1920, 600)
+
     for (i <- 0 to 2) {
         contents += enemies(i)
     }
@@ -37,11 +37,11 @@ object MyApp extends SimpleSwingApplication {
  
     def top = new MainFrame {
         title = "Arène"
-        preferredSize = new Dimension(1000, 1000)
+        preferredSize = new Dimension(1920, 1080)
         contents =
             new BoxPanel(Orientation.Vertical) {
                 contents += new Arena(allies, enemies)
-                contents += new AttackZone(b)
+                contents += new AttackButtons(b)
             }
     }
 }
