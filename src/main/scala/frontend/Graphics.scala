@@ -12,7 +12,7 @@ class Arena(allies: Array[TextField], enemies: Array[TextField]) extends GridPan
 
     for (i <- 0 to 2) {
         contents += new Label{
-            icon = new javax.swing.ImageIcon("src/main/resources/red_squared.png")
+            icon = new javax.swing.ImageIcon("src/main/resources/red_square.png")
         }
     }
     for (i <- 0 to 2) {
