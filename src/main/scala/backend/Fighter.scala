@@ -9,11 +9,12 @@ abstract class Fighter {
     var lifePoints : Int
     val meleeCapacity : Int
     val rangeCapacity : Int
-    val strenght : Int
-    val thoughness : Int
+    val strength : Int
+    val toughness : Int
 
+    /* Renvoie le nombre de dégats infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {
-        val powerModifier = this.strenght.toFloat / enemy.thoughness
-        return (this.strenght * powerModifier * attack.damageModifier).toInt
+        val powerModifier = this.strength.toFloat / enemy.toughness
+        return (this.strength * powerModifier * attack.damageModifier).toInt
     }
 }
