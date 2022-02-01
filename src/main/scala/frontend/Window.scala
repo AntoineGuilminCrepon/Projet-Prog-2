@@ -6,11 +6,15 @@ import swing.event._
 import frames._
 
 object MyApp extends SimpleSwingApplication {
-    val allies = new Array[TextField](3)
-    val enemies = new Array[TextField](3)
+    val allies = new Array[Label](3)
+    val enemies = new Array[Label](3)
     for (i <- 1 to 3) {
-        allies(i-1) = new TextField(s"Allié $i")
-        enemies(i-1) = new TextField(s"Ennemi $i")
+        allies(i-1) = new Label{
+            icon = new javax.swing.ImageIcon("src/main/resources/red_square.png")
+        }
+        enemies(i-1) = new Label{
+            icon = new javax.swing.ImageIcon("src/main/resources/red_square.png")
+        }
     }
 
     var b = new Array[Button](4)
