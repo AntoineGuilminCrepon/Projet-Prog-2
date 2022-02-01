@@ -1,22 +1,33 @@
 package frames
 
-import swing._
-import swing.event._
+import scalafx._
+import scalafx.collections._
+import scalafx.scene.image._
+import scalafx.scene.layout._
+import scalafx.scene.control._
 
-class AttackButtons(b: Array[Button]) extends GridPanel(2, 2) {
-    for (i <- 0 to 3) {
-        contents += b(i)
+class AttackButtons(width: Int, height: Int) extends GridPane {
+
+    prefWidth = width
+    prefHeight = height
+
+    /*Ajout des boutons*/
+
+    for (i <- 1 to 4) {
+        val b = new Button(s"Attaque $i")
+        b.resize(width = 960, height = 200)
+        add(b, i%2, i/2)
     }
 }
 
-class Arena(allies: Array[Label], enemies: Array[Label]) extends GridPanel(2, 3) {
-    preferredSize = new Dimension(1920, 800)
+class Arena(width: Int, height: Int) extends GridPane {
 
-    for (i <- 0 to 2) {
-        contents += enemies(i)
-    }
+    prefWidth = width
+    prefHeight = height
 
-    for (i <- 0 to 2) {
-        contents += allies(i)
+    /*Ajout des images*/
+
+    for (i <- 0 to 5) {
+        add(new ImageView(new Image("red_square.png")), i%3, i/3)
     }
 }
