@@ -1,4 +1,4 @@
-package window
+package main
 
 import scalafx._
 import scalafx.application._
