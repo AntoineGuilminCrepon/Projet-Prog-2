@@ -1,15 +1,15 @@
-package monster
+package hero
 
 import attack._
 import fighter._
 
-abstract class Monster extends Fighter {
-    
+abstract class Hero extends Fighter {
+
 }
 
-class Slime extends Monster {
-    override val id = 1
-    override val name = "Slime"
+class Swordman extends Hero {
+    override val id = 2
+    override val name = "Swordman"
 
     override var lifePoints = 10
     val meleeCapacity = 1
