@@ -3,6 +3,7 @@ val scalafx = "org.scalafx" %% "scalafx" % "16.0.0-R22"
 lazy val root = (project in file(".")).
     settings(
         name := "Pokemon",
+        fork := true,
         libraryDependencies += scalafx,
         libraryDependencies ++= {
         // Determine OS version of JavaFX binaries

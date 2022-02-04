@@ -5,29 +5,31 @@ import scalafx.collections._
 import scalafx.scene.image._
 import scalafx.scene.layout._
 import scalafx.scene.control._
+import scalafx.geometry._
+import scalafx.scene._
 
-class AttackButtons(width: Int, height: Int) extends GridPane {
+class AttackButtons extends GridPane {
 
-    prefWidth = width
-    prefHeight = height
+    /*Contrôle de la taille et position*/
 
-    /*Ajout des boutons*/
+    val w = Parent.maxwidth/2
 
-    for (i <- 1 to 4) {
-        val b = new Button(s"Attaque $i")
-        b.resize(width = 960, height = 200)
-        add(b, i%2, i/2)
-    }
+    /*columnConstraints = List(new ColumnConstraints(w), new ColumnConstraints(width))
+    rowConstraints = List(new RowConstraints(height), new RowConstraints(height))
+
+    gridLinesVisible = true*/
+
+    alignment = Pos.BottomCenter
 }
 
-class Arena(width: Int, height: Int) extends GridPane {
+/*class Arena extends GridPane {
 
-    prefWidth = width
-    prefHeight = height
+    /*Contrôle de la taille et position*/
 
-    /*Ajout des images*/
+    columnConstraints = List(new ColumnConstraints(width), new ColumnConstraints(width), new ColumnConstraints(width))
+    rowConstraints = List(new RowConstraints(height), new RowConstraints(height))
 
-    for (i <- 0 to 5) {
-        add(new ImageView(new Image("red_square.png")), i%3, i/3)
-    }
-}
+    gridLinesVisible = true
+
+    alignment = Pos.TopCenter
+}*/
