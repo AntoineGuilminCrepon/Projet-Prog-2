@@ -16,6 +16,7 @@ object Battle extends JFXApp3 {
             scene = new Scene {
                 root = new StackPane {
                     children.add(new AttackButtons)
+                    children.add(new Arena)
                 }
             }
         }
