@@ -8,7 +8,10 @@ import scalafx.scene.control._
 import scalafx.geometry._
 import scalafx.scene._
 
-class AttackButtons extends GridPane {
+import hero._
+import monster._
+
+class AttackButtons(avatar : Hero) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -21,15 +24,15 @@ class AttackButtons extends GridPane {
 
     alignment = Pos.BottomCenter
 
-    for (i <- 1 to 4) {
-        var b = new Button(s"Attaque $i")
+    for (i <- 0 to 3) {
+        var b = new Button(avatar.attacks(i).toString())
         b.setMinWidth(w)
         b.setMinHeight(h)
-        add(b, (i-1)%2, (i-1)/2)
+        add(b, i%2, i/2)
     }
 }
 
-class Arena extends GridPane {
+class Arena(allies : Array[Hero], enemies : Array[Monster]) extends GridPane {
 
     /*Contrôle de la taille et position*/
 
@@ -42,4 +45,14 @@ class Arena extends GridPane {
     gridLinesVisible = true
 
     alignment = Pos.TopCenter
+
+    for (i <- 0 to 2) {
+        var ivAllies = new ImageView(new Image(allies(i).visual, w, h, false, false))
+        add(ivAllies, (i%3)+1, i/3)
+
+        var ivEnemies = new ImageView(new Image(enemies(i).visual, w, h, false, false))
+        ivEnemies.fitWidth = w
+        ivEnemies.fitHeight = h
+        add(ivEnemies, (i%3)+1, i/3)
+    }
 }

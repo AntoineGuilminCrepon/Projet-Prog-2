@@ -1,5 +1,7 @@
 package monster
 
+import scalafx.scene.image._
+
 import attack._
 import fighter._
 
@@ -9,7 +11,8 @@ abstract class Monster extends Fighter {
 
 class Slime extends Monster {
     override val id = 1
-    override val name = "Slime"
+    override val visual = getClass.getResourceAsStream("src/main/resources/red_square.png")
+    override def toString = "Slime"
 
     override var lifePoints = 10
     val meleeCapacity = 1
