@@ -13,7 +13,7 @@ abstract class Hero extends Fighter {
 
 class Swordman extends Hero {
     override val id = 2
-    override val visual = getClass.getResourceAsStream("src/main/resources/red_square.png")
+    override val visual = getClass.getResourceAsStream("/red_square.png")
     override def toString = "Swordman"
 
     override var lifePoints = 10

@@ -11,7 +11,7 @@ abstract class Monster extends Fighter {
 
 class Slime extends Monster {
     override val id = 1
-    override val visual = getClass.getResourceAsStream("src/main/resources/red_square.png")
+    override val visual = getClass.getResourceAsStream("/red_square.png")
     override def toString = "Slime"
 
     override var lifePoints = 10
