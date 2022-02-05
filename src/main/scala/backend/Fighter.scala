@@ -1,11 +1,13 @@
 package fighter
 
+import java.io.InputStream
+
 import attack.Attack
 import math.rint
 
 abstract class Fighter {
     val id : Int
-    val name : String
+    val visual : InputStream
 
     var lifePoints : Int
     val meleeCapacity : Int

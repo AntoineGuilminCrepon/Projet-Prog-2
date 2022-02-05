@@ -7,14 +7,19 @@ object AttackType {
 }
 
 abstract class Attack {
-    val name : String
     val attackType : AttackType.EnumVal
     
     val damageModifier : Int
 }
 
 class Punch extends Attack {
-    override val name = "Punch"
+    override def toString = "Punch"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 1
+}
+
+class Slash extends Attack {
+    override def toString = "Slash"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val damageModifier = 1
 }
