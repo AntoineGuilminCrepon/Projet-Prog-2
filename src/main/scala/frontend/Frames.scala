@@ -10,10 +10,9 @@ import scalafx.scene._
 import scalafx.Includes._
 import scalafx.event.ActionEvent
 
-import hero._
-import monster._
+import fighter._
 
-class AttackButtons(avatar : Hero) extends GridPane {
+class AttackButtons(avatar : Fighter) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -40,7 +39,7 @@ class AttackButtons(avatar : Hero) extends GridPane {
     }
 }
 
-class Arena(allies : Array[Hero], enemies : Array[Monster]) extends GridPane {
+class Arena(allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane {
 
     /*Contrôle de la taille et position*/
 

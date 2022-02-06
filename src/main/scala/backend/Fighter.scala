@@ -5,8 +5,14 @@ import java.io.InputStream
 import attack.Attack
 import math.rint
 
+object FactionAlignment {
+    sealed trait EnumVal
+    case object Hero extends EnumVal
+    case object Monster extends EnumVal
+}
+
 abstract class Fighter(id : Int) {
-    val visual : InputStream
+    val faction : FactionAlignment.EnumVal
 
     var lifePoints : Int
     val meleeCapacity : Int
@@ -14,6 +20,7 @@ abstract class Fighter(id : Int) {
     val strength : Int
     val toughness : Int
 
+    val visual : InputStream
     val attacks : Array[Attack]
 
     /* Renvoie le nombre de dégats infligés par l'attaque */

@@ -7,13 +7,14 @@ import scalafx.scene.layout._
 import scalafx.event._
 
 import frames._
+import fighter._
 import hero._
 import monster._
 
 object Battle extends JFXApp3 {
 
-    val allies = new Array[Hero](3)
-    val enemies = new Array[Monster](3)
+    val allies = new Array[Fighter](3)
+    val enemies = new Array[Fighter](3)
 
     for (i <- 0 to 2) {
         allies(i) = new Swordman(i)
@@ -31,5 +32,6 @@ object Battle extends JFXApp3 {
             }
         }
         stage.setResizable(false)
-    }
+        stage.show()
+    }   
 }
