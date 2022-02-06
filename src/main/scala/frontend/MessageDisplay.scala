@@ -17,10 +17,10 @@ class MessagesDisplay extends Label {
     alignment = Pos.Center
 
     this.setWrapText(true)
-    this.setText("\n\n\n")
+    this.setText("\n\n\n\n\n")
 
     def newMessage(message : String) : Unit = {
-        this.setText("\n\n\n" + message)
+        this.setText("\n\n\n\n\n" + message)
     }
 
     def continueMessage(message : String) : Unit = {

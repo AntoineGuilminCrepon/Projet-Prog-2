@@ -1,4 +1,4 @@
-package frames
+package arena
 
 import scalafx._
 import scalafx.collections._
@@ -13,7 +13,7 @@ import scalafx.event.ActionEvent
 import battle._
 import fighter._
 
-class Arena(allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane {
+class Arena(battle : Battle, allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane {
 
     /*Contrôle de la taille et position*/
 
@@ -35,31 +35,5 @@ class Arena(allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane 
         ivEnemies.fitWidth = w
         ivEnemies.fitHeight = h
         add(ivEnemies, (i%3), 0)
-    }
-}
-
-class AttackButtons(battle : Battle) extends GridPane {
-
-    /*Contrôle de la taille et position*/
-    val w = 645
-    val h = 110
-
-    columnConstraints = List(new ColumnConstraints(w), new ColumnConstraints(w))
-    rowConstraints = List(new RowConstraints(h), new RowConstraints(h))
-
-    gridLinesVisible = true
-
-    alignment = Pos.BottomCenter
-
-    for (i <- 0 to 3) {
-        var b = new Button("0")
-        b.setMinWidth(w)
-        b.setMinHeight(h)
-
-        b.onAction = handle {
-            battle.launchAttack(0, 0)
-        }
-
-        add(b, i%2, i/2)
     }
 }

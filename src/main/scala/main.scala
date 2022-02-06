@@ -6,7 +6,8 @@ import scalafx.scene._
 import scalafx.scene.layout._
 import scalafx.event._
 
-import frames._
+import arena._
+import attackmenu._
 import messagedisplay._
 import battle._
 import fighter._
@@ -27,11 +28,12 @@ object FightArena extends JFXApp3 {
         stage = new JFXApp3.PrimaryStage {
             title = "Fight Arena"
             var messagesDispayer = new MessagesDisplay
+            var battle = new Battle(messagesDispayer, allies, enemies)
             scene = new Scene(1290, 770) {
                 root = new StackPane {
-                    children.add(new AttackButtons(new Battle(messagesDispayer, allies, enemies)))
+                    children.add(new AttackMenu(battle))
                     children.add(messagesDispayer)
-                    children.add(new Arena(allies, enemies))
+                    children.add(new Arena(battle, allies, enemies))
                 }
             }
         }
