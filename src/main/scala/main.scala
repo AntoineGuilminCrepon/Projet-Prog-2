@@ -16,8 +16,8 @@ object Battle extends JFXApp3 {
     val enemies = new Array[Monster](3)
 
     for (i <- 0 to 2) {
-        allies(i) = new Swordman
-        enemies(i) = new Slime
+        allies(i) = new Swordman(i)
+        enemies(i) = new Slime(i+3)
     }
 
     override def start () : Unit = {
@@ -25,7 +25,7 @@ object Battle extends JFXApp3 {
             title = "Fight Arena"
             scene = new Scene(1290, 720) {
                 root = new StackPane {
-                    children.add(new AttackButtons(new Swordman))
+                    children.add(new AttackButtons(allies(0)))
                     children.add(new Arena(allies, enemies))
                 }
             }

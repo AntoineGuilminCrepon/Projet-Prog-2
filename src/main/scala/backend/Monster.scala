@@ -5,12 +5,11 @@ import scalafx.scene.image._
 import attack._
 import fighter._
 
-abstract class Monster extends Fighter {
+abstract class Monster(id : Int) extends Fighter(id : Int) {
     
 }
 
-class Slime extends Monster {
-    override val id = 1
+class Slime(id : Int) extends Monster(id : Int) {
     override val visual = getClass.getResourceAsStream("/red_square.png")
     override def toString = "Slime"
 

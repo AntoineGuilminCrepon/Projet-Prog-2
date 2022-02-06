@@ -27,12 +27,13 @@ class AttackButtons(avatar : Hero) extends GridPane {
     alignment = Pos.BottomCenter
 
     for (i <- 0 to 3) {
-        var b = new Button(avatar.attacks(i).toString())
+        var b = new Button("0")
         b.setMinWidth(w)
         b.setMinHeight(h)
 
         b.onAction = handle {
             println("Button pressed : " + i)
+            b.setText(b.getText+"1")
         }
 
         add(b, i%2, i/2)

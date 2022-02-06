@@ -5,8 +5,7 @@ import java.io.InputStream
 import attack.Attack
 import math.rint
 
-abstract class Fighter {
-    val id : Int
+abstract class Fighter(id : Int) {
     val visual : InputStream
 
     var lifePoints : Int
