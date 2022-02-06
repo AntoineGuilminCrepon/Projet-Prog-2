@@ -10,9 +10,10 @@ import scalafx.scene._
 import scalafx.Includes._
 import scalafx.event.ActionEvent
 
+import battle._
 import fighter._
 
-class AttackButtons(avatar : Fighter) extends GridPane {
+class AttackButtons(battle : Battle) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -31,8 +32,7 @@ class AttackButtons(avatar : Fighter) extends GridPane {
         b.setMinHeight(h)
 
         b.onAction = handle {
-            println("Button pressed : " + i)
-            b.setText(b.getText+"1")
+            battle.launchAttack(0, 0)
         }
 
         add(b, i%2, i/2)
