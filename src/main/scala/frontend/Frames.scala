@@ -13,6 +13,31 @@ import scalafx.event.ActionEvent
 import battle._
 import fighter._
 
+class Arena(allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane {
+
+    /*Contrôle de la taille et position*/
+
+    val w = 430
+    val h = 250
+
+    columnConstraints = List(new ColumnConstraints(w), new ColumnConstraints(w), new ColumnConstraints(w))
+    rowConstraints = List(new RowConstraints(h), new RowConstraints(h))
+
+    gridLinesVisible = true
+
+    alignment = Pos.TopCenter
+
+    for (i <- 0 to 2) {
+        var ivAllies = new ImageView(new Image(allies(i).visual, w, h, false, false))
+        add(ivAllies, (i%3), 1)
+
+        var ivEnemies = new ImageView(new Image(enemies(i).visual, w, h, false, false))
+        ivEnemies.fitWidth = w
+        ivEnemies.fitHeight = h
+        add(ivEnemies, (i%3), 0)
+    }
+}
+
 class AttackButtons(battle : Battle) extends GridPane {
 
     /*Contrôle de la taille et position*/
@@ -36,30 +61,5 @@ class AttackButtons(battle : Battle) extends GridPane {
         }
 
         add(b, i%2, i/2)
-    }
-}
-
-class Arena(allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane {
-
-    /*Contrôle de la taille et position*/
-
-    val w = 430
-    val h = 250
-
-    columnConstraints = List(new ColumnConstraints(w), new ColumnConstraints(w), new ColumnConstraints(w))
-    rowConstraints = List(new RowConstraints(h), new RowConstraints(h))
-
-    gridLinesVisible = true
-
-    alignment = Pos.TopCenter
-
-    for (i <- 0 to 2) {
-        var ivAllies = new ImageView(new Image(allies(i).visual, w, h, false, false))
-        add(ivAllies, (i%3), 1)
-
-        var ivEnemies = new ImageView(new Image(enemies(i).visual, w, h, false, false))
-        ivEnemies.fitWidth = w
-        ivEnemies.fitHeight = h
-        add(ivEnemies, (i%3), 0)
     }
 }
