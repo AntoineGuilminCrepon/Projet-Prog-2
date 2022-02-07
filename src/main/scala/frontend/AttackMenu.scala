@@ -38,9 +38,9 @@ class AttackMenu(battle : Battle) extends GridPane with CurrentState {
             b.setMinHeight(h)
 
             b.onAction = handle {
-                battle.launchAttack(currentFighterID, fighter, fighter)
+                battle.launchAttack(currentFighterID)
                 var newFighter = battle.getNewFighter(currentFighterID)
-                currentFighterID = (currentFighterID + 1) % 6
+                currentFighterID = (currentFighterID + 2) % 6
                 setFighterMenu(newFighter)
             }
 
