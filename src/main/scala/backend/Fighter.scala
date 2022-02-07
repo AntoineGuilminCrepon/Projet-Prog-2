@@ -5,9 +5,15 @@ import java.io.InputStream
 import attack.Attack
 import math.rint
 
-abstract class Fighter {
-    val id : Int
-    val visual : InputStream
+object FactionAlignment {
+    sealed trait EnumVal
+    case object Hero extends EnumVal
+    case object Monster extends EnumVal
+}
+
+abstract class Fighter(id : Int) {
+    val fighterID = id
+    val faction : FactionAlignment.EnumVal
 
     var lifePoints : Int
     val meleeCapacity : Int

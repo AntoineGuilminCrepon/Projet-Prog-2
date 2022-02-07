@@ -23,7 +23,9 @@ object Battle extends JFXApp3 {
     override def start () : Unit = {
         stage = new JFXApp3.PrimaryStage {
             title = "Fight Arena"
-            scene = new Scene(1290, 720) {
+            var messagesDispayer = new MessagesDisplay
+            var battle = new Battle(messagesDispayer, allies, enemies)
+            scene = new Scene(1290, 900) {
                 root = new StackPane {
                     children.add(new AttackButtons(new Swordman))
                     children.add(new Arena(allies, enemies))
