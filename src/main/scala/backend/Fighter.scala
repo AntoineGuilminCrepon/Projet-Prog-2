@@ -12,6 +12,7 @@ object FactionAlignment {
 }
 
 abstract class Fighter(id : Int) {
+    val fighterID = id
     val faction : FactionAlignment.EnumVal
 
     var lifePoints : Int

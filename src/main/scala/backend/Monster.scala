@@ -6,6 +6,7 @@ import attack._
 import fighter._
 
 class Slime(id : Int) extends Fighter(id : Int) {
+    override val fighterID = id
     override def toString = "Slime"
 
     val faction = FactionAlignment.Monster
