@@ -29,11 +29,12 @@ object FightArena extends JFXApp3 {
             title = "Fight Arena"
             var messagesDispayer = new MessagesDisplay
             var battle = new Battle(messagesDispayer, allies, enemies)
+            var arena = new Arena(battle, allies, enemies)
             scene = new Scene(1290, 900) {
                 root = new StackPane {
-                    children.add(new AttackMenu(battle))
+                    children.add(new AttackMenu(battle, arena))
                     children.add(messagesDispayer)
-                    children.add(new Arena(battle, allies, enemies))
+                    children.add(arena)
                 }
             }
         }

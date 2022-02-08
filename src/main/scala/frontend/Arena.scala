@@ -37,3 +37,10 @@ class Arena(battle : Battle, allies : Array[Fighter], enemies : Array[Fighter]) 
         add(ivEnemies, (i%3), 0)
     }
 }
+
+/* 
+    On peut obtenir les enfants de Arena avec children(i), où i est :
+    2   4   6
+    1   3   5
+    et 0 est la grille visible.
+*/

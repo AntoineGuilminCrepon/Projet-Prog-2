@@ -15,7 +15,8 @@ class Slime(id : Int) extends Fighter(id : Int) {
     val rangeCapacity = 1
     val strength = 1
     val toughness = 1
-    
+    val initiative = 1
+
     val visual = getClass.getResourceAsStream("/red_square.png")
 
     val attacks = new Array[Attack](4)

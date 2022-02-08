@@ -20,9 +20,15 @@ abstract class Fighter(id : Int) {
     val rangeCapacity : Int
     val strength : Int
     val toughness : Int
+    val initiative : Int
 
     val visual : InputStream
     val attacks : Array[Attack]
+
+    /* Renvoie un booléen correspond pour savoir si le combattant est en vie */
+    def isLiving() : Boolean = {
+        return this.lifePoints > 0
+    }
 
     /* Renvoie le nombre de dégats infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {

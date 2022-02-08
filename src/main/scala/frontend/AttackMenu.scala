@@ -11,13 +11,14 @@ import scalafx.Includes._
 import scalafx.event.ActionEvent
 
 import battle._
+import arena._
 import fighter._
 
 trait CurrentState {
     var currentFighterID = 0
 }
 
-class AttackMenu(battle : Battle) extends GridPane with CurrentState {
+class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentState {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -31,14 +32,17 @@ class AttackMenu(battle : Battle) extends GridPane with CurrentState {
     alignment = Pos.BottomCenter
 
     def setFighterMenu(fighter : Fighter) : Unit = {
-        println(fighter + " " + currentFighterID)
         for (i <- 0 to 3) {
             var b = new Button(fighter.attacks(i).toString())
             b.setMinWidth(w)
             b.setMinHeight(h)
 
             b.onAction = handle {
-                battle.launchAttack(currentFighterID)
+                battle.launchAttack(currentFighterID, (currentFighterID + 1) % 6)
+                
+                var deadFighters = battle.livingFighters()
+                deadFighters.foreach(i => arena.children(i+1) = new Label)
+
                 var newFighter = battle.getNewFighter(currentFighterID)
                 currentFighterID = (currentFighterID + 2) % 6
                 setFighterMenu(newFighter)
