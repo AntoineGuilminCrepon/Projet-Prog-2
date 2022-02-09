@@ -7,8 +7,8 @@ import math.rint
 
 object FactionAlignment {
     sealed trait EnumVal
-    case object Hero extends EnumVal
-    case object Monster extends EnumVal
+    case object Hero extends EnumVal {override def toString() : String = {"Héros"}}
+    case object Monster extends EnumVal {override def toString() : String = {"Monstres"}}
 }
 
 abstract class Fighter(id : Int) {
@@ -28,6 +28,14 @@ abstract class Fighter(id : Int) {
     /* Renvoie un booléen correspond pour savoir si le combattant est en vie */
     def isLiving() : Boolean = {
         return this.lifePoints > 0
+    }
+
+    /* Renvoie vrai si le combattant est un Héros */
+    def isHero() : Boolean = {
+        this.faction match {
+            case FactionAlignment.Hero => true
+            case FactionAlignment.Monster => false
+        }
     }
 
     /* Renvoie le nombre de dégats infligés par l'attaque */

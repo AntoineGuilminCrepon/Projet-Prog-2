@@ -38,20 +38,33 @@ class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentSt
             b.setMinHeight(h)
 
             b.onAction = handle {
-                battle.launchAttack(currentFighterID, (currentFighterID + 1) % 6)
-                
-                var deadFighters = battle.livingFighters()
-                deadFighters.foreach(i => arena.children(i+1) = new Label)
+                var newFighter = fighter
+                var winner : Option[FactionAlignment.EnumVal] = None
 
-                var newFighter = battle.getNewFighter(currentFighterID)
-                currentFighterID = (currentFighterID + 2) % 6
-                setFighterMenu(newFighter)
+                do {
+                    battle.launchAttack(currentFighterID, battle.defineDefender(currentFighterID))
+                    
+                    var deadFighters = battle.deadFighters()
+                    deadFighters.foreach(i => arena.children(i+1) = new Label)
+
+                    var gettingNewFighter = battle.getNewFighter(currentFighterID)
+                    newFighter = gettingNewFighter._2
+                    currentFighterID = gettingNewFighter._1
+
+                    winner = battle.checkVictory()
+                } while (!battle.fightOrder(currentFighterID).isHero() && !winner.isDefined)
+                
+                if (!winner.isDefined) {
+                    setFighterMenu(newFighter)
+                } else {
+                    battle.endBattle(winner.get)
+                }
             }
 
         add(b, i%2, i/2)
         }
     }
     
-    val firstFighter = battle.getNewFighter(0)
+    val firstFighter = battle.getNewFighter(0)._2
     setFighterMenu(firstFighter)
 }

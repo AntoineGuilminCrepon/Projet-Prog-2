@@ -6,7 +6,7 @@ import fighter._
 import messagedisplay._
 
 class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) {
-    val fightOrder : Array[Fighter] = Array(allies(0), enemies(0), allies(1), enemies(1), allies(2), enemies(2))
+    val fightOrder : Array[Fighter] = (allies ++ enemies).sortWith(_.initiative >= _.initiative)
 
     def launchAttack(attackerID : Int, defenderID : Int) = {
         var attacker = fightOrder(attackerID)
@@ -16,26 +16,62 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         defender.lifePoints -= damages
         messagesDispayer.continueMessage("Il reste " + defender.lifePoints + " PV à " + defender + " nb " + defenderID)
 
-        if (defender.isLiving()) {
-            messagesDispayer.continueMessage("\n" + defender + " riposte et attque " + attacker)
-            damages = defender.fight(attacker, defender.attacks(0))
-            attacker.lifePoints -= damages
-            messagesDispayer.continueMessage("Il lui inflige " + damages + " points de dégats")
-            messagesDispayer.continueMessage("Il reste alors " + attacker.lifePoints + " PV à " + attacker + " nb " + attackerID)
-        } else {
+        if (!defender.isLiving()) {
             messagesDispayer.continueMessage(defender + " est mis hors de combat")
-        }
-        
-        if (!attacker.isLiving()) {
-            messagesDispayer.continueMessage(attacker + " est mis hors de combat")
-        }
+        }   
     }
 
-    def getNewFighter(currentFighterID : Int) : Fighter = {
-        return fightOrder((currentFighterID + 2) % 6)
+    def defineDefender(attackerID : Int) : Int = {
+        val attacker = fightOrder(attackerID)
+        val defenderFaction = attacker.faction match {
+            case FactionAlignment.Hero => FactionAlignment.Monster
+            case FactionAlignment.Monster => FactionAlignment.Hero
+        }
+        return Array(0, 1, 2, 3, 4, 5).filter(fightOrder(_).isLiving()).sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
     }
 
-    def livingFighters() : Array[Int] = {
-        return Array(0, 1, 2, 3, 4, 5).filter(!fightOrder(_).isLiving())
+    def getNewFighter(currentFighterID : Int) : (Int, Fighter) = {
+        return ((currentFighterID + 1) % 6, fightOrder((currentFighterID + 1) % 6))
+    }
+
+    def deadFighters() : Array[Int] = {
+        var deads : Array[Int] = Array()
+        for (i <- 0 to 2) {
+            if (!allies(i).isLiving()) {
+                deads = deads :+ (2 * i) 
+            }
+            if (!enemies(i).isLiving()) {
+                deads = deads :+ (2 * i + 1)
+            }
+        }
+        return deads
+    }
+
+    def checkVictory() : Option[FactionAlignment.EnumVal] = {
+        var deadHeroCounter = 0
+        var deadMonsterCounter = 0
+        fightOrder.foreach(
+            fighter =>
+            if (!fighter.isLiving()) {
+                fighter.faction match {
+                    case FactionAlignment.Hero => deadHeroCounter += 1
+                    case FactionAlignment.Monster => deadMonsterCounter += 1
+                }
+            }
+        )
+        if (deadHeroCounter == 3) {
+            return Some(FactionAlignment.Monster)
+        }
+
+        if (deadMonsterCounter == 3) {
+            return Some(FactionAlignment.Hero)
+        }
+
+        return None
+    }
+
+    def endBattle(winner : FactionAlignment.EnumVal) : Unit = {
+        println("Fin du combat")
+        messagesDispayer.newMessage("Fin du combat : la victoire revient aux " + winner + " !")
     }
 }
