@@ -11,6 +11,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
     def launchAttack(attackerID : Int, defenderID : Int) = {
         var attacker = fightOrder(attackerID)
         var defender = fightOrder(defenderID)
+        println(attacker + " -> " + defender)
         messagesDispayer.newMessage(attacker + " nb " + attackerID + " attaque " + defender)
         var damages = attacker.fight(defender, attacker.attacks(0))
         defender.lifePoints -= damages
@@ -24,14 +25,26 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
     def defineDefender(attackerID : Int) : Int = {
         val attacker = fightOrder(attackerID)
         val defenderFaction = attacker.faction match {
-            case FactionAlignment.Hero => FactionAlignment.Monster
-            case FactionAlignment.Monster => FactionAlignment.Hero
+            case FactionAlignment.Hero => 
+                return Array(0, 1, 2, 3, 4, 5)
+                    .filter(fightOrder(_).isLiving())
+                    .filter(!fightOrder(_).isHero())
+                    .sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
+            case FactionAlignment.Monster =>
+                return Array(0, 1, 2, 3, 4, 5)
+                    .filter(fightOrder(_).isLiving())
+                    .filter(fightOrder(_).isHero())
+                    .sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
         }
-        return Array(0, 1, 2, 3, 4, 5).filter(fightOrder(_).isLiving()).sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
+        return 0
     }
 
     def getNewFighter(currentFighterID : Int) : (Int, Fighter) = {
-        return ((currentFighterID + 1) % 6, fightOrder((currentFighterID + 1) % 6))
+        var newFigherID = (currentFighterID + 1) % 6
+        while (!fightOrder(newFigherID).isLiving()) {
+            newFigherID = (newFigherID + 1) % 6
+        }
+        return (newFigherID, fightOrder(newFigherID))
     }
 
     def deadFighters() : Array[Int] = {
