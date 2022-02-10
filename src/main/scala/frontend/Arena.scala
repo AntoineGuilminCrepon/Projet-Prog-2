@@ -21,7 +21,6 @@ trait ChoosenFighter {
 class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane with ChoosenFighter {
 
     /*Contrôle de la taille et position*/
-
     val w = 430
     val h = 250
 

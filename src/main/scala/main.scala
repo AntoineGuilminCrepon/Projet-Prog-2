@@ -5,6 +5,7 @@ import scalafx.application._
 import scalafx.scene._
 import scalafx.scene.layout._
 import scalafx.event._
+import scalafx.geometry._
 
 import arena._
 import attackmenu._
@@ -32,11 +33,16 @@ object FightArena extends JFXApp3 {
             var messagesDispayer = new MessagesDisplay
             var battle = new Battle(messagesDispayer, allies, enemies)
             var arena = new Arena(battle, messagesDispayer, allies, enemies)
+            var attackMenu = new AttackMenu(battle, arena, messagesDispayer)
             scene = new Scene(1290, 900) {
-                root = new StackPane {
-                    children.add(new AttackMenu(battle, arena, messagesDispayer))
-                    children.add(messagesDispayer)
-                    children.add(arena)
+                root = new GridPane {
+                    alignment = Pos.Center
+                    rowConstraints = List(new RowConstraints(500), new RowConstraints(180), new RowConstraints(220))
+                    columnConstraints = List(new ColumnConstraints(1290))
+
+                    this.add(arena, 0, 0)
+                    this.add(messagesDispayer, 0, 1)
+                    this.add(attackMenu, 0, 2)
                 }
             }
         }
