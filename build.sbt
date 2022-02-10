@@ -2,7 +2,7 @@ val scalafx = "org.scalafx" %% "scalafx" % "16.0.0-R22"
 
 lazy val root = (project in file(".")).
     settings(
-        name := "Pokemon",
+        name := "FightArena",
         fork := true,
         libraryDependencies += scalafx,
         libraryDependencies ++= {

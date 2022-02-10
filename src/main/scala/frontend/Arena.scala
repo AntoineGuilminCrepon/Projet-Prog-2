@@ -11,9 +11,14 @@ import scalafx.Includes._
 import scalafx.event.ActionEvent
 
 import battle._
+import messagedisplay._
 import fighter._
 
-class Arena(battle : Battle, allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane {
+trait ChoosenFighter {
+    var choosenFighter = -1
+}
+
+class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane with ChoosenFighter {
 
     /*Contrôle de la taille et position*/
 
@@ -29,12 +34,42 @@ class Arena(battle : Battle, allies : Array[Fighter], enemies : Array[Fighter]) 
 
     for (i <- 0 to 2) {
         var ivAllies = new ImageView(new Image(allies(i).visual, w, h, false, false))
-        add(ivAllies, (i%3), 1)
+        add(new Button(){
+                graphic = ivAllies
+                this.onAction = _ => {
+                    battle.fightOrder(battle.currentFighterID).faction match {
+                        case FactionAlignment.Hero =>
+                            choosenFighter = 2 * i
+                            messagesDispayer.newMessage("Vous allez attaquer " + battle.fightOrder(battle.positionToFightOrder(2 * i)))
+                            messagesDispayer.continueMessage("Choisissez maintenant une attaque.")
+                        
+                        case FactionAlignment.Monster => 
+                    }
+                }
+            }, (i%3), 1)
 
         var ivEnemies = new ImageView(new Image(enemies(i).visual, w, h, false, false))
         ivEnemies.fitWidth = w
         ivEnemies.fitHeight = h
-        add(ivEnemies, (i%3), 0)
+        add(new Button(){
+                graphic = ivEnemies
+                this.onAction = _ => {
+                    battle.fightOrder(battle.currentFighterID).faction match {
+                        case FactionAlignment.Hero =>
+                            choosenFighter = 2 * i + 1
+                            messagesDispayer.newMessage("Vous allez attaquer " + battle.fightOrder(battle.positionToFightOrder(2 * i + 1)))
+                            messagesDispayer.continueMessage("Choisissez maintenant une attaque.")
+                        
+                        case FactionAlignment.Monster => 
+                    }
+                }
+            }, (i%3), 0)
+    }
+
+    def getAFighter() : Int = {
+        val raz = choosenFighter
+        choosenFighter = -1
+        return raz
     }
 }
 

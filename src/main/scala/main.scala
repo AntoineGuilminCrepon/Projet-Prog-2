@@ -16,6 +16,8 @@ import monster._
 
 object FightArena extends JFXApp3 {
 
+    Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
+
     val allies = new Array[Fighter](3)
     val enemies = new Array[Fighter](3)
 
@@ -29,10 +31,10 @@ object FightArena extends JFXApp3 {
             title = "Fight Arena"
             var messagesDispayer = new MessagesDisplay
             var battle = new Battle(messagesDispayer, allies, enemies)
-            var arena = new Arena(battle, allies, enemies)
+            var arena = new Arena(battle, messagesDispayer, allies, enemies)
             scene = new Scene(1290, 900) {
                 root = new StackPane {
-                    children.add(new AttackMenu(battle, arena))
+                    children.add(new AttackMenu(battle, arena, messagesDispayer))
                     children.add(messagesDispayer)
                     children.add(arena)
                 }

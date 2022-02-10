@@ -12,13 +12,10 @@ import scalafx.event.ActionEvent
 
 import battle._
 import arena._
+import messagedisplay._
 import fighter._
 
-trait CurrentState {
-    var currentFighterID = 0
-}
-
-class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentState {
+class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -32,6 +29,15 @@ class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentSt
     alignment = Pos.BottomCenter
 
     def setFighterMenu(fighter : Fighter) : Unit = {
+        messagesDispayer.continueMessage("\nC'est au tour de " + fighter + " d'attaquer.")
+        fighter.faction match {
+            case FactionAlignment.Hero =>
+                messagesDispayer.continueMessage("Choisissez une cible puis une attaque.")
+            
+            case FactionAlignment.Monster =>
+                messagesDispayer.continueMessage("Appuyez sur \"Continuer\" pour qu'il attaque.")
+        }
+
         for (i <- 0 to 3) {
             var b = new Button(
                 fighter.faction match {
@@ -39,23 +45,36 @@ class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentSt
                     case FactionAlignment.Monster => "Continuer"
                 }
             )
+
             b.setMinWidth(w)
             b.setMinHeight(h)
 
-            b.onAction = handle {
-                var newFighter = fighter
-                var winner : Option[FactionAlignment.EnumVal] = None
+            b.onAction = _ => {
+                battle.fightOrder(battle.currentFighterID).faction match {
+                    case FactionAlignment.Hero =>
+                        var choosenFighter = arena.getAFighter()
+                        if (choosenFighter == -1) {
+                            messagesDispayer.newMessage("Choisissez une cible avant d'attaquer")
+                            return
+                        } else if (choosenFighter % 2 == 0) {
+                            messagesDispayer.newMessage("Vous ne pouvez pas attaquer votre propre équipe !")
+                            return
+                        }
 
-                battle.launchAttack(currentFighterID, battle.defineDefender(currentFighterID))
+                        battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter))
+                    case FactionAlignment.Monster =>
+                        battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID))
+                }
+                
                     
                 var deadFighters = battle.deadFighters()
                 deadFighters.foreach(i => arena.children(i+1) = new Label)
 
-                var gettingNewFighter = battle.getNewFighter(currentFighterID)
-                newFighter = gettingNewFighter._2
-                currentFighterID = gettingNewFighter._1
+                var gettingNewFighter = battle.getNewFighter(battle.currentFighterID)
+                var newFighter = gettingNewFighter._2
+                battle.currentFighterID = gettingNewFighter._1
 
-                winner = battle.checkVictory()
+                var winner = battle.checkVictory()
                 
                 if (!winner.isDefined) {
                     setFighterMenu(newFighter)
@@ -64,7 +83,7 @@ class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentSt
                 }
             }
 
-        add(b, i%2, i/2)
+            add(b, i%2, i/2)
         }
     }
     

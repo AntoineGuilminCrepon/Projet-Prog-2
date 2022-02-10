@@ -5,8 +5,17 @@ import fighter._
 
 import messagedisplay._
 
-class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) {
+trait CurrentState {
+    var currentFighterID = 0
+}
+
+class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends CurrentState {
     val fightOrder : Array[Fighter] = (allies ++ enemies).sortWith(_.initiative >= _.initiative)
+
+    def positionToFightOrder(position : Int) : Int = {
+        var fighter = if (position % 2 == 0) (allies(position / 2)) else (enemies(position / 2))
+        return fightOrder.indexOf(fighter)
+    }
 
     def launchAttack(attackerID : Int, defenderID : Int) = {
         var attacker = fightOrder(attackerID)
