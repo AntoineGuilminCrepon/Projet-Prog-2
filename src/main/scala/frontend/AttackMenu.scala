@@ -33,7 +33,12 @@ class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentSt
 
     def setFighterMenu(fighter : Fighter) : Unit = {
         for (i <- 0 to 3) {
-            var b = new Button(fighter.attacks(i).toString())
+            var b = new Button(
+                fighter.faction match {
+                    case FactionAlignment.Hero => fighter.attacks(i).toString()
+                    case FactionAlignment.Monster => "Continuer"
+                }
+            )
             b.setMinWidth(w)
             b.setMinHeight(h)
 
@@ -41,18 +46,16 @@ class AttackMenu(battle : Battle, arena : Arena) extends GridPane with CurrentSt
                 var newFighter = fighter
                 var winner : Option[FactionAlignment.EnumVal] = None
 
-                do {
-                    battle.launchAttack(currentFighterID, battle.defineDefender(currentFighterID))
+                battle.launchAttack(currentFighterID, battle.defineDefender(currentFighterID))
                     
-                    var deadFighters = battle.deadFighters()
-                    deadFighters.foreach(i => arena.children(i+1) = new Label)
+                var deadFighters = battle.deadFighters()
+                deadFighters.foreach(i => arena.children(i+1) = new Label)
 
-                    var gettingNewFighter = battle.getNewFighter(currentFighterID)
-                    newFighter = gettingNewFighter._2
-                    currentFighterID = gettingNewFighter._1
+                var gettingNewFighter = battle.getNewFighter(currentFighterID)
+                newFighter = gettingNewFighter._2
+                currentFighterID = gettingNewFighter._1
 
-                    winner = battle.checkVictory()
-                } while (!battle.fightOrder(currentFighterID).isHero() && !winner.isDefined)
+                winner = battle.checkVictory()
                 
                 if (!winner.isDefined) {
                     setFighterMenu(newFighter)
