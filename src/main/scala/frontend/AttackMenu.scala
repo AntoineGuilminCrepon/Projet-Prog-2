@@ -15,6 +15,7 @@ import arena._
 import messagedisplay._
 import fighter._
 
+/* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
 class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
 
     /*Contrôle de la taille et position*/

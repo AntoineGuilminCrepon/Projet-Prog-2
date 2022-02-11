@@ -9,6 +9,7 @@ trait CurrentState {
     var currentFighterID = 0
 }
 
+/* Classe backend principale qui gère les combats et tout ce qui est lié */
 class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends CurrentState {
     val fightOrder : Array[Fighter] = (allies ++ enemies).sortWith(_.initiative >= _.initiative)
 
