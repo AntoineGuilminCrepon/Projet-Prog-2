@@ -10,7 +10,8 @@ class Slime(id : Int) extends Fighter(id : Int) {
     override def toString = "Slime"
 
     val faction = FactionAlignment.Monster
-    var lifePoints = 10
+    val maxLifePoints = 10
+    var lifePoints = maxLifePoints
     val meleeCapacity = 1
     val rangeCapacity = 1
     val strength = 1

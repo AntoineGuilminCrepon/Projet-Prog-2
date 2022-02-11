@@ -34,10 +34,10 @@ object FightArena extends JFXApp3 {
             var battle = new Battle(messagesDispayer, allies, enemies)
             var arena = new Arena(battle, messagesDispayer, allies, enemies)
             var attackMenu = new AttackMenu(battle, arena, messagesDispayer)
-            scene = new Scene(1290, 900) {
+            scene = new Scene(1290, 1040) {
                 root = new GridPane {
                     alignment = Pos.Center
-                    rowConstraints = List(new RowConstraints(500), new RowConstraints(180), new RowConstraints(220))
+                    rowConstraints = List(new RowConstraints(630), new RowConstraints(180), new RowConstraints(220))
                     columnConstraints = List(new ColumnConstraints(1290))
 
                     this.add(arena, 0, 0)

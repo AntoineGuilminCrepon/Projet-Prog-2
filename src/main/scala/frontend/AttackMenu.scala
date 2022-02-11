@@ -65,11 +65,15 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                         battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter))
                     case FactionAlignment.Monster =>
                         battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID))
+                    
                 }
                 
+                for (i <- 0 to 5) {
+                    arena.updateLifePoints(i)
+                }
                     
                 var deadFighters = battle.deadFighters()
-                deadFighters.foreach(i => arena.children(i+1) = new Label)
+                deadFighters.foreach(i => arena.killFighter(i))
 
                 var gettingNewFighter = battle.getNewFighter(battle.currentFighterID)
                 var newFighter = gettingNewFighter._2

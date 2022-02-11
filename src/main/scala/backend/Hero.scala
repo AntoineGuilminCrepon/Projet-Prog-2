@@ -12,7 +12,8 @@ class Swordman(id : Int) extends Fighter(id : Int) {
     override def toString = "Swordman"
 
     val faction = FactionAlignment.Hero
-    var lifePoints = 10
+    val maxLifePoints = 10
+    var lifePoints = maxLifePoints
     val meleeCapacity = 1
     val rangeCapacity = 1
     val strength = 1

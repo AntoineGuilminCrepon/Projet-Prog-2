@@ -15,7 +15,9 @@ abstract class Fighter(id : Int) {
     val fighterID = id
     val faction : FactionAlignment.EnumVal
 
+    val maxLifePoints : Int
     var lifePoints : Int
+
     val meleeCapacity : Int
     val rangeCapacity : Int
     val strength : Int
