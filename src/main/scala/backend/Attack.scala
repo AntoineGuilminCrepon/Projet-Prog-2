@@ -13,13 +13,25 @@ abstract class Attack {
 }
 
 class Punch extends Attack {
-    override def toString = "Punch"
+    override def toString = "Coup de poing"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val damageModifier = 1
 }
 
 class Slash extends Attack {
-    override def toString = "Slash"
+    override def toString = "Trancher"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 1
+}
+
+class Thrust extends Attack {
+    override def toString = "Coup d'estoc"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 2
+}
+
+class PommelHit extends Attack {
+    override def toString = "Coup de pommeau"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val damageModifier = 1
 }

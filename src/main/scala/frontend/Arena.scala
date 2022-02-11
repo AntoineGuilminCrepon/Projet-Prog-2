@@ -49,11 +49,12 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
 
     alignment = Pos.TopCenter
 
+    var fighterButtons = new Array[Button](6)
     var fighterDescriptions = new Array[FighterDescription](6)
 
     for (i <- 0 to 2) {
         var ivAllies = new ImageView(new Image(allies(i).visual, w, h, false, false))
-        add(new Button(){
+        var button = new Button(){
                 graphic = ivAllies
                 this.onAction = _ => {
                     battle.fightOrder(battle.currentFighterID).faction match {
@@ -65,7 +66,9 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
                         case FactionAlignment.Monster => 
                     }
                 }
-            }, (i%3), 2)
+            }
+        add(button, (i%3), 2)
+        fighterButtons(2 * i) = button
 
         var fighterDescription = new FighterDescription(allies(i))
         fighterDescriptions(2 * i) = fighterDescription
@@ -74,7 +77,7 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
         var ivEnemies = new ImageView(new Image(enemies(i).visual, w, h, false, false))
         ivEnemies.fitWidth = w
         ivEnemies.fitHeight = h
-        add(new Button(){
+        button = new Button(){
                 graphic = ivEnemies
                 this.onAction = _ => {
                     battle.fightOrder(battle.currentFighterID).faction match {
@@ -86,8 +89,10 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
                         case FactionAlignment.Monster => 
                     }
                 }
-            }, (i%3), 0)
-        
+            }
+        add(button, (i%3), 0)
+        fighterButtons(2 * i + 1) = button
+
         fighterDescription = new FighterDescription(enemies(i))
         fighterDescriptions(2 * i + 1) = fighterDescription
         add(fighterDescription, (i%3), 1)
@@ -105,6 +110,7 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
     }
 
     def killFighter(fighterID : Int) : Unit = {
+        this.fighterButtons(fighterID).graphic = null
         this.fighterDescriptions(fighterID).setStatus("MORT")
     }
 

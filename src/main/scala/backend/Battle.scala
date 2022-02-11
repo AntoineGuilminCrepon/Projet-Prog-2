@@ -18,12 +18,12 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         return fightOrder.indexOf(fighter)
     }
 
-    def launchAttack(attackerID : Int, defenderID : Int) = {
+    def launchAttack(attackerID : Int, defenderID : Int, attackID : Int) = {
         var attacker = fightOrder(attackerID)
         var defender = fightOrder(defenderID)
         println(attacker + " -> " + defender)
-        messagesDispayer.newMessage(attacker + " nb " + attackerID + " attaque " + defender)
-        var damages = attacker.fight(defender, attacker.attacks(0))
+        messagesDispayer.newMessage(attacker + " nb " + attackerID + " attaque " + defender + " avec " + attacker.attacks(attackID))
+        var damages = attacker.fight(defender, attacker.attacks(attackID))
         defender.lifePoints -= damages
         messagesDispayer.continueMessage("Il reste " + defender.lifePoints + " PV à " + defender + " nb " + defenderID)
 

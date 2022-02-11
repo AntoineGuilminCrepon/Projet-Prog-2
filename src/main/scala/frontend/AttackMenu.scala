@@ -62,9 +62,10 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                             return
                         }
 
-                        battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter))
+                        battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter), i)
                     case FactionAlignment.Monster =>
-                        battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID))
+                        val random = new scala.util.Random
+                        battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID), random.nextInt(3))
                     
                 }
                 
