@@ -53,9 +53,11 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
     var fighterDescriptions = new Array[FighterDescription](6)
 
     for (i <- 0 to 2) {
-        var ivAllies = new ImageView(new Image(allies(i).visual, w, h, false, false))
+        var imageAllies = new Image(allies(i).visual, w, h-10, true, false)
+        var ivAllies = new ImageView(imageAllies)
         var button = new Button(){
                 graphic = ivAllies
+                translateX = (w - imageAllies.width.toInt)/ 2
                 this.onAction = _ => {
                     battle.fightOrder(battle.currentFighterID).faction match {
                         case FactionAlignment.Hero =>
@@ -74,11 +76,11 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
         fighterDescriptions(2 * i) = fighterDescription
         add(fighterDescription, (i%3), 3)
 
-        var ivEnemies = new ImageView(new Image(enemies(i).visual, w, h, false, false))
-        ivEnemies.fitWidth = w
-        ivEnemies.fitHeight = h
+        var imageEnemies = new Image(enemies(i).visual, w, h-10, true, false)
+        var ivEnemies = new ImageView(imageEnemies)
         button = new Button(){
                 graphic = ivEnemies
+                translateX = (w - imageEnemies.width.toInt)/ 2                
                 this.onAction = _ => {
                     battle.fightOrder(battle.currentFighterID).faction match {
                         case FactionAlignment.Hero =>

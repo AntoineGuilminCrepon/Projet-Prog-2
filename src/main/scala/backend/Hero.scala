@@ -20,7 +20,7 @@ class Swordman(id : Int) extends Fighter(id : Int) {
     val toughness = 1
     val initiative = 2
 
-    override val visual = getClass.getResourceAsStream("/green_square.png")
+    override val visual = getClass.getResourceAsStream("/swordman.png")
 
     val attacks = Array(new Punch, new Slash, new Thrust, new PommelHit)
 }

@@ -18,10 +18,11 @@ class Slime(id : Int) extends Fighter(id : Int) {
     val toughness = 1
     val initiative = 1
 
-    val visual = getClass.getResourceAsStream("/red_square.png")
+    val visual = getClass.getResourceAsStream("/slime.png")
 
     val attacks = new Array[Attack](4)
-    for (i <- 0 to 3) {
-        attacks(i) = new Punch
-    }
+    attacks(0) = new SlimyPunch
+    attacks(1) = new AcidShot
+    attacks(2) = new Wrap
+    attacks(3) = new Rush
 }
