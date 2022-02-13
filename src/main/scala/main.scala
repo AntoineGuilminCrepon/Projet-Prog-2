@@ -12,8 +12,8 @@ import attackmenu._
 import messagedisplay._
 import battle._
 import fighter._
-import hero._
-import monster._
+import heroes._
+import monsters._
 
 object FightArena extends JFXApp3 {
 
@@ -22,9 +22,12 @@ object FightArena extends JFXApp3 {
     val allies = new Array[Fighter](3)
     val enemies = new Array[Fighter](3)
 
+    val heroes = new Heroes
+    val monsters = new Monsters
+
     for (i <- 0 to 2) {
-        allies(i) = new Swordman(i)
-        enemies(i) = new Slime(i+3)
+        allies(i) = heroes.getRandomHero(i)
+        enemies(i) = monsters.getRandomMonster(i+3)
     }
 
     override def start () : Unit = {

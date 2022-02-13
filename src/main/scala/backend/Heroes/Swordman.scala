@@ -1,8 +1,4 @@
-package hero
-
-import scala.io._
-
-import scalafx.scene.image._
+package swordman
 
 import attack._
 import fighter._

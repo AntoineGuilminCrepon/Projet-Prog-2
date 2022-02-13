@@ -1,6 +1,4 @@
-package monster
-
-import scalafx.scene.image._
+package slime
 
 import attack._
 import fighter._
