@@ -3,6 +3,31 @@ package swordman
 import attack._
 import fighter._
 
+
+class Punch extends Attack {
+    override def toString = "Coup de poing"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 1
+}
+
+class Slash extends Attack {
+    override def toString = "Trancher"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 1
+}
+
+class Thrust extends Attack {
+    override def toString = "Coup d'estoc"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 2
+}
+
+class PommelHit extends Attack {
+    override def toString = "Coup de pommeau"
+    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val damageModifier = 1
+}
+
 class Swordman(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
     override def toString = "Swordman"
