@@ -103,6 +103,5 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
         }
     }
     
-    val firstFighter = battle.getNewFighter(0)._2
-    setFighterMenu(firstFighter)
+    setFighterMenu(battle.fightOrder(0))
 }
