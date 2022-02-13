@@ -111,8 +111,12 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
         return 2 * fighterID + 1        
     }
 
-    def killFighter(fighterID : Int) : Unit = {
+    def disableFighter(fighterID : Int) : Unit = {
         this.fighterButtons(fighterID).disable = true
+    }
+
+    def killFighter(fighterID : Int) : Unit = {
+        disableFighter(fighterID)
         battle.fightOrder(battle.positionToFightOrder(fighterID)).lifePoints = 0
         this.fighterDescriptions(fighterID).setStatus("MORT")
     }

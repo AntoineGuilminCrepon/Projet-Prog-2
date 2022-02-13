@@ -22,13 +22,13 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         var attacker = fightOrder(attackerID)
         var defender = fightOrder(defenderID)
         println(attacker + " -> " + defender)
-        messagesDispayer.newMessage(attacker + " nb " + attackerID + " attaque " + defender + " avec " + attacker.attacks(attackID))
+        messagesDispayer.newMessage(attacker + " attaque " + defender + " avec " + attacker.attacks(attackID) + ".")
         var damages = attacker.fight(defender, attacker.attacks(attackID))
         defender.lifePoints -= damages
-        messagesDispayer.continueMessage("Il reste " + defender.lifePoints + " PV à " + defender + " nb " + defenderID)
+        messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
 
         if (!defender.isLiving()) {
-            messagesDispayer.continueMessage(defender + " est mis hors de combat")
+            messagesDispayer.continueMessage(defender + " est mis hors de combat.")
         }   
     }
 

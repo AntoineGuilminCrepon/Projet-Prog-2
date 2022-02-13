@@ -39,6 +39,8 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                 messagesDispayer.continueMessage("Appuyez sur \"Continuer\" pour qu'il attaque.")
         }
 
+        var attackButtons = new Array[Button](4)
+
         for (i <- 0 to 3) {
             var b = new Button(
                 fighter.faction match {
@@ -46,6 +48,8 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                     case FactionAlignment.Monster => "Continuer"
                 }
             )
+
+            attackButtons(i) = b
 
             b.setMinWidth(w)
             b.setMinHeight(h)
@@ -65,7 +69,7 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                         battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter), i)
                     case FactionAlignment.Monster =>
                         val random = new scala.util.Random
-                        battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID), random.nextInt(3))
+                        battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID), random.nextInt(4))
                     
                 }
                 
@@ -86,6 +90,12 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                     setFighterMenu(newFighter)
                 } else {
                     battle.endBattle(winner.get)
+                    for (i <- 0 to 5) {
+                        arena.disableFighter(i)
+                    }
+                    for (i <- 0 to 3) {
+                        attackButtons(i).text = "CONTINUER ?"
+                    }
                 }
             }
 
