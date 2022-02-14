@@ -1,6 +1,7 @@
 package attackmenu
 
 import scalafx._
+import scalafx.application._
 import scalafx.collections._
 import scalafx.scene.image._
 import scalafx.scene.layout._
@@ -16,7 +17,7 @@ import messagedisplay._
 import fighter._
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
+class AttackMenu(stage : JFXApp3.PrimaryStage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -93,8 +94,19 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                     for (i <- 0 to 5) {
                         arena.disableFighter(i)
                     }
-                    for (i <- 0 to 3) {
-                        attackButtons(i).text = "CONTINUER ?"
+
+                    for (i <- 0 to 1) {
+                        attackButtons(i).text = "Continuer ?"
+                        attackButtons(i).onAction = _ => {
+                            messagesDispayer.newMessage("Veuillez choisir une réponse ci-dessous ^^")
+                        }
+                    }
+
+                    attackButtons(2).text = "OUI"
+                    attackButtons(3).text = "NON"
+
+                    attackButtons(3).onAction = _ => {
+                        System.exit(0)
                     }
                 }
             }

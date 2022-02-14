@@ -11,6 +11,9 @@ trait CurrentState {
 
 /* Classe backend principale qui gère les combats et tout ce qui est lié */
 class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends CurrentState {
+    /* Mettre ce booléen à true tuera tous les ennemis en un coup */
+    val debugMode = true
+
     val fightOrder : Array[Fighter] = (allies ++ enemies).sortWith(_.initiative >= _.initiative)
 
     def positionToFightOrder(position : Int) : Int = {
@@ -30,8 +33,8 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         }
         val random = new scala.util.Random
         val hit = random.nextInt(10)
-        if (hit + capacityNeeded >= attacker.attacks(attackID).attackDifficulty && hit > 0) {
-            var damages = attacker.fight(defender, attacker.attacks(attackID))
+        if ((hit + capacityNeeded >= attacker.attacks(attackID).attackDifficulty && hit > 0) || debugMode) {
+            var damages = attacker.fight(defender, attacker.attacks(attackID))  + (if (debugMode) 100 else 0)
             defender.lifePoints -= damages
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
         } else {
