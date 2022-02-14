@@ -7,24 +7,28 @@ import fighter._
 object Punch extends Attack {
     override def toString = "Coup de poing"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val damageModifier = 1
+    override val attackDifficulty = 5
+    override val damageModifier = 2
 }
 
 object Slash extends Attack {
     override def toString = "Trancher"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val damageModifier = 1
+    override val attackDifficulty = 7
+    override val damageModifier = 3
 }
 
 object Thrust extends Attack {
     override def toString = "Coup d'estoc"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val damageModifier = 2
+    override val attackDifficulty = 10
+    override val damageModifier = 4
 }
 
 object PommelHit extends Attack {
     override def toString = "Coup de pommeau"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val attackDifficulty = 2
     override val damageModifier = 1
 }
 
@@ -33,13 +37,13 @@ class Swordman(id : Int) extends Fighter(id : Int) {
     override def toString = "Épéiste"
 
     val faction = FactionAlignment.Hero
-    val maxLifePoints = 10
+    val maxLifePoints = 15
     var lifePoints = maxLifePoints
-    val meleeCapacity = 1
-    val rangeCapacity = 1
-    val strength = 1
-    val toughness = 1
-    val initiative = 3
+    val meleeCapacity = 7
+    val rangeCapacity = 2
+    val strength = 6
+    val toughness = 5
+    val initiative = 7
 
     override val visual = getClass.getResourceAsStream("/swordman.png")
 

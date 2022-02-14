@@ -7,25 +7,29 @@ import fighter._
 object Fear extends Attack {
     override def toString = "Peur"
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
+    override val attackDifficulty = 1
     override val damageModifier = 1
 }
 
 object Slash extends Attack {
     override def toString = "Trancher"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val attackDifficulty = 2
     override val damageModifier = 1
 }
 
 object ShieldHit extends Attack {
     override def toString = "Coup de bouclier"
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
+    override val attackDifficulty = 5
     override val damageModifier = 2
 }
 
 object BoneThrow extends Attack {
     override def toString = "Jet d'os"
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val damageModifier = 1
+    override val attackDifficulty = 4
+    override val damageModifier = 2
 }
 
 class Skeleton(id : Int) extends Fighter(id : Int) {
@@ -33,13 +37,13 @@ class Skeleton(id : Int) extends Fighter(id : Int) {
     override def toString = "Squelette"
 
     val faction = FactionAlignment.Monster
-    val maxLifePoints = 15
+    val maxLifePoints = 20
     var lifePoints = maxLifePoints
-    val meleeCapacity = 1
-    val rangeCapacity = 1
-    val strength = 1
-    val toughness = 1
-    val initiative = 0
+    val meleeCapacity = 5
+    val rangeCapacity = 3
+    val strength = 4
+    val toughness = 2
+    val initiative = 1
 
     override val visual = getClass.getResourceAsStream("/skeleton.png")
 

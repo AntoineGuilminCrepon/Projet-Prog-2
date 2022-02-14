@@ -23,9 +23,19 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         var defender = fightOrder(defenderID)
         println(attacker + " -> " + defender)
         messagesDispayer.newMessage(attacker + " attaque " + defender + " avec " + attacker.attacks(attackID) + ".")
-        var damages = attacker.fight(defender, attacker.attacks(attackID))
-        defender.lifePoints -= damages
-        messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
+        
+        val capacityNeeded = attacker.attacks(attackID).attackType match {
+            case AttackType.MeleeAttack => attacker.meleeCapacity
+            case AttackType.RangeAttack => attacker.rangeCapacity
+        }
+        val random = new scala.util.Random
+        if (random.nextInt(10) + capacityNeeded >= attacker.attacks(attackID).attackDifficulty) {
+            var damages = attacker.fight(defender, attacker.attacks(attackID))
+            defender.lifePoints -= damages
+            messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
+        } else {
+            messagesDispayer.continueMessage(attacker + " rate son attaque !")
+        }
 
         if (!defender.isLiving()) {
             messagesDispayer.continueMessage(defender + " est mis hors de combat.")

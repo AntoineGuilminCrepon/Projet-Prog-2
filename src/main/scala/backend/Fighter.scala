@@ -42,7 +42,6 @@ abstract class Fighter(id : Int) {
 
     /* Renvoie le nombre de dégats infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {
-        val powerModifier = this.strength.toFloat / enemy.toughness
-        return (this.strength * powerModifier * attack.damageModifier).toInt
+        return (this.strength * attack.damageModifier / enemy.toughness).toInt
     }
 }

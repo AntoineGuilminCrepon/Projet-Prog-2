@@ -8,6 +8,6 @@ object AttackType {
 
 abstract class Attack {
     val attackType : AttackType.EnumVal
-    
+    val attackDifficulty : Int
     val damageModifier : Int
 }

@@ -7,25 +7,29 @@ import fighter._
 object Fireball extends Attack {
     override def toString = "Boule de feu"
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val damageModifier = 2
+    override val attackDifficulty = 6
+    override val damageModifier = 3
 }
 
 object Thunder extends Attack {
     override def toString = "Foudre"
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val damageModifier = 1
+    override val attackDifficulty = 4
+    override val damageModifier = 2
 }
 
 object Explosion extends Attack {
     override def toString = "Explosion !"
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val damageModifier = 5
+    override val attackDifficulty = 10
+    override val damageModifier = 10
 }
 
 object FlashingLight extends Attack {
     override def toString = "Lumière aveuglante"
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val damageModifier = 1
+    override val attackDifficulty = 8
+    override val damageModifier = 4
 }
 
 class Magician(id : Int) extends Fighter(id : Int) {
@@ -35,11 +39,11 @@ class Magician(id : Int) extends Fighter(id : Int) {
     val faction = FactionAlignment.Hero
     val maxLifePoints = 8
     var lifePoints = maxLifePoints
-    val meleeCapacity = 1
-    val rangeCapacity = 1
-    val strength = 1
-    val toughness = 1
-    val initiative = 1
+    val meleeCapacity = 2
+    val rangeCapacity = 7
+    val strength = 3
+    val toughness = 3
+    val initiative = 3
 
     override val visual = getClass.getResourceAsStream("/magician.png")
 
