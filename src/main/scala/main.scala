@@ -19,16 +19,19 @@ object FightArena extends JFXApp3 {
 
     Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
 
-    val allies = new Array[Fighter](3)
-    val enemies = new Array[Fighter](3)
-
     val heroes = new Heroes
     val monsters = new Monsters
+
+/*     val allies = new Array[Fighter](3)
+    val enemies = new Array[Fighter](3)
 
     for (i <- 0 to 2) {
         allies(i) = heroes.getRandomHero(i)
         enemies(i) = monsters.getRandomMonster(i+3)
     }
+ */
+    val allies = heroes.getThreeRandomUniqueHeroes(0)
+    val enemies = monsters.getThreeRandomUniqueMonsters(3)
 
     override def start () : Unit = {
         stage = new JFXApp3.PrimaryStage {

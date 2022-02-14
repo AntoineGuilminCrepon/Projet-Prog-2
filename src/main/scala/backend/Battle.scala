@@ -29,7 +29,8 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
             case AttackType.RangeAttack => attacker.rangeCapacity
         }
         val random = new scala.util.Random
-        if (random.nextInt(10) + capacityNeeded >= attacker.attacks(attackID).attackDifficulty) {
+        val hit = random.nextInt(10)
+        if (hit + capacityNeeded >= attacker.attacks(attackID).attackDifficulty && hit > 0) {
             var damages = attacker.fight(defender, attacker.attacks(attackID))
             defender.lifePoints -= damages
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
