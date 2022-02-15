@@ -13,6 +13,7 @@ import scalafx.scene._
 import scalafx.Includes._
 import scalafx.event.ActionEvent
 
+import initfightarena._
 import battle._
 import arena._
 import messagedisplay._
@@ -21,7 +22,7 @@ import heroes._
 import monsters._
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
+class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane with InitFightArena {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -110,7 +111,9 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                     attackButtons(3).text = "NON"
 
                     attackButtons(2).onAction = _ => {
-                        messagesDispayer.newMessage("Bon pour l'instant il faudra relancer avec run")
+                        val allies = Heroes.getThreeRandomUniqueHeroes(0)
+                        val enemies = Monsters.getThreeRandomUniqueMonsters(3)
+                        restart(stage, allies, enemies)
                     }
 
                     attackButtons(3).onAction = _ => {
