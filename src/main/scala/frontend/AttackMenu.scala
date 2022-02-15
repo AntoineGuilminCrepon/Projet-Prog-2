@@ -1,7 +1,9 @@
 package attackmenu
 
+import javafx.application._
+import javafx.stage._
+
 import scalafx._
-import scalafx.application._
 import scalafx.collections._
 import scalafx.scene.image._
 import scalafx.scene.layout._
@@ -19,7 +21,7 @@ import heroes._
 import monsters._
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
+class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -112,7 +114,7 @@ class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisp
                     }
 
                     attackButtons(3).onAction = _ => {
-                        System.exit(0)
+                        stage.close()
                     }
                 }
             }

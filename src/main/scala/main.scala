@@ -1,11 +1,12 @@
 package window
 
-import scalafx._
-import scalafx.application._
-import scalafx.scene._
-import scalafx.scene.layout._
-import scalafx.event._
-import scalafx.geometry._
+import javafx._
+import javafx.application._
+import javafx.stage._
+import javafx.scene._
+import javafx.scene.control._
+import javafx.scene.layout._
+import javafx.geometry._
 
 import arena._
 import attackmenu._
@@ -15,7 +16,7 @@ import fighter._
 import heroes._
 import monsters._
 
-object FightArena extends JFXApp3 {
+class FightArena extends Application {
 
     Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
 
@@ -31,26 +32,33 @@ object FightArena extends JFXApp3 {
     val allies = Heroes.getThreeRandomUniqueHeroes(0)
     val enemies = Monsters.getThreeRandomUniqueMonsters(3)
 
-    override def start () : Unit = {
-        stage = new JFXApp3.PrimaryStage {
-            title = "Fight Arena"
-            var messagesDispayer = new MessagesDisplay
-            var battle = new Battle(messagesDispayer, allies, enemies)
-            var arena = new Arena(battle, messagesDispayer, allies, enemies)
-            var attackMenu = new AttackMenu(battle, arena, messagesDispayer)
-            scene = new Scene(1290, 1040) {
-                root = new GridPane {
-                    alignment = Pos.Center
-                    rowConstraints = List(new RowConstraints(630), new RowConstraints(180), new RowConstraints(220))
-                    columnConstraints = List(new ColumnConstraints(1290))
+    override def start (stage : Stage) : Unit = {
+        stage.setTitle("Fight Arena")
+        var messagesDispayer = new MessagesDisplay
+        var battle = new Battle(messagesDispayer, allies, enemies)
+        var arena = new Arena(battle, messagesDispayer, allies, enemies)
+        var attackMenu = new AttackMenu(stage, battle, arena, messagesDispayer)
+        var root = new GridPane {
+                var rowArena = new RowConstraints(640)
+                var rowMD = new RowConstraints(180)
+                var rowAM = new RowConstraints(220)
+                this.getRowConstraints().addAll(rowArena, rowMD, rowAM)
 
-                    this.add(arena, 0, 0)
-                    this.add(messagesDispayer, 0, 1)
-                    this.add(attackMenu, 0, 2)
-                }
+                this.setAlignment(Pos.CENTER)
+                this.add(arena, 0, 0)
+                this.add(messagesDispayer, 0, 1)
+                this.add(attackMenu, 0, 2)
             }
-        }
+
+        var scene = new Scene(root, 1290, 1040)
+        stage.setScene(scene)
         stage.setResizable(false)
         stage.show()
+    }
+}
+
+object Main {
+    def main(args : Array[String]) = {
+        Application.launch(classOf[FightArena])
     }
 }
