@@ -19,21 +19,17 @@ object FightArena extends JFXApp3 {
 
     Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
 
-    val heroes = new Heroes
-    val monsters = new Monsters
-
     /* Décommenter cette partie pour la génération aléatoire de combattants (il faut alors commenter les deux lignes suivantes)
 
     val allies = new Array[Fighter](3)
     val enemies = new Array[Fighter](3)
 
     for (i <- 0 to 2) {
-        allies(i) = heroes.getRandomHero(i)
-        enemies(i) = monsters.getRandomMonster(i+3)
+        allies(i) = Heroes.getRandomHero(i)
+        enemies(i) = Monsters.getRandomMonster(i+3)
     }*/
-    
-    val allies = heroes.getThreeRandomUniqueHeroes(0)
-    val enemies = monsters.getThreeRandomUniqueMonsters(3)
+    val allies = Heroes.getThreeRandomUniqueHeroes(0)
+    val enemies = Monsters.getThreeRandomUniqueMonsters(3)
 
     override def start () : Unit = {
         stage = new JFXApp3.PrimaryStage {
@@ -41,7 +37,7 @@ object FightArena extends JFXApp3 {
             var messagesDispayer = new MessagesDisplay
             var battle = new Battle(messagesDispayer, allies, enemies)
             var arena = new Arena(battle, messagesDispayer, allies, enemies)
-            var attackMenu = new AttackMenu(stage, battle, arena, messagesDispayer)
+            var attackMenu = new AttackMenu(battle, arena, messagesDispayer)
             scene = new Scene(1290, 1040) {
                 root = new GridPane {
                     alignment = Pos.Center

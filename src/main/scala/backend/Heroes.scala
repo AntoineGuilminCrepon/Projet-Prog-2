@@ -6,7 +6,7 @@ import swordman._
 import magician._
 import archer._
 
-class Heroes {
+object Heroes {
     val nbHeroClasses = 3
 
     def indiceToClass(classIndice : Int, id : Int) : Fighter = {

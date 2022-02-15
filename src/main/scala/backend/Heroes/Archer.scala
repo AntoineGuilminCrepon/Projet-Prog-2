@@ -34,7 +34,7 @@ object Dagger extends Attack {
 
 class Archer(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
-    override def toString = "Épéiste"
+    override def toString = "Archer"
 
     val faction = FactionAlignment.Hero
     val maxLifePoints = 12

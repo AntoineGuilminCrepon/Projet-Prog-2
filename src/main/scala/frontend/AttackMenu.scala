@@ -15,9 +15,11 @@ import battle._
 import arena._
 import messagedisplay._
 import fighter._
+import heroes._
+import monsters._
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(stage : JFXApp3.PrimaryStage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
+class AttackMenu(battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -96,7 +98,7 @@ class AttackMenu(stage : JFXApp3.PrimaryStage, battle : Battle, arena : Arena, m
                     }
 
                     for (i <- 0 to 1) {
-                        attackButtons(i).text = "Continuer ?"
+                        attackButtons(i).text = "Recommencer ?"
                         attackButtons(i).onAction = _ => {
                             messagesDispayer.newMessage("Veuillez choisir une réponse ci-dessous ^^")
                         }
@@ -104,6 +106,10 @@ class AttackMenu(stage : JFXApp3.PrimaryStage, battle : Battle, arena : Arena, m
 
                     attackButtons(2).text = "OUI"
                     attackButtons(3).text = "NON"
+
+                    attackButtons(2).onAction = _ => {
+                        messagesDispayer.newMessage("Bon pour l'instant il faudra relancer avec run")
+                    }
 
                     attackButtons(3).onAction = _ => {
                         System.exit(0)

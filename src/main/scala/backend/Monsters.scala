@@ -9,7 +9,7 @@ import slime._
 import goblin._
 import skeleton._
 
-class Monsters {
+object Monsters {
     val nbMonsterClasses = 3
 
     def indiceToClass(classIndice : Int, id : Int) : Fighter = {
