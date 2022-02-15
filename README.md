@@ -9,6 +9,7 @@ Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachv
 - [x] Afficher des sprites des alliés et des ennemis en réservant la place pour le choix des attaques
 - [x] Afficher le choix des attaques
 - [x] Afficher les PV en permanence
+- [x] Ajout choix recommencer ou non
 - [ ] Faire quelque chose de beau
 
 ### Partie backend

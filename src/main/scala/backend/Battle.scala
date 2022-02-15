@@ -12,10 +12,12 @@ trait CurrentState {
 /* Classe backend principale qui gère les combats et tout ce qui est lié */
 class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends CurrentState {
     /* Mettre ce booléen à true tuera tous les ennemis en un coup */
-    val debugMode = true
+    val debugMode = false
 
+    /* Tableau contenant l'ordre dans lequel les combattants vont attaquer */
     val fightOrder : Array[Fighter] = (allies ++ enemies).sortWith(_.initiative >= _.initiative)
 
+    /* Convertit la position dans l'arène (entre 0 et 5) vers la position dans l'ordre d'attaque */
     def positionToFightOrder(position : Int) : Int = {
         var fighter = if (position % 2 == 0) (allies(position / 2)) else (enemies(position / 2))
         return fightOrder.indexOf(fighter)
@@ -46,6 +48,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         }   
     }
 
+    /* Permet de définir un défenseur à partir d'un attaquant donné */
     def defineDefender(attackerID : Int) : Int = {
         val attacker = fightOrder(attackerID)
         val defenderFaction = attacker.faction match {

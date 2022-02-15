@@ -13,6 +13,7 @@ import fighter._
 import heroes._
 import monsters._
 
+/* Fichier principal de cette partie */
 class FightArena extends Application with InitFightArena {
 
     Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
