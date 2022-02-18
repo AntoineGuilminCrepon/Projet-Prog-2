@@ -6,6 +6,7 @@ import fighter._
 
 object Rush extends Attack {
     override def toString = "Charge"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 4
     override val damageModifier = 2
@@ -13,6 +14,7 @@ object Rush extends Attack {
 
 object Backstab extends Attack {
     override def toString = "Poignarder dans le dos"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 9
     override val damageModifier = 4
@@ -20,6 +22,7 @@ object Backstab extends Attack {
 
 object PoisonousDagger extends Attack {
     override def toString = "Dague empoisonnée"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 2
     override val damageModifier = 1
@@ -27,6 +30,7 @@ object PoisonousDagger extends Attack {
 
 object SurpriseAttack extends Attack {
     override def toString = "Attaque surprise"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 7
     override val damageModifier = 3

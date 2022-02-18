@@ -67,8 +67,8 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                         if (choosenFighter == -1) {
                             messagesDispayer.newMessage("Choisissez une cible avant d'attaquer")
                             return
-                        } else if (choosenFighter % 2 == 0) {
-                            messagesDispayer.newMessage("Vous ne pouvez pas attaquer votre propre équipe !")
+                        } else if (battle.fightOrder(battle.positionToFightOrder(choosenFighter)).faction != battle.fightOrder(battle.currentFighterID).attacks(i).targetAlignment) {
+                            messagesDispayer.newMessage("Vous ne pouvez pas cibler ce combattant pour cette action !")
                             return
                         }
 

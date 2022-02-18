@@ -2,7 +2,7 @@ package fighter
 
 import java.io.InputStream
 
-import attack.Attack
+import attack._
 import math.rint
 
 object FactionAlignment {
@@ -27,6 +27,8 @@ abstract class Fighter(id : Int) {
     val visual : InputStream
     val attacks : Array[Attack]
 
+    var effects : List[AttackEffect] = List()
+
     /* Renvoie un booléen correspond pour savoir si le combattant est en vie */
     def isLiving() : Boolean = {
         return this.lifePoints > 0
@@ -42,6 +44,6 @@ abstract class Fighter(id : Int) {
 
     /* Renvoie le nombre de dégats infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {
-        return (this.strength * attack.damageModifier / enemy.toughness).toInt
+        return (this.strength * attack.damageModifier / enemy.toughness.toFloat).toInt
     }
 }

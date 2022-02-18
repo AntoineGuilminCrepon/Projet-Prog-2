@@ -6,6 +6,7 @@ import fighter._
 
 object Fireball extends Attack {
     override def toString = "Boule de feu"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 6
     override val damageModifier = 3
@@ -13,6 +14,7 @@ object Fireball extends Attack {
 
 object Thunder extends Attack {
     override def toString = "Foudre"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 4
     override val damageModifier = 2
@@ -20,16 +22,18 @@ object Thunder extends Attack {
 
 object Explosion extends Attack {
     override def toString = "Explosion !"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 10
     override val damageModifier = 10
 }
 
-object FlashingLight extends Attack {
-    override def toString = "Lumière aveuglante"
+object Heal extends Attack {
+    override def toString = "Soin"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 8
-    override val damageModifier = 4
+    override val attackDifficulty = 3
+    override val damageModifier = -4
 }
 
 class Magician(id : Int) extends Fighter(id : Int) {
@@ -47,5 +51,5 @@ class Magician(id : Int) extends Fighter(id : Int) {
 
     override val visual = getClass.getResourceAsStream("/magician.png")
 
-    val attacks = Array(Fireball, Thunder, Explosion, FlashingLight)
+    val attacks = Array(Fireball, Thunder, Explosion, Heal)
 }

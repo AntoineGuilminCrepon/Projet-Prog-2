@@ -6,6 +6,7 @@ import fighter._
 
 object Fear extends Attack {
     override def toString = "Peur"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 1
     override val damageModifier = 1
@@ -13,6 +14,7 @@ object Fear extends Attack {
 
 object Slash extends Attack {
     override def toString = "Trancher"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 2
     override val damageModifier = 1
@@ -20,6 +22,7 @@ object Slash extends Attack {
 
 object ShieldHit extends Attack {
     override def toString = "Coup de bouclier"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 5
     override val damageModifier = 2
@@ -27,6 +30,7 @@ object ShieldHit extends Attack {
 
 object BoneThrow extends Attack {
     override def toString = "Jet d'os"
+    override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 4
     override val damageModifier = 2

@@ -6,6 +6,7 @@ import fighter._
 
 object Punch extends Attack {
     override def toString = "Coup de poing"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 5
     override val damageModifier = 2
@@ -13,6 +14,7 @@ object Punch extends Attack {
 
 object Slash extends Attack {
     override def toString = "Trancher"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 7
     override val damageModifier = 3
@@ -20,6 +22,7 @@ object Slash extends Attack {
 
 object Thrust extends Attack {
     override def toString = "Coup d'estoc"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 10
     override val damageModifier = 4
@@ -27,6 +30,7 @@ object Thrust extends Attack {
 
 object PommelHit extends Attack {
     override def toString = "Coup de pommeau"
+    override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 2
     override val damageModifier = 1
