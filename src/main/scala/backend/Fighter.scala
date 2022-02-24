@@ -3,6 +3,7 @@ package fighter
 import java.io.InputStream
 
 import attack._
+import attackeffect._
 import math.rint
 
 object FactionAlignment {

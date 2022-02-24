@@ -43,10 +43,10 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
             defender.lifePoints = if (defender.lifePoints < 0) 0 else if (defender.lifePoints > defender.maxLifePoints) defender.maxLifePoints else defender.lifePoints
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
 
-            if (attack.attackEffect.isDefined && random.nextDouble <= attack.attackEffect.get.probability) {
-                messagesDispayer.continueMessage(defender + " est maintenant affecté par : " + attack.attackEffect.get + " !")
-                attack.attackEffect.get.effectBeginning(defender)
-                defender.effects = attack.attackEffect.get :: defender.effects
+            if (attack.enemyEffect.isDefined && random.nextDouble <= attack.enemyEffect.get.probability) {
+                messagesDispayer.continueMessage(defender + " est maintenant affecté par : " + attack.enemyEffect.get + " !")
+                attack.enemyEffect.get.effectBeginning(defender)
+                defender.effects = attack.enemyEffect.get :: defender.effects
             }
         } else {
             messagesDispayer.continueMessage(attacker + " rate son attaque !")

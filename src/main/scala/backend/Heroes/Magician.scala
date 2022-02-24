@@ -1,6 +1,7 @@
 package magician
 
 import attack._
+import attackeffect._
 import fighter._
 
 

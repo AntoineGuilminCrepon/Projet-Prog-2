@@ -40,16 +40,8 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 
         fighter.effects.foreach{
             effect =>
-                messagesDispayer.continueMessage(effect.effectEachTurn(fighter))
-                effect.timer -= 1
-                if (effect.timer == 0) {
-                    messagesDispayer.continueMessage(effect.effectEnding(fighter))
-                }
+                messagesDispayer.continueMessage(effect.effectBeforeAttack(fighter))
         }
-
-        fighter.effects = fighter.effects.filter(
-            _.timer > 0
-        )
 
         fighter.faction match {
             case FactionAlignment.Hero =>
@@ -93,6 +85,19 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                     
                 }
                 
+                fighter.effects.foreach{
+                    effect =>
+                        messagesDispayer.continueMessage(effect.effectAfterAttack(fighter))
+                        effect.timer -= 1
+                        if (effect.timer == 0) {
+                            messagesDispayer.continueMessage(effect.effectEnding(fighter))
+                        }
+                }
+
+                fighter.effects = fighter.effects.filter(
+                    _.timer > 0
+                )
+
                 for (i <- 0 to 5) {
                     arena.updateLifePoints(i)
                 }

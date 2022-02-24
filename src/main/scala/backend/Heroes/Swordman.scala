@@ -1,8 +1,8 @@
 package swordman
 
 import attack._
+import attackeffect._
 import fighter._
-
 
 object Punch extends Attack {
     override def toString = "Coup de poing"
@@ -19,7 +19,7 @@ object Slash extends Attack {
     override val attackDifficulty = 9
     override val damageModifier = 3
 
-    attackEffect = Some(new Bleed(2, 0.7, 2))
+    enemyEffect = Some(new Bleed(2, 0.7, 2))
 }
 
 object Thrust extends Attack {
@@ -35,9 +35,9 @@ object PommelHit extends Attack {
     override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 4
-    override val damageModifier = 0
+    override val damageModifier = 1
 
-    attackEffect = Some(new Stun(1, 0.8))
+    enemyEffect = Some(new Stun(1, 0.8))
 }
 
 class Swordman(id : Int) extends Fighter(id : Int) {
