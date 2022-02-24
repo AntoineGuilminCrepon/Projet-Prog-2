@@ -40,13 +40,13 @@ class Slime(id : Int) extends Fighter(id : Int) {
     override def toString = "Slime"
 
     val faction = FactionAlignment.Monster
-    val maxLifePoints = 10
+    var maxLifePoints = 10
     var lifePoints = maxLifePoints
-    val meleeCapacity = 4
-    val rangeCapacity = 2
-    val strength = 3
-    val toughness = 4
-    val initiative = 2
+    var meleeCapacity = 4
+    var rangeCapacity = 2
+    var strength = 3
+    var toughness = 4
+    var initiative = 2
 
     val visual = getClass.getResourceAsStream("/slime.png")
 

@@ -15,14 +15,14 @@ abstract class Fighter(id : Int) {
     val fighterID = id
     val faction : FactionAlignment.EnumVal
 
-    val maxLifePoints : Int
+    var maxLifePoints : Int
     var lifePoints : Int
 
-    val meleeCapacity : Int
-    val rangeCapacity : Int
-    val strength : Int
-    val toughness : Int
-    val initiative : Int
+    var meleeCapacity : Int
+    var rangeCapacity : Int
+    var strength : Int
+    var toughness : Int
+    var initiative : Int
 
     val visual : InputStream
     val attacks : Array[Attack]

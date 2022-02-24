@@ -41,13 +41,13 @@ class Archer(id : Int) extends Fighter(id : Int) {
     override def toString = "Archer"
 
     val faction = FactionAlignment.Hero
-    val maxLifePoints = 12
+    var maxLifePoints = 12
     var lifePoints = maxLifePoints
-    val meleeCapacity = 3
-    val rangeCapacity = 6
-    val strength = 5
-    val toughness = 4
-    val initiative = 9
+    var meleeCapacity = 3
+    var rangeCapacity = 6
+    var strength = 5
+    var toughness = 4
+    var initiative = 9
 
     override val visual = getClass.getResourceAsStream("/archer.png")
 

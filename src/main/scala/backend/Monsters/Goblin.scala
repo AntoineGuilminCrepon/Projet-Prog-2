@@ -41,13 +41,13 @@ class Goblin(id : Int) extends Fighter(id : Int) {
     override def toString = "Gobelin"
 
     val faction = FactionAlignment.Monster
-    val maxLifePoints = 8
+    var maxLifePoints = 8
     var lifePoints = maxLifePoints
-    val meleeCapacity = 4
-    val rangeCapacity = 2
-    val strength = 5
-    val toughness = 3
-    val initiative = 6
+    var meleeCapacity = 4
+    var rangeCapacity = 2
+    var strength = 5
+    var toughness = 3
+    var initiative = 6
 
     override val visual = getClass.getResourceAsStream("/goblin.png")
 

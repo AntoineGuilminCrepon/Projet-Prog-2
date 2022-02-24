@@ -41,13 +41,13 @@ class Skeleton(id : Int) extends Fighter(id : Int) {
     override def toString = "Squelette"
 
     val faction = FactionAlignment.Monster
-    val maxLifePoints = 20
+    var maxLifePoints = 20
     var lifePoints = maxLifePoints
-    val meleeCapacity = 5
-    val rangeCapacity = 3
-    val strength = 4
-    val toughness = 2
-    val initiative = 1
+    var meleeCapacity = 5
+    var rangeCapacity = 3
+    var strength = 4
+    var toughness = 2
+    var initiative = 1
 
     override val visual = getClass.getResourceAsStream("/skeleton.png")
 

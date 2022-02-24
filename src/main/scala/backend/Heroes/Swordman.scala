@@ -16,21 +16,10 @@ object Slash extends Attack {
     override def toString = "Trancher"
     override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 8
+    override val attackDifficulty = 9
     override val damageModifier = 3
 
-    attackEffect = Some(new AttackEffect {
-        override def toString() : String = {"Saignement"}
-        timer = 2
-        override val probability = 0.7
-        override def effectEachTurn(myself : Fighter) : String = {
-            myself.lifePoints -= 1
-            return "Il saigne et perd 1 PV !"
-        }
-        override def effectEnding(myself : Fighter) : String = {
-            return "Le saignement s'arrête."
-        }
-    })
+    attackEffect = Some(new Bleed(2, 0.7, 2))
 }
 
 object Thrust extends Attack {
@@ -38,15 +27,17 @@ object Thrust extends Attack {
     override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 10
-    override val damageModifier = 4
+    override val damageModifier = 5
 }
 
 object PommelHit extends Attack {
     override def toString = "Coup de pommeau"
     override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 2
-    override val damageModifier = 1
+    override val attackDifficulty = 4
+    override val damageModifier = 0
+
+    attackEffect = Some(new Stun(1, 0.8))
 }
 
 class Swordman(id : Int) extends Fighter(id : Int) {
@@ -54,13 +45,13 @@ class Swordman(id : Int) extends Fighter(id : Int) {
     override def toString = "Épéiste"
 
     val faction = FactionAlignment.Hero
-    val maxLifePoints = 15
+    var maxLifePoints = 15
     var lifePoints = maxLifePoints
-    val meleeCapacity = 7
-    val rangeCapacity = 2
-    val strength = 6
-    val toughness = 5
-    val initiative = 7
+    var meleeCapacity = 7
+    var rangeCapacity = 2
+    var strength = 6
+    var toughness = 5
+    var initiative = 7
 
     override val visual = getClass.getResourceAsStream("/swordman.png")
 

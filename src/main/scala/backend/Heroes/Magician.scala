@@ -42,13 +42,13 @@ class Magician(id : Int) extends Fighter(id : Int) {
     override def toString = "Magicien"
 
     val faction = FactionAlignment.Hero
-    val maxLifePoints = 8
+    var maxLifePoints = 8
     var lifePoints = maxLifePoints
-    val meleeCapacity = 2
-    val rangeCapacity = 7
-    val strength = 3
-    val toughness = 3
-    val initiative = 3
+    var meleeCapacity = 2
+    var rangeCapacity = 7
+    var strength = 3
+    var toughness = 3
+    var initiative = 3
 
     override val visual = getClass.getResourceAsStream("/magician.png")
 
