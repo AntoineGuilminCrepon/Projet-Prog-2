@@ -18,6 +18,16 @@ object Slash extends Attack {
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 7
     override val damageModifier = 3
+
+    attackEffect = Some(new AttackEffect {
+        override def toString() : String = {"Saignement"}
+        timer = 2
+        override val probability = 0.7
+        override def effectEachTurn(myself : Fighter) : String = {
+            myself.lifePoints -= 3
+            return "Il saigne et perd 3 PV !"
+        }
+    })
 }
 
 object Thrust extends Attack {

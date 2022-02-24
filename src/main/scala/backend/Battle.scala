@@ -26,19 +26,27 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
     def launchAttack(attackerID : Int, defenderID : Int, attackID : Int) = {
         var attacker = fightOrder(attackerID)
         var defender = fightOrder(defenderID)
+        var attack = attacker.attacks(attackID)
         println(attacker + " -> " + defender)
-        messagesDispayer.newMessage(attacker + " attaque " + defender + " avec " + attacker.attacks(attackID) + ".")
+        messagesDispayer.newMessage(attacker + " " + attack.description() + " " + defender + " avec " + attack + ".")
         
-        val capacityNeeded = attacker.attacks(attackID).attackType match {
+        val capacityNeeded = attack.attackType match {
             case AttackType.MeleeAttack => attacker.meleeCapacity
             case AttackType.RangeAttack => attacker.rangeCapacity
         }
+
         val random = new scala.util.Random
         val hit = random.nextInt(10)
-        if ((hit + capacityNeeded >= attacker.attacks(attackID).attackDifficulty && hit > 0) || debugMode) {
-            var damages = attacker.fight(defender, attacker.attacks(attackID))  + (if (debugMode) 100 else 0)
+        if ((hit + capacityNeeded >= attack.attackDifficulty && hit > 0) || debugMode) {
+            var damages = attacker.fight(defender, attack)  + (if (debugMode) 100 else 0)
             defender.lifePoints -= damages
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
+
+            if (attack.attackEffect.isDefined && random.nextDouble <= attack.attackEffect.get.probability) {
+                messagesDispayer.continueMessage(defender + " est maintenant affecté par : " + attack.attackEffect.get + " !")
+                attack.attackEffect.get.effectBeginning(defender)
+                defender.effects = attack.attackEffect.get :: defender.effects
+            }
         } else {
             messagesDispayer.continueMessage(attacker + " rate son attaque !")
         }

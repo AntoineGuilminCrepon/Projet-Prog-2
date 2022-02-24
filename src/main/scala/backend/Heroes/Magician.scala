@@ -30,6 +30,7 @@ object Explosion extends Attack {
 
 object Heal extends Attack {
     override def toString = "Soin"
+    override def description = "soigne"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 3

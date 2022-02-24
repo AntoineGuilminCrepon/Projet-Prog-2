@@ -1,5 +1,7 @@
 package attack
 
+import fighter.Fighter
+
 object AttackType {
     sealed trait EnumVal
     case object RangeAttack extends EnumVal
@@ -7,18 +9,19 @@ object AttackType {
 }
 
 class AttackEffect {
-    val timer : Int = 0
+    override def toString () : String = {"Effet"} 
+    var timer : Int = 0
 
-    val LPModificationEachTurn : Option[Int] = None
-    val meleeCapacity : Option[Int] = None
-    val rangeCapacity : Option[Int] = None
-    val strength : Option[Int] = None
-    val toughness : Option[Int] = None
-    val initiative : Option[Int] = None
+    val probability : Double = 0.0
+
+    def effectBeginning(myself : Fighter) : Unit = {}
+    def effectEachTurn(myself : Fighter) : String = {""}
+    def effectEnding(myself : Fighter) : Unit = {}
 }
 
 abstract class Attack {
     val targetAlignment : fighter.FactionAlignment.EnumVal
+    def description() : String = {"attaque"}
 
     val attackType : AttackType.EnumVal
     val attackDifficulty : Int

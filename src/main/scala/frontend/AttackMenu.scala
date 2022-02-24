@@ -37,6 +37,20 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 
     def setFighterMenu(fighter : Fighter) : Unit = {
         messagesDispayer.continueMessage("\nC'est au tour de " + fighter + " d'attaquer.")
+
+        fighter.effects.foreach{
+            effect =>
+                messagesDispayer.continueMessage(effect.effectEachTurn(fighter))
+                effect.timer -= 1
+                if (effect.timer == 0) {
+                    effect.effectEnding(fighter)
+                }
+        }
+
+        fighter.effects = fighter.effects.filter(
+            _.timer > 0
+        )
+
         fighter.faction match {
             case FactionAlignment.Hero =>
                 messagesDispayer.continueMessage("Choisissez une cible puis une attaque.")
