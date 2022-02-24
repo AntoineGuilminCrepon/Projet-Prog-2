@@ -16,7 +16,7 @@ object Slash extends Attack {
     override def toString = "Trancher"
     override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 7
+    override val attackDifficulty = 8
     override val damageModifier = 3
 
     attackEffect = Some(new AttackEffect {
@@ -24,8 +24,11 @@ object Slash extends Attack {
         timer = 2
         override val probability = 0.7
         override def effectEachTurn(myself : Fighter) : String = {
-            myself.lifePoints -= 3
-            return "Il saigne et perd 3 PV !"
+            myself.lifePoints -= 1
+            return "Il saigne et perd 1 PV !"
+        }
+        override def effectEnding(myself : Fighter) : String = {
+            return "Le saignement s'arrête."
         }
     })
 }

@@ -40,6 +40,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         if ((hit + capacityNeeded >= attack.attackDifficulty && hit > 0) || debugMode) {
             var damages = attacker.fight(defender, attack)  + (if (debugMode) 100 else 0)
             defender.lifePoints -= damages
+            defender.lifePoints = if (defender.lifePoints < 0) 0 else if (defender.lifePoints > defender.maxLifePoints) defender.maxLifePoints else defender.lifePoints
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
 
             if (attack.attackEffect.isDefined && random.nextDouble <= attack.attackEffect.get.probability) {

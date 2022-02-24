@@ -43,7 +43,7 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                 messagesDispayer.continueMessage(effect.effectEachTurn(fighter))
                 effect.timer -= 1
                 if (effect.timer == 0) {
-                    effect.effectEnding(fighter)
+                    messagesDispayer.continueMessage(effect.effectEnding(fighter))
                 }
         }
 

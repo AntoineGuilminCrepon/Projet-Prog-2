@@ -11,12 +11,13 @@ object AttackType {
 class AttackEffect {
     override def toString () : String = {"Effet"} 
     var timer : Int = 0
-
     val probability : Double = 0.0
+
+    var savedValue : Int = 0
 
     def effectBeginning(myself : Fighter) : Unit = {}
     def effectEachTurn(myself : Fighter) : String = {""}
-    def effectEnding(myself : Fighter) : Unit = {}
+    def effectEnding(myself : Fighter) : String = {""}
 }
 
 abstract class Attack {
