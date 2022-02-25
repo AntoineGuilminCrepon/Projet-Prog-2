@@ -10,22 +10,28 @@ object Fear extends Attack {
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 1
     override val damageModifier = 1
+
+    enemyEffect = Some(new Stun(1, 0.8))
 }
 
 object Slash extends Attack {
     override def toString = "Trancher"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 2
-    override val damageModifier = 1
+    override val attackDifficulty = 8
+    override val damageModifier = 3
+
+    enemyEffect = Some(new Bleed(2, 0.7, 3))
 }
 
 object ShieldHit extends Attack {
     override def toString = "Coup de bouclier"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 5
-    override val damageModifier = 2
+    override val attackDifficulty = 10
+    override val damageModifier = 4
+
+    enemyEffect = Some(new Stun(2, 0.8))
 }
 
 object BoneThrow extends Attack {

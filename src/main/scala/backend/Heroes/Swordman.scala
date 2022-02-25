@@ -19,7 +19,7 @@ object Slash extends Attack {
     override val attackDifficulty = 9
     override val damageModifier = 3
 
-    enemyEffect = Some(new Bleed(2, 0.7, 2))
+    enemyEffect = Some(new Bleed(3, 0.5, 3))
 }
 
 object Thrust extends Attack {

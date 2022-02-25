@@ -26,6 +26,8 @@ object FireArrow extends Attack {
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack
     override val attackDifficulty = 2
     override val damageModifier = 1
+
+    enemyEffect = Some(new Fire(2, 0.7, 2))
 }
 
 object Dagger extends Attack {
@@ -33,7 +35,9 @@ object Dagger extends Attack {
     override val targetAlignment = FactionAlignment.Monster
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
     override val attackDifficulty = 3
-    override val damageModifier = 1
+    override val damageModifier = 2
+
+    enemyEffect = Some(new Bleed(2, 0.4, 2))
 }
 
 class Archer(id : Int) extends Fighter(id : Int) {

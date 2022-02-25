@@ -48,6 +48,13 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
                 attack.enemyEffect.get.effectBeginning(defender)
                 defender.effects = attack.enemyEffect.get :: defender.effects
             }
+
+            if (attack.allyEffect.isDefined && random.nextDouble <= attack.allyEffect.get.probability) {
+                messagesDispayer.continueMessage(attacker + " est maintenant affecté par : " + attack.allyEffect.get + " !")
+                attack.enemyEffect.get.effectBeginning(attacker)
+                attacker.effects = attack.allyEffect.get :: attacker.effects
+            }
+
         } else {
             messagesDispayer.continueMessage(attacker + " rate son attaque !")
         }

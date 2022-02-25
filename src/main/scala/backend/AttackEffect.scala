@@ -15,16 +15,55 @@ class AttackEffect(tmr : Int, pbty : Double) {
     def effectEnding(myself : Fighter) : String = {""}
 }
 
+class Acid(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
+    override def toString() : String = {"Corrodé"}
+    
+    override def effectAfterAttack(myself : Fighter) : String = {
+        myself.lifePoints -= damage
+        return "L'acide le brûle et il perd " + damage + " PV !"
+    }
+    
+    override def effectEnding(myself : Fighter) : String = {
+        return "Il parvient à enlever l'acide."
+    }
+}
+
 class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Saignement"}
     
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
-        return "Il saigne et perd 2 PV !"
+        return "Il saigne et perd " + damage + " PV !"
     }
     
     override def effectEnding(myself : Fighter) : String = {
         return "Le saignement s'arrête."
+    }
+}
+
+class Fire(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
+    override def toString() : String = {"Enflammé"}
+    
+    override def effectAfterAttack(myself : Fighter) : String = {
+        myself.lifePoints -= damage
+        return "Il brûle et perd " + damage + " PV !"
+    }
+    
+    override def effectEnding(myself : Fighter) : String = {
+        return "Le feu s'éteint."
+    }
+}
+
+class Poison(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
+    override def toString() : String = {"Empoisonné"}
+    
+    override def effectAfterAttack(myself : Fighter) : String = {
+        myself.lifePoints -= damage
+        return "Il est empoisonné et perd " + damage + " PV !"
+    }
+    
+    override def effectEnding(myself : Fighter) : String = {
+        return "Il guérit du poison."
     }
 }
 

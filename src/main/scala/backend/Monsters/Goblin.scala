@@ -8,7 +8,7 @@ object Rush extends Attack {
     override def toString = "Charge"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 4
+    override val attackDifficulty = 6
     override val damageModifier = 2
 }
 
@@ -16,23 +16,27 @@ object Backstab extends Attack {
     override def toString = "Poignarder dans le dos"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 9
-    override val damageModifier = 4
+    override val attackDifficulty = 11
+    override val damageModifier = 5
+
+    enemyEffect = Some(new Bleed(3, 0.7, 2))
 }
 
 object PoisonousDagger extends Attack {
     override def toString = "Dague empoisonnée"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 2
-    override val damageModifier = 1
+    override val attackDifficulty = 4
+    override val damageModifier = 2
+
+    enemyEffect = Some(new Poison(3, 0.6, 3))
 }
 
 object SurpriseAttack extends Attack {
     override def toString = "Attaque surprise"
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 7
+    override val attackDifficulty = 8
     override val damageModifier = 3
 }
 
