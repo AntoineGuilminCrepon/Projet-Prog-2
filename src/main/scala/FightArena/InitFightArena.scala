@@ -38,7 +38,6 @@ trait InitFightArena {
 
         var scene = new Scene(root, 1290, 1040)
         stage.setScene(scene)
-        stage.setResizable(false)
         stage.show()
     }
 }
