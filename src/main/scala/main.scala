@@ -1,9 +1,12 @@
 import javafx.application._
 
 import fightarena._
+import worldmap._
 
 object Main {
     def main(args : Array[String]) = {
-        Application.launch(classOf[FightArena])
+        Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
+
+        Application.launch(classOf[WorldMap])
     }
 }

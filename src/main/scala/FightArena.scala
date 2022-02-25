@@ -16,8 +16,6 @@ import monsters._
 /* Fichier principal de cette partie */
 class FightArena extends Application with InitFightArena {
 
-    Thread.setDefaultUncaughtExceptionHandler((t, e) => System.err.println());
-
     /* Décommenter cette partie pour la génération aléatoire de combattants (il faut alors commenter les deux lignes suivantes)
 
     val allies = new Array[Fighter](3)
