@@ -1,6 +1,7 @@
 package skeleton
 
 import attack._
+import attackeffect._
 import fighter._
 
 

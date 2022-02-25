@@ -85,6 +85,7 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                     
                 }
                 
+                messagesDispayer.continueMessage("")
                 fighter.effects.foreach{
                     effect =>
                         messagesDispayer.continueMessage(effect.effectAfterAttack(fighter))

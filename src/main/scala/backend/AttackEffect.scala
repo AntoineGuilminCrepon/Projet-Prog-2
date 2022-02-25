@@ -7,7 +7,7 @@ class AttackEffect(tmr : Int, pbty : Double) {
 
     var timer = tmr
     val probability = pbty
-    var savedValue : List[Int] = List()
+    var savedValues : List[Int] = List()
 
     def effectBeginning(myself : Fighter) : Unit = {}
     def effectBeforeAttack(myself : Fighter) : String = {""}
@@ -41,6 +41,22 @@ class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffec
     }
 }
 
+class CapacitiesDebuf(timer : Int, probability : Double, ccDebuf : Int, ctDebuf : Int) extends AttackEffect(timer, probability) {
+    override def toString() : String = {"Engourdi"}
+    
+    override def effectBeginning(myself : Fighter) = {
+        myself.meleeCapacity -= ccDebuf
+        myself.rangeCapacity -= ctDebuf
+    }
+
+    override def effectEnding(myself : Fighter) : String = {
+        myself.meleeCapacity += ccDebuf
+        myself.rangeCapacity += ctDebuf
+
+        return ""
+    }
+}
+
 class Fire(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Enflammé"}
     
@@ -71,7 +87,7 @@ class Stun(timer : Int, probability : Double) extends AttackEffect(timer, probab
     override def toString() : String = {"Étourdi"}
     
     override def effectBeginning(myself : Fighter) : Unit = {
-        savedValue = List(myself.meleeCapacity, myself.rangeCapacity)
+        savedValues = List(myself.meleeCapacity, myself.rangeCapacity)
         myself.meleeCapacity = 0
         myself.rangeCapacity = 0
     }
@@ -81,8 +97,8 @@ class Stun(timer : Int, probability : Double) extends AttackEffect(timer, probab
     }
     
     override def effectEnding(myself : Fighter) : String = {
-        myself.rangeCapacity = savedValue.last
-        myself.meleeCapacity = savedValue.init.last
+        myself.rangeCapacity = savedValues.last
+        myself.meleeCapacity = savedValues.init.last
         return ""
     }
 }

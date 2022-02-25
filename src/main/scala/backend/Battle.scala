@@ -46,12 +46,14 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
             if (attack.enemyEffect.isDefined && random.nextDouble <= attack.enemyEffect.get.probability) {
                 messagesDispayer.continueMessage(defender + " est maintenant affecté par : " + attack.enemyEffect.get + " !")
                 attack.enemyEffect.get.effectBeginning(defender)
+
                 defender.effects = attack.enemyEffect.get :: defender.effects
             }
 
             if (attack.allyEffect.isDefined && random.nextDouble <= attack.allyEffect.get.probability) {
                 messagesDispayer.continueMessage(attacker + " est maintenant affecté par : " + attack.allyEffect.get + " !")
                 attack.enemyEffect.get.effectBeginning(attacker)
+                
                 attacker.effects = attack.allyEffect.get :: attacker.effects
             }
 

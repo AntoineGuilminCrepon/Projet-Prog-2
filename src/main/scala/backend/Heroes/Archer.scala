@@ -1,8 +1,8 @@
 package archer
 
 import attack._
+import attackeffect._
 import fighter._
-
 
 object LongBow extends Attack {
     override def toString = "Arc long"
