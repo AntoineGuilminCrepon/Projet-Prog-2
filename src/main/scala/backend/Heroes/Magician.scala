@@ -58,7 +58,7 @@ class Magician(id : Int) extends Fighter(id : Int) {
     var toughness = 3
     var initiative = 3
 
-    override val visual = getClass.getResourceAsStream("/magician.png")
+    override val visual = getClass.getResourceAsStream("/Fighters/magician.png")
 
     val attacks = Array(Fireball, Thunder, Explosion, Heal)
 }

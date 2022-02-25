@@ -54,7 +54,7 @@ class Goblin(id : Int) extends Fighter(id : Int) {
     var toughness = 3
     var initiative = 6
 
-    override val visual = getClass.getResourceAsStream("/goblin.png")
+    override val visual = getClass.getResourceAsStream("/Fighters/goblin.png")
 
     val attacks = Array(Rush, Backstab, PoisonousDagger, SurpriseAttack)
 }

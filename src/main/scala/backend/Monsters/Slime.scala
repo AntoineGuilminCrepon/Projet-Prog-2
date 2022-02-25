@@ -55,7 +55,7 @@ class Slime(id : Int) extends Fighter(id : Int) {
     var toughness = 4
     var initiative = 2
 
-    val visual = getClass.getResourceAsStream("/slime.png")
+    val visual = getClass.getResourceAsStream("/Fighters/slime.png")
 
     val attacks = Array(AcidShot, Rush, Wrap, SlimyPunch)
 }

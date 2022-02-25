@@ -53,7 +53,7 @@ class Archer(id : Int) extends Fighter(id : Int) {
     var toughness = 4
     var initiative = 9
 
-    override val visual = getClass.getResourceAsStream("/archer.png")
+    override val visual = getClass.getResourceAsStream("/Fighters/archer.png")
 
     val attacks = Array(LongBow, ShortBow, FireArrow, Dagger)
 }

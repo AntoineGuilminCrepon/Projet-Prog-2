@@ -1,4 +1,4 @@
-package window
+package fightarena
 
 import javafx._
 import javafx.application._
@@ -33,11 +33,5 @@ class FightArena extends Application with InitFightArena {
 
     override def start (stage : Stage) : Unit = {
         restart(stage, allies, enemies)
-    }
-}
-
-object Main {
-    def main(args : Array[String]) = {
-        Application.launch(classOf[FightArena])
     }
 }
