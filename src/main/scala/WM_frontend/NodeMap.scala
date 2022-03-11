@@ -1,15 +1,20 @@
 package nodemap
 
+import javafx.scene.text._
+import javafx.scene.paint._
+
 object NodeType {
     sealed trait EnumVal
     case object FightNode extends EnumVal {override def toString() = {"X"}}
     case object NeutralNode extends EnumVal {override def toString() = {"O"}}
-    case object EmptyNode extends EnumVal {override def toString() = {"  "}}
+    case object EmptyNode extends EnumVal {override def toString() = {" "}}
 }
 
 class NodeMap(length : Int) {
     private var nodeMap = Array.ofDim[NodeType.EnumVal](length + 2, 2)
     var nodeBounds : List[((Int, Int), (Int, Int))] = List()
+
+    var currentNode = (0,0)
 
     private def nbNodesOnColumn(i : Int) : Int = {
         return if (i >= 0 && i<= length + 1) nodeMap(i).filter(_ != NodeType.EmptyNode).length else 0
@@ -68,6 +73,37 @@ class NodeMap(length : Int) {
             stringMap += "-" + nodeMap(i)(1)
         }
 
+        return stringMap
+    }
+
+    def toColoredString() : Array[Text] = {
+        var stringMap = Array(new Text(""), new Text(nodeMap(currentNode._1)(currentNode._2).toString()) {setFill(Color.RED)}, new Text(""))
+        var isCurrentNodePassed = false
+        
+        for (i <- 0 to (length + 1)) {
+            if (currentNode._1 == i && currentNode._2 == 0) {isCurrentNodePassed = true; stringMap(0).setText(stringMap(0).getText() + "-")}
+            if (!isCurrentNodePassed) {
+                stringMap(0).setText(stringMap(0).getText() + "-" + nodeMap(i)(0).toString())
+            } else if (!(currentNode._1 == i && currentNode._2 == 0)) {
+                stringMap(2).setText(stringMap(2).getText() + "-" + nodeMap(i)(0).toString())
+            }
+        }
+
+
+        if (!isCurrentNodePassed) {
+            stringMap(0).setText(stringMap(0).getText() + "\n")
+        } else {
+            stringMap(2).setText(stringMap(2).getText() + "\n")
+        }
+
+        for (i <- 0 to (length + 1)) {
+            if (currentNode._1 == i && currentNode._2 == 1) {isCurrentNodePassed = true; stringMap(0).setText(stringMap(0).getText() + "-")}
+            if (!isCurrentNodePassed) {
+                stringMap(0).setText(stringMap(0).getText() + "-" + nodeMap(i)(1).toString())
+            } else if (!(currentNode._1 == i && currentNode._2 == 1)) {
+                stringMap(2).setText(stringMap(2).getText() + "-" + nodeMap(i)(1).toString())
+            }
+        }
         return stringMap
     }
 }
