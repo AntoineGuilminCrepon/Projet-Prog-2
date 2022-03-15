@@ -11,7 +11,7 @@ object NodeType {
 }
 
 class NodeMap(length : Int) {
-    private var nodeMap = Array.ofDim[NodeType.EnumVal](length + 2, 2)
+    var nodeMap = Array.ofDim[NodeType.EnumVal](length + 2, 2)
     var nodeBounds : List[((Int, Int), (Int, Int))] = List()
 
     var currentNode = (0,0)
@@ -56,6 +56,8 @@ class NodeMap(length : Int) {
         
         nodeMap(length + 1)(0) = NodeType.FightNode
         nodeMap(length + 1)(1) = NodeType.EmptyNode
+ 
+		println(nodeBounds)
     }
 
     this.generate()
@@ -89,7 +91,6 @@ class NodeMap(length : Int) {
             }
         }
 
-
         if (!isCurrentNodePassed) {
             stringMap(0).setText(stringMap(0).getText() + "\n")
         } else {
@@ -104,6 +105,7 @@ class NodeMap(length : Int) {
                 stringMap(2).setText(stringMap(2).getText() + "-" + nodeMap(i)(1).toString())
             }
         }
+ 
         return stringMap
     }
 }

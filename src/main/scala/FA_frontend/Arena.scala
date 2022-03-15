@@ -92,12 +92,12 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
                     }
                 }
             }
-        add(button, (i%3), 0)
+        add(button, i, 0)
         fighterButtons(2 * i + 1) = button
 
         fighterDescription = new FighterDescription(enemies(i))
         fighterDescriptions(2 * i + 1) = fighterDescription
-        add(fighterDescription, (i%3), 1)
+        add(fighterDescription, i, 1)
 
     }
 
