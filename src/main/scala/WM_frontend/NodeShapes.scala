@@ -23,11 +23,26 @@ class CrossNode(x : Int, y : Int) extends Group with NodeShape {
 	}
 }
 
-class EllipseNode(x : Int, y : Int) extends Ellipse with NodeShape {
-	this.setCenterX(x)
-	this.setCenterY(y)
-	this.setRadiusX(60)
-	this.setRadiusY(25)
+class EllipseNode(x : Int, y : Int) extends Group with NodeShape {
+	var outerEllipse = new Ellipse()
+	var innerEllipse = new Ellipse()
 
-	override def setColor(color : Color) = {setFill(color)}
+	outerEllipse.setCenterX(x)
+	outerEllipse.setCenterY(y)
+	outerEllipse.setRadiusX(60)
+	outerEllipse.setRadiusY(25)
+
+	innerEllipse.setCenterX(x)
+	innerEllipse.setCenterY(y)
+	innerEllipse.setRadiusX(59)
+	innerEllipse.setRadiusY(24)
+
+	outerEllipse.setFill(Color.BLACK)
+	innerEllipse.setFill(Color.WHITE)
+
+	this.getChildren.addAll(outerEllipse, innerEllipse)
+
+	override def setColor(color : Color) = {outerEllipse.setStroke(color)}
 }
+
+class NoneNode extends Group with NodeShape {}

@@ -14,7 +14,6 @@ import javafx.scene.text._
 import javafx.scene.paint._
 
 import nodemap._
-import nodegraph._
 import nodeshapes._
 
 class WorldMap extends Application {
@@ -29,7 +28,12 @@ class WorldMap extends Application {
 		var nodeGraph = Array.ofDim[Node with NodeShape](length + 2, 2)
 		for (i <- 0 to length + 1) {
 			for (j <- 0 to 1) {			
-				nodeGraph(i)(j) = new CrossNode(((i.toFloat + 0.5) * (1290.toFloat / (length - 1).toFloat)).toInt, 520)
+				nodeGraph(i)(j) = 
+				nodeMap.map(i)(j) match {
+					case NodeType.FightNode => new CrossNode(((i.toFloat + 0.5) * (1290.toFloat / (length - 1).toFloat)).toInt, 520)
+					case NodeType.NeutralNode => new EllipseNode(((i.toFloat + 0.5) * (1290.toFloat / (length - 1).toFloat)).toInt, 520)
+					case NodeType.EmptyNode => new NoneNode
+				}
 			}
 		}
 
@@ -44,7 +48,6 @@ class WorldMap extends Application {
 					this.add(nodeGraph(i)(j), i, j)
 				}
 			}
-
 		}
 		
 		var scene = new Scene(root, 1290, 1040)
