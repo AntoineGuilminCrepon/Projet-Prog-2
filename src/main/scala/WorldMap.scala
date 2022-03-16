@@ -26,25 +26,34 @@ class WorldMap extends Application {
         var nodeMap = new NodeMap(length)
 		println(nodeMap.toString())
 
-		var nodeGraph = Array.ofDim[Node](length + 2, 2)
+		var nodeGraph = Array.ofDim[Node with NodeShape](length + 2, 2)
+		for (i <- 0 to length + 1) {
+			for (j <- 0 to 1) {			
+				nodeGraph(i)(j) = new CrossNode(((i.toFloat + 0.5) * (1290.toFloat / (length - 1).toFloat)).toInt, 520)
+			}
+		}
 
-        def updateScene() : Unit = {
-            var root = new GridPane() {
-				this.setAlignment(Pos.CENTER)
-				this.getRowConstraints().addAll(new RowConstraints(350), new RowConstraints(350), new RowConstraints(340))
-				
-				for (i <- 0 to length + 1) {
-					this.getColumnConstraints.add(new ColumnConstraints((1290.0 / (length - 1).toFloat).toInt))
-					for (j <- 0 to 1) {			
-						nodeGraph(i)(j) = new CrossNode(((i.toFloat + 0.5) * (1290.toFloat / (length - 1).toFloat)).toInt, 520)
-						this.add(nodeGraph(i)(j), i, j)
-					}
+		var root = new GridPane() {
+			this.setAlignment(Pos.CENTER)
+			this.getRowConstraints().addAll(new RowConstraints(350), new RowConstraints(350), new RowConstraints(340))		
+			
+			for (i <- 0 to length + 1) {
+				this.getColumnConstraints.add(new ColumnConstraints((1290.0 / (length - 1).toFloat).toInt))
+				for (j <- 0 to 1) {
+					nodeGraph(i)(j).setColor(Color.BLACK)
+					this.add(nodeGraph(i)(j), i, j)
 				}
 			}
-			
-            var scene = new Scene(root, 1290, 1040)
+
+		}
+		
+		var scene = new Scene(root, 1290, 1040)
+		nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
+
+        def updateScene() : Unit = {
 
             scene.setOnKeyPressed(e => {
+				nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.BLACK)
                 if (e.getCode == KeyCode.RIGHT) {
                     nodeMap.currentNode = (if (nodeMap.currentNode._1 < 8 + 1) nodeMap.currentNode._1 + 1 else nodeMap.currentNode._1, nodeMap.currentNode._2)
                 } else if (e.getCode == KeyCode.LEFT) {
@@ -55,6 +64,7 @@ class WorldMap extends Application {
                     nodeMap.currentNode = (nodeMap.currentNode._1, 1)
                 }
                 
+				nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
                 updateScene()
             })
 
