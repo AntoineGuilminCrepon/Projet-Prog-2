@@ -12,7 +12,7 @@ object NodeType {
 
 class NodeMap(length : Int) {
     var map = Array.ofDim[NodeType.EnumVal](length + 2, 2)
-    var nodeBounds : List[((Int, Int), (Int, Int))] = List()
+    var nodeBounds : List[((Int, Int), (Int, Int))] = List(((length + 1, 0), (length, 0)))
 
     var currentNode = (0,0)
 
@@ -53,14 +53,22 @@ class NodeMap(length : Int) {
                 }
             }
         }
-        
+
+		if (map(length)(0) == NodeType.EmptyNode) {
+			map(length)(0) = NodeType.NeutralNode
+			nodeBounds = ((length, 1), (length, 0)) :: nodeBounds
+		}
+
         map(length + 1)(0) = NodeType.FightNode
         map(length + 1)(1) = NodeType.EmptyNode
  
-		println(nodeBounds)
     }
 
     this.generate()
+
+	def isThereBound(coord1 : (Int, Int), coord2 : (Int, Int)) : Boolean = {
+		return (nodeBounds.contains((coord1, coord2)) || nodeBounds.contains((coord2, coord1)))
+	}
 
     override def toString() : String = {
         var stringMap = ""

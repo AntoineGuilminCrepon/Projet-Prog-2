@@ -8,7 +8,10 @@ trait NodeShape {
 	def setColor(color : Color) : Unit = {}
 }
 
-class CrossNode(x : Int, y : Int) extends Group with NodeShape {
+class CrossNode(coord : (Int, Int)) extends Group with NodeShape {
+	val x = coord._1
+	val y = coord._2
+	
 	var lines = Array(
 		new Rectangle(x - 60, y - 25, 120, 50) {setFill(Color.BLACK)}, 
 		new Line(x - 60, y - 25, x + 60, y + 25),
@@ -23,7 +26,10 @@ class CrossNode(x : Int, y : Int) extends Group with NodeShape {
 	}
 }
 
-class EllipseNode(x : Int, y : Int) extends Group with NodeShape {
+class EllipseNode(coord : (Int, Int)) extends Group with NodeShape {
+	val x = coord._1
+	val y = coord._2
+
 	var outerEllipse = new Ellipse()
 	var innerEllipse = new Ellipse()
 
@@ -42,7 +48,27 @@ class EllipseNode(x : Int, y : Int) extends Group with NodeShape {
 
 	this.getChildren.addAll(outerEllipse, innerEllipse)
 
-	override def setColor(color : Color) = {outerEllipse.setStroke(color)}
+	override def setColor(color : Color) = {outerEllipse.setFill(color)}
 }
 
 class NoneNode extends Group with NodeShape {}
+
+object Direction {
+    sealed trait EnumVal
+    case object Up extends EnumVal
+    case object Right extends EnumVal
+	case object Down extends EnumVal
+	case object Left extends EnumVal
+}
+
+class PathBetweenNodes(coord1 : (Int, Int), coord2 : (Int, Int)) extends Group {
+	var direction : Direction.EnumVal = if (coord1._1 == coord2._1) (if (coord1._2 <= coord2._2) Direction.Up else Direction.Down) else (if (coord1._1 <= coord2._1) Direction.Right else Direction.Left)
+
+	direction match {
+		case Direction.Up => this.getChildren.addAll(new Line(coord1._1 - 35, coord1._2 + 25, coord1._1 - 35, coord2._2 - 25), new Line(coord1._1 - 25, coord1._2 + 25, coord1._1 - 25, coord2._2 - 25))
+		case Direction.Down => this.getChildren.addAll(new Line(coord1._1 - 35, coord1._2 - 25, coord1._1 - 35, coord2._2 + 25), new Line(coord1._1 - 25, coord1._2 - 25, coord1._1 - 25, coord2._2 + 25))
+		case Direction.Right => this.getChildren.addAll(new Line(coord1._1 + 27, coord1._2 - 5, coord2._1 - 92, coord2._2 - 5), new Line(coord1._1 + 27, coord1._2 + 5, coord2._1 - 92, coord2._2 + 5))
+		case Direction.Left => this.getChildren.addAll(new Line(coord1._1 - 92, coord1._2 - 5, coord2._1 + 27, coord2._2 - 5), new Line(coord1._1 - 92, coord1._2 + 5, coord2._1 + 27, coord2._2 + 5))
+
+	}
+}
