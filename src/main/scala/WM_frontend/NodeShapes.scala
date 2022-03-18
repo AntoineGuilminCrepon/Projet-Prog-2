@@ -4,6 +4,8 @@ import javafx.scene._
 import javafx.scene.shape._
 import javafx.scene.paint._
 
+import nodemap._
+
 trait NodeShape {
 	def setColor(color : Color) : Unit = {}
 }
@@ -53,22 +55,12 @@ class EllipseNode(coord : (Int, Int)) extends Group with NodeShape {
 
 class NoneNode extends Group with NodeShape {}
 
-object Direction {
-    sealed trait EnumVal
-    case object Up extends EnumVal
-    case object Right extends EnumVal
-	case object Down extends EnumVal
-	case object Left extends EnumVal
-}
-
-class PathBetweenNodes(coord1 : (Int, Int), coord2 : (Int, Int)) extends Group {
-	var direction : Direction.EnumVal = if (coord1._1 == coord2._1) (if (coord1._2 <= coord2._2) Direction.Up else Direction.Down) else (if (coord1._1 <= coord2._1) Direction.Right else Direction.Left)
-
+class PathBetweenNodes(coord : (Int, Int), direction : Direction.EnumVal) extends Group {
 	direction match {
-		case Direction.Up => this.getChildren.addAll(new Line(coord1._1 - 35, coord1._2 + 25, coord1._1 - 35, coord2._2 - 25), new Line(coord1._1 - 25, coord1._2 + 25, coord1._1 - 25, coord2._2 - 25))
-		case Direction.Down => this.getChildren.addAll(new Line(coord1._1 - 35, coord1._2 - 25, coord1._1 - 35, coord2._2 + 25), new Line(coord1._1 - 25, coord1._2 - 25, coord1._1 - 25, coord2._2 + 25))
-		case Direction.Right => this.getChildren.addAll(new Line(coord1._1 + 27, coord1._2 - 5, coord2._1 - 92, coord2._2 - 5), new Line(coord1._1 + 27, coord1._2 + 5, coord2._1 - 92, coord2._2 + 5))
-		case Direction.Left => this.getChildren.addAll(new Line(coord1._1 - 92, coord1._2 - 5, coord2._1 + 27, coord2._2 - 5), new Line(coord1._1 - 92, coord1._2 + 5, coord2._1 + 27, coord2._2 + 5))
-
+		case Direction.Up => this.getChildren.addAll(new Line(coord._1 - 35, coord._2 - 25, coord._1 - 35, coord._2 - 325), new Line(coord._1 - 25, coord._2 - 25, coord._1 - 25, coord._2 - 325))
+ 		case Direction.Down => this.getChildren.addAll(new Line(coord._1 - 35, coord._2 + 25, coord._1 - 35, coord._2 + 325), new Line(coord._1 - 25, coord._2 + 25, coord._1 - 25, coord._2 + 325))
+/*		case Direction.Right => this.getChildren.addAll(new Line(coord._1 + 27, coord._2 - 5, coord2._1 - 92, coord2._2 - 5), new Line(coord1._1 + 27, coord1._2 + 5, coord2._1 - 92, coord2._2 + 5))
+		case Direction.Left => this.getChildren.addAll(new Line(coord._1 - 92, coord._2 - 5, coord2._1 + 27, coord2._2 - 5), new Line(coord1._1 - 92, coord1._2 + 5, coord2._1 + 27, coord2._2 + 5))
+ */		case _ => ()
 	}
 }

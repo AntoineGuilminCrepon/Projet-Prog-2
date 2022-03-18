@@ -60,7 +60,7 @@ class WorldMap extends Application {
 				}
 			}
 
-			nodeMap.nodeBounds.foreach(couple => this.getChildren.add(new PathBetweenNodes(coordToPosition(couple._1), coordToPosition(couple._2))))
+			nodeMap.nodeBounds.foreach(nodeBound => this.getChildren.add(new PathBetweenNodes(coordToPosition(nodeBound.coord), nodeBound.direction)))
 
 		}
 		
@@ -72,20 +72,25 @@ class WorldMap extends Application {
             scene.setOnKeyPressed(e => {
 				nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.BLACK)
 				val previousNode = nodeMap.currentNode
+				var direction : Direction.EnumVal = Direction.Up
 
                 if (e.getCode == KeyCode.RIGHT) {
                     nodeMap.currentNode = (if (nodeMap.currentNode._1 < 8 + 1) nodeMap.currentNode._1 + 1 else nodeMap.currentNode._1, nodeMap.currentNode._2)
-                } else if (e.getCode == KeyCode.LEFT) {
+					direction = Direction.Right
+				} else if (e.getCode == KeyCode.LEFT) {
                     nodeMap.currentNode = (if (nodeMap.currentNode._1 > 0) nodeMap.currentNode._1 - 1 else nodeMap.currentNode._1, nodeMap.currentNode._2)
+					direction = Direction.Left
                 } else if (e.getCode == KeyCode.UP) {
                     nodeMap.currentNode = (nodeMap.currentNode._1, 0)
+					direction = Direction.Up
                 } else if (e.getCode == KeyCode.DOWN) {
                     nodeMap.currentNode = (nodeMap.currentNode._1, 1)
+					direction = Direction.Down
                 } else if (e.getCode == KeyCode.SPACE) {
 					println("SPACE")
 				}
 
-				if (!nodeMap.isThereBound(previousNode, nodeMap.currentNode)) {
+				if (previousNode != nodeMap.currentNode && !nodeMap.isThereBound(previousNode, direction)) {
 					nodeMap.currentNode = previousNode
 				}
 

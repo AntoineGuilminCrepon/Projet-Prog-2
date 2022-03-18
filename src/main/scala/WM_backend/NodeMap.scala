@@ -10,9 +10,23 @@ object NodeType {
     case object EmptyNode extends EnumVal {override def toString() = {" "}}
 }
 
+object Direction {
+    sealed trait EnumVal
+    case object Up extends EnumVal
+    case object Right extends EnumVal
+	case object Down extends EnumVal
+	case object Left extends EnumVal
+}
+
+class NodeBound(val coord : (Int, Int), val direction : Direction.EnumVal) {
+	override def toString() : String = {
+		return coord.toString() + " " + direction.toString()
+	}
+}
+
 class NodeMap(length : Int) {
     var map = Array.ofDim[NodeType.EnumVal](length + 2, 2)
-    var nodeBounds : List[((Int, Int), (Int, Int))] = List(((length + 1, 0), (length, 0)))
+    var nodeBounds : List[NodeBound] = List(new NodeBound((length, 0), Direction.Right))
 
     var currentNode = (0,0)
 
@@ -34,29 +48,33 @@ class NodeMap(length : Int) {
 
                 if (map(i - 1)(position) == NodeType.EmptyNode) {
                     map(i)(1 - position) = NodeType.NeutralNode
-                    nodeBounds = ((i - 1, 1 - position), (i, 1 - position)) :: ((i, 1 - position), (i, position)) :: nodeBounds
+                    nodeBounds = (new NodeBound((i - 1, 1 - position), Direction.Right)) :: (new NodeBound((i, 1 - position), if (position == 0) Direction.Up else Direction.Down)) :: nodeBounds
+					nodeBounds = (new NodeBound((i, 1 - position), Direction.Left)) :: (new NodeBound((i, position), if (position == 0) Direction.Down else Direction.Up)) :: nodeBounds
                 } else {
                     map(i)(1 - position) = NodeType.EmptyNode
-                    nodeBounds = ((i - 1, position), (i, position)) :: nodeBounds
+                    nodeBounds = (new NodeBound((i - 1, position), Direction.Right)) :: nodeBounds
+					nodeBounds = (new NodeBound((i, position), Direction.Left)) :: nodeBounds
                 }
 
             } else {
                 if (nbNodesOnColumn(i - 1) == 2) {
                     map(i)(0) = NodeType.FightNode
                     map(i)(1) = NodeType.FightNode
-                    nodeBounds = ((i - 1, 0), (i, 0)) :: ((i - 1, 1), (i, 1)) :: nodeBounds
+                    nodeBounds = (new NodeBound((i - 1, 0), Direction.Right)) :: (new NodeBound((i - 1, 1), Direction.Right)) :: nodeBounds
+					nodeBounds = (new NodeBound((i, 0), Direction.Left)) :: (new NodeBound((i, 1), Direction.Left)) :: nodeBounds
                 } else {
                     val position = 1 - map(i - 1).indexOf(NodeType.EmptyNode)
                     map(i)(position) = NodeType.NeutralNode
                     map(i)(1 - position) = NodeType.FightNode
-                    nodeBounds = ((i - 1, position), (i, position)) :: ((i, position), (i, 1 - position)) :: nodeBounds
+                    nodeBounds = (new NodeBound((i - 1, position), Direction.Right)) :: (new NodeBound((i, position), if (position == 0) Direction.Down else Direction.Up)) :: nodeBounds
+					nodeBounds = (new NodeBound((i, position), Direction.Left)) :: (new NodeBound((i, 1 - position), if (position == 0) Direction.Up else Direction.Down)) :: nodeBounds
                 }
             }
         }
 
 		if (map(length)(0) == NodeType.EmptyNode) {
 			map(length)(0) = NodeType.NeutralNode
-			nodeBounds = ((length, 1), (length, 0)) :: nodeBounds
+			nodeBounds = (new NodeBound((length, 1), Direction.Up)) :: nodeBounds
 		}
 
         map(length + 1)(0) = NodeType.FightNode
@@ -65,9 +83,15 @@ class NodeMap(length : Int) {
     }
 
     this.generate()
+	println(nodeBounds)
 
-	def isThereBound(coord1 : (Int, Int), coord2 : (Int, Int)) : Boolean = {
-		return (nodeBounds.contains((coord1, coord2)) || nodeBounds.contains((coord2, coord1)))
+	def isThereBound(coord : (Int, Int), direction : Direction.EnumVal) : Boolean = {
+		for (bound <- nodeBounds) {
+			if (bound.coord == coord && bound.direction == direction) {
+				return true
+			}
+		}
+		return false
 	}
 
     override def toString() : String = {
