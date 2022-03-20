@@ -57,10 +57,9 @@ class NoneNode extends Group with NodeShape {}
 
 class PathBetweenNodes(coord : (Int, Int), direction : Direction.EnumVal) extends Group {
 	direction match {
-		case Direction.Up => this.getChildren.addAll(new Line(coord._1 - 35, coord._2 - 25, coord._1 - 35, coord._2 - 325), new Line(coord._1 - 25, coord._2 - 25, coord._1 - 25, coord._2 - 325))
- 		case Direction.Down => this.getChildren.addAll(new Line(coord._1 - 35, coord._2 + 25, coord._1 - 35, coord._2 + 325), new Line(coord._1 - 25, coord._2 + 25, coord._1 - 25, coord._2 + 325))
-/*		case Direction.Right => this.getChildren.addAll(new Line(coord._1 + 27, coord._2 - 5, coord2._1 - 92, coord2._2 - 5), new Line(coord1._1 + 27, coord1._2 + 5, coord2._1 - 92, coord2._2 + 5))
-		case Direction.Left => this.getChildren.addAll(new Line(coord._1 - 92, coord._2 - 5, coord2._1 + 27, coord2._2 - 5), new Line(coord1._1 - 92, coord1._2 + 5, coord2._1 + 27, coord2._2 + 5))
- */		case _ => ()
+		case Direction.Up => this.getChildren.addAll(new Line(coord._1 - 5, coord._2 - 25, coord._1 - 5, coord._2 - 325), new Line(coord._1 + 5, coord._2 - 25, coord._1 + 5, coord._2 - 325))
+	  	case Direction.Down => this.getChildren.addAll(new Line(coord._1 - 5, coord._2 + 25, coord._1 - 5, coord._2 + 325), new Line(coord._1 + 5, coord._2 + 25, coord._1 + 5, coord._2 + 325))
+		case Direction.Right => this.getChildren.addAll(new Line(coord._1 + 58, coord._2 - 5, coord._1 + 124, coord._2 - 5), new Line(coord._1 + 58, coord._2 + 5, coord._1 + 124, coord._2 + 5))
+ 		case _ => ()
 	}
 }

@@ -36,7 +36,7 @@ trait InitFightArena {
                 this.add(attackMenu, 0, 2)
             }
 
-        var scene = new Scene(root, 1290, 1040)
+        var scene = new Scene(root, 1920, 1080)
         stage.setScene(scene)
         stage.show()
     }

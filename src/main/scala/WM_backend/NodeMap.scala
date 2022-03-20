@@ -3,6 +3,7 @@ package nodemap
 import javafx.scene.text._
 import javafx.scene.paint._
 
+/* Classe énumérant les différents types de noeuds sur le monde extérieur */
 object NodeType {
     sealed trait EnumVal
     case object FightNode extends EnumVal {override def toString() = {"X"}}
@@ -18,15 +19,17 @@ object Direction {
 	case object Left extends EnumVal
 }
 
+/* Caractérise un chemin d'un noeud à un autre */
 class NodeBound(val coord : (Int, Int), val direction : Direction.EnumVal) {
 	override def toString() : String = {
 		return coord.toString() + " " + direction.toString()
 	}
 }
 
+/* Représentation interne de tout ce qui concerne le monde extérieur */
 class NodeMap(length : Int) {
     var map = Array.ofDim[NodeType.EnumVal](length + 2, 2)
-    var nodeBounds : List[NodeBound] = List(new NodeBound((length, 0), Direction.Right))
+    var nodeBounds : List[NodeBound] = List(new NodeBound((length, 0), Direction.Right), new NodeBound((length + 1, 0), Direction.Left))
 
     var currentNode = (0,0)
 
@@ -74,7 +77,7 @@ class NodeMap(length : Int) {
 
 		if (map(length)(0) == NodeType.EmptyNode) {
 			map(length)(0) = NodeType.NeutralNode
-			nodeBounds = (new NodeBound((length, 1), Direction.Up)) :: nodeBounds
+			nodeBounds = (new NodeBound((length, 1), Direction.Up)) :: (new NodeBound((length, 0), Direction.Down)) :: nodeBounds
 		}
 
         map(length + 1)(0) = NodeType.FightNode
@@ -98,18 +101,19 @@ class NodeMap(length : Int) {
         var stringMap = ""
 
         for (i <- 0 to (length + 1)) {
-            stringMap += "-" + map(i)(0)
+            stringMap += map(i)(0) + " "
         }
 
         stringMap += "\n"
 
         for (i <- 0 to (length + 1)) {
-            stringMap += "-" + map(i)(1)
+            stringMap += map(i)(1) + " "
         }
 
         return stringMap
     }
 
+	/* Fonction de test pour l'affichage du noeud courant */
     def toColoredString() : Array[Text] = {
         var stringMap = Array(new Text(""), new Text(map(currentNode._1)(currentNode._2).toString()) {setFill(Color.RED)}, new Text(""))
         var isCurrentNodePassed = false
