@@ -86,7 +86,6 @@ class NodeMap(length : Int) {
     }
 
     this.generate()
-	println(nodeBounds)
 
 	def isThereBound(coord : (Int, Int), direction : Direction.EnumVal) : Boolean = {
 		for (bound <- nodeBounds) {

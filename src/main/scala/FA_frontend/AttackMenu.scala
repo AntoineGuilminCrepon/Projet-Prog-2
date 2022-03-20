@@ -13,6 +13,9 @@ import scalafx.scene._
 import scalafx.Includes._
 import scalafx.event.ActionEvent
 
+import worldmap._
+import initworldmap._
+
 import initfightarena._
 import battle._
 import arena._
@@ -120,25 +123,35 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                         arena.disableFighter(i)
                     }
 
-                    for (i <- 0 to 1) {
-                        attackButtons(i).text = "Recommencer ?"
-                        attackButtons(i).onAction = _ => {
-                            messagesDispayer.newMessage("Veuillez choisir une réponse ci-dessous ^^")
-                        }
-                    }
+					if (winner.get == FactionAlignment.Monster) {
+						for (i <- 0 to 1) {
+							attackButtons(i).text = "Recommencer ?"
+							attackButtons(i).onAction = _ => {
+								messagesDispayer.newMessage("Veuillez choisir une réponse ci-dessous ^^")
+							}
+						}
 
-                    attackButtons(2).text = "OUI"
-                    attackButtons(3).text = "NON"
+						attackButtons(2).text = "OUI"
+						attackButtons(3).text = "NON"
 
-                    attackButtons(2).onAction = _ => {
-                        val allies = Heroes.getThreeRandomUniqueHeroes(0)
-                        val enemies = Monsters.getThreeRandomUniqueMonsters(3)
-                        restart(stage, allies, enemies)
-                    }
+						attackButtons(2).onAction = _ => {
+							val allies = Heroes.getThreeRandomUniqueHeroes(0)
+							val enemies = Monsters.getThreeRandomUniqueMonsters(3)
+							stage.close()
+							InitWorldMap.isAlreadyDefined = false
+							var worldMap = new WorldMap
+							worldMap.start(stage)
+						}
 
-                    attackButtons(3).onAction = _ => {
-                        stage.close()
-                    }
+						attackButtons(3).onAction = _ => {
+							stage.close()
+						}
+					} else {
+						stage.close()
+						var worldMap = new WorldMap
+						worldMap.start(stage)
+					}
+
                 }
             }
 

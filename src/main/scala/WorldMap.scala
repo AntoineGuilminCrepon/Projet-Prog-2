@@ -14,6 +14,8 @@ import javafx.scene.transform._
 
 import fightarena._
 
+import initworldmap._
+
 import nodemap._
 import nodeshapes._
 
@@ -21,27 +23,13 @@ import nodeshapes._
 class WorldMap extends Application {
     val length = 25
 
-	var nodeMap = new NodeMap(length)
-	println(nodeMap.toString())
+	var initWM = InitWorldMap.createWM(length)
+	var nodeMap = initWM._1
+	var map = initWM._2
+	var nodeGraph = initWM._3
 
-	def coordToPosition(coord : (Int, Int)) : (Int, Int) = {(((coord._1.toFloat + 0.5) * (1290.toFloat / 7.toFloat)).toInt, if (coord._2  == 0) 175 else 525)}
-
-	var map = new Pane()
-	var nodeGraph = Array.ofDim[Node with NodeShape](length + 2, 2)
-	for (i <- 0 to length + 1) {
-		for (j <- 0 to 1) {			
-			nodeGraph(i)(j) = 
-			nodeMap.map(i)(j) match {
-				case NodeType.FightNode => new CrossNode(coordToPosition((i,j)))
-				case NodeType.NeutralNode => new EllipseNode(coordToPosition((i,j)))
-				case NodeType.EmptyNode => new NoneNode
-			}
-		}
-	}
-	
 	override def start(stage : Stage) : Unit = {
         stage.setTitle("World map")
-
 		var root = new Group() {
 			var grid = new GridPane()
 			this.getChildren.add(grid)
@@ -50,16 +38,6 @@ class WorldMap extends Application {
 			grid.getRowConstraints().addAll(new RowConstraints(700), new RowConstraints(340))		
 			
 			grid.add(map, 0, 0)
-
-			for (i <- 0 to length + 1) {
-				for (j <- 0 to 1) {
-					nodeGraph(i)(j).setColor(Color.BLACK)
-					map.getChildren.add(nodeGraph(i)(j))
-				}
-			}
-
-			nodeMap.nodeBounds.foreach(nodeBound => map.getChildren.add(new PathBetweenNodes(coordToPosition(nodeBound.coord), nodeBound.direction)))
-
 		}
 		
 		var scene = new Scene(root, 1920, 1080)
