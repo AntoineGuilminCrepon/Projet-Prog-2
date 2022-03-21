@@ -39,6 +39,7 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
     alignment = Pos.BottomCenter
 
     def setFighterMenu(fighter : Fighter) : Unit = {
+		this.getChildren.clear()
         messagesDispayer.continueMessage("\nC'est au tour de " + fighter + " d'attaquer.")
 
         fighter.effects.foreach{
@@ -124,13 +125,8 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                     }
 
 					if (winner.get == FactionAlignment.Monster) {
-						for (i <- 0 to 1) {
-							attackButtons(i).text = "Recommencer ?"
-							attackButtons(i).onAction = _ => {
-								messagesDispayer.newMessage("Veuillez choisir une réponse ci-dessous ^^")
-							}
-						}
-
+						this.getChildren.clear()
+						messagesDispayer.continueMessage("Souhaitez vous recommencer l'aventure ?")
 						attackButtons(2).text = "OUI"
 						attackButtons(3).text = "NON"
 
@@ -144,6 +140,9 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 						attackButtons(3).onAction = _ => {
 							stage.close()
 						}
+
+						this.add(attackButtons(2), 0, 1)
+						this.add(attackButtons(3), 1, 1)
 					} else {
 						for (i <- 0 to 3) {
 							attackButtons(i).text = "Continuer"
