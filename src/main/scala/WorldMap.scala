@@ -12,21 +12,22 @@ import javafx.scene.input._
 import javafx.scene.paint._
 import javafx.scene.transform._
 
-import fightarena._
+import initfightarena._
 
 import initworldmap._
-
 import nodemap._
 import nodeshapes._
 
 /* Classe principale de cette partie */
-class WorldMap extends Application {
+class WorldMap extends Application with InitFightArena {
     val length = 25
 
 	var initWM = InitWorldMap.createWM(length)
 	var nodeMap = initWM._1
 	var map = initWM._2
 	var nodeGraph = initWM._3
+	var heroes = initWM._4
+	var monsters = initWM._5
 
 	override def start(stage : Stage) : Unit = {
         stage.setTitle("World map")
@@ -67,8 +68,7 @@ class WorldMap extends Application {
 					direction = Direction.Down
                 } else if (e.getCode == KeyCode.SPACE || e.getCode == KeyCode.ENTER && nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.FightNode) {
 					stage.close()
-					var fightarena = new FightArena
-					fightarena.start(stage)
+					restartFA(stage, heroes, monsters)
 					return
 				}
 

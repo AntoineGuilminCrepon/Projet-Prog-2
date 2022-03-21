@@ -12,7 +12,9 @@ import javafx.scene.input._
 import javafx.scene.paint._
 import javafx.scene.transform._
 
-import fightarena._
+import fighter._
+import heroes._
+import monsters._
 
 import nodemap._
 import nodeshapes._
@@ -22,12 +24,19 @@ object InitWorldMap {
 	var initNodeMap : NodeMap = new NodeMap(1)
 	var initMap : Pane = new Pane()
 	var initNodeGraph : Array[Array[Node with NodeShape]] = Array()
+	var initHeroes : Array[Fighter] = Array()
 
 	def coordToPosition(coord : (Int, Int)) : (Int, Int) = {(((coord._1.toFloat + 0.5) * (1290.toFloat / 7.toFloat)).toInt, if (coord._2  == 0) 175 else 525)}
 
-	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]]) = {
+	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter], Array[Fighter]) = {
 		if (isAlreadyDefined) {
-			return (initNodeMap, initMap, initNodeGraph)
+			for (i <- 0 to 2) {
+				val previousHero = initHeroes(i)
+				initHeroes(i) = Heroes.indiceToClass(previousHero.classIndice, i)
+				initHeroes(i).lifePoints = 1.max(previousHero.lifePoints)
+			}
+
+			return (initNodeMap, initMap, initNodeGraph, initHeroes, Monsters.getThreeRandomMonsters(3))
 		} else {
 			var nodeMap = new NodeMap(length)
 
@@ -57,8 +66,9 @@ object InitWorldMap {
 			initNodeMap = nodeMap
 			initMap = map
 			initNodeGraph = nodeGraph
+			initHeroes = Heroes.getThreeRandomUniqueHeroes(0)
 
-			return (nodeMap, map, nodeGraph)
+			return (nodeMap, map, nodeGraph, initHeroes, Monsters.getThreeRandomMonsters(3))
 		}
 
 	}

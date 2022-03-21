@@ -42,6 +42,7 @@ object PommelHit extends Attack {
 
 class Swordman(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
+	override val classIndice = 0
     override def toString = "Épéiste"
 
     val faction = FactionAlignment.Hero

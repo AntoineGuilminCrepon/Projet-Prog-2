@@ -44,6 +44,7 @@ object SlimyPunch extends Attack {
 
 class Slime(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
+	override val classIndice = 1
     override def toString = "Slime"
 
     val faction = FactionAlignment.Monster

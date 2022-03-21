@@ -47,6 +47,7 @@ object Heal extends Attack {
 
 class Magician(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
+	override val classIndice = 1
     override def toString = "Magicien"
 
     val faction = FactionAlignment.Hero

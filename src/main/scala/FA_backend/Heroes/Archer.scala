@@ -42,6 +42,7 @@ object Dagger extends Attack {
 
 class Archer(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
+	override val classIndice = 2
     override def toString = "Archer"
 
     val faction = FactionAlignment.Hero

@@ -18,7 +18,7 @@ import monsters._
 
 /* Permet d'appeler la fonction restart pour démarrer un combat à partir d'un stage, et d'alliés et d'ennemis */
 trait InitFightArena {
-    def restart(stage : Stage, allies : Array[Fighter], enemies : Array[Fighter]) = {
+    def restartFA(stage : Stage, allies : Array[Fighter], enemies : Array[Fighter]) = {
         stage.setTitle("Fight Arena")
         var messagesDispayer = new MessagesDisplay
         var battle = new Battle(messagesDispayer, allies, enemies)

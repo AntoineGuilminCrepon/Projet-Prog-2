@@ -1,6 +1,5 @@
 import javafx.application._
 
-import fightarena._
 import worldmap._
 
 object Main {

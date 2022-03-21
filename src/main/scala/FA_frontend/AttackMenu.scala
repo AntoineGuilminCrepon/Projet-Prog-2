@@ -135,8 +135,6 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 						attackButtons(3).text = "NON"
 
 						attackButtons(2).onAction = _ => {
-							val allies = Heroes.getThreeRandomUniqueHeroes(0)
-							val enemies = Monsters.getThreeRandomUniqueMonsters(3)
 							stage.close()
 							InitWorldMap.isAlreadyDefined = false
 							var worldMap = new WorldMap
@@ -147,9 +145,14 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 							stage.close()
 						}
 					} else {
-						stage.close()
-						var worldMap = new WorldMap
-						worldMap.start(stage)
+						for (i <- 0 to 3) {
+							attackButtons(i).text = "Continuer"
+							attackButtons(i).onAction = _ => {
+								stage.close()
+								var worldMap = new WorldMap
+								worldMap.start(stage)
+							}
+						}
 					}
 
                 }
