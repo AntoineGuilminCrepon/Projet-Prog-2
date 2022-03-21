@@ -16,7 +16,6 @@ import scalafx.event.ActionEvent
 import worldmap._
 import initworldmap._
 
-import initfightarena._
 import battle._
 import arena._
 import messagedisplay._
@@ -25,7 +24,7 @@ import heroes._
 import monsters._
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane with InitFightArena {
+class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645

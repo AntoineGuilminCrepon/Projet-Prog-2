@@ -2,7 +2,6 @@ package monsters
 
 import scalafx.scene.image._
 
-import attack._
 import fighter._
 
 import slime._
