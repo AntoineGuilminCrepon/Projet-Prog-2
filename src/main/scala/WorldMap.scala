@@ -11,8 +11,10 @@ import javafx.scene.shape._
 import javafx.scene.input._
 import javafx.scene.paint._
 import javafx.scene.transform._
+import javafx.geometry._
 
 import initfightarena._
+import wiki._
 
 import initworldmap._
 import nodemap._
@@ -39,8 +41,18 @@ class WorldMap extends Application with InitFightArena {
 			grid.getRowConstraints().addAll(new RowConstraints(700), new RowConstraints(340))		
 			
 			grid.add(map, 0, 0)
+
+			var wikiButton = new Button("Wiki") {
+				setMinHeight(110)
+				setMinWidth(645)
+				setFocusTraversable(false)
+				getTransforms.add(new Translate() {setX(635)})
+				setOnAction(_ => new Wiki(stage))
+			}
+
+			grid.add(wikiButton, 0, 1)
 		}
-		
+
 		var scene = new Scene(root, 1920, 1080)
 		nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
 
