@@ -9,38 +9,21 @@ import javafx.scene.layout._
 import javafx.scene.text._
 import javafx.geometry._
 import javafx.scene.shape._
+import javafx.scene.paint._
 import javafx.scene.input._
 import javafx.scene.transform._
 import javafx.geometry._
 
 import worldmap._
-
-class WikiButton(wiki : Wiki, width : Int, height : Int, text : String, imageURL : String, updatedNode : Node) 
-	extends Button(text, new ImageView(new Image(imageURL, width, height, true, false)) {setPreserveRatio(true)}) {
-		setPrefSize(width, height)
-		setFocusTraversable(false)
-		setStyle("-fx-text-fill: red; -fx-font-size: 18; -fx-alignment: bottom-left;")
-		setContentDisplay(ContentDisplay.TOP)
-
-		setOnAction(_ => wiki.updateWikiScene(updatedNode))
-}
-
-class MenuThreeChoices(choiceOne : Node, choiceTwo : Node, choiceThree : Node) extends GridPane {
-	this.getColumnConstraints.addAll(new ColumnConstraints(150), new ColumnConstraints(460), new ColumnConstraints(460), new ColumnConstraints(460), new ColumnConstraints(150))
-	this.getRowConstraints.addAll(new RowConstraints(50), new RowConstraints(780), new RowConstraints(50))
-
-
-	this.add(choiceOne, 1, 1)
-	this.add(choiceTwo, 2, 1)
-	this.add(choiceThree, 3, 1)
-}
+import buttons._
+import menus._
 
 class Wiki(var stage : Stage) {
 	var root = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(300), new ColumnConstraints(2), new ColumnConstraints(2), new ColumnConstraints(1616))
 	}
 
-	var quickSearchBar = new GridPane() {
+	var navigationBar = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(300))
 		this.getRowConstraints.addAll(new RowConstraints(539), new RowConstraints(2), new RowConstraints(539))
 		this.add(new Separator(Orientation.HORIZONTAL) {setPrefWidth(300)}, 0, 1)
@@ -49,16 +32,42 @@ class Wiki(var stage : Stage) {
 	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", new Pane())
 	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", new Pane())
 	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", new Pane())
+	val heroesMenu = new MenuThreeChoices(swordmanButton, magicianButton, archerButton)
 
-	val heroButton = new WikiButton(this, 460, 780, "HÉROS", "/Fighters/swordman.png", new MenuThreeChoices(swordmanButton, magicianButton, archerButton))
-	val monsterButton = new WikiButton(this, 460, 780, "MONSTRES", "/Fighters/goblin.png", new Pane())
+	val slimeButton = new WikiButton(this, 380, 460, "SLIME", "/Fighters/slime.png", new Pane())
+	val goblinButton = new WikiButton(this, 360, 390, "GOBELIN", "/Fighters/goblin.png", new Pane())
+	val skeletonButton = new WikiButton(this, 345, 390, "SQUELETTE", "/Fighters/skeleton.png", new Pane())
+	val monsterMenu = new MenuEightChoices(slimeButton, goblinButton, skeletonButton, new Pane(), new Pane(), new Pane(), new Pane(), new Pane())
+
+	val heroesBarButton = new BarButton(this, "HÉROS", heroesMenu)
+	val monstersBarButton = new BarButton(this, "MONSTRES", monsterMenu)
+	val otherBarButton = new BarButton(this, "AUTRES", new Pane())
+	val aleaButton = new BarButton(this, "ALÉATOIRE", new Pane())
+	
+	val quickAccess = new GridPane() {
+		this.getColumnConstraints.addAll(new ColumnConstraints(50), new ColumnConstraints(200), new ColumnConstraints(50))
+		this.getRowConstraints.addAll(new RowConstraints(59), new RowConstraints(60), new RowConstraints(100), new RowConstraints(100), new RowConstraints(100), new RowConstraints(100), new RowConstraints(20))
+		
+		this.add(new TextFlow(new Text("   Bar d'accès rapide") {
+			setFill(Color.RED)
+			setStyle("-fx-font-size: 18")
+		}), 1, 1)
+
+		this.add(heroesBarButton, 1, 2)
+		this.add(monstersBarButton, 1, 3)
+		this.add(otherBarButton, 1, 4)
+		this.add(aleaButton, 1, 5)
+	}
+	navigationBar.add(quickAccess, 0, 0)
+
+	val heroButton = new WikiButton(this, 460, 780, "HÉROS", "/Fighters/swordman.png", heroesMenu)
+	val monsterButton = new WikiButton(this, 460, 780, "MONSTRES", "/Fighters/goblin.png", monsterMenu)
 	val otherButton = new WikiButton(this, 460, 780, "AUTRES", "/Items/chest.png", new Pane())
-
 	val mainMenu = new MenuThreeChoices(heroButton, monsterButton, otherButton)
 
 	def updateWikiScene(centralNode : Node) : Unit = {
 		root.getChildren.clear()
-		root.add(quickSearchBar, 0, 0)
+		root.add(navigationBar, 0, 0)
 		root.add(new Separator(Orientation.VERTICAL) {setPrefHeight(1080)}, 1, 0)
 		root.add(new Separator(Orientation.VERTICAL) {setPrefHeight(1080)}, 2, 0)
 		
