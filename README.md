@@ -10,6 +10,9 @@ Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachv
 - [x] Afficher le choix des attaques
 - [x] Afficher les PV en permanence
 - [x] Ajout choix recommencer ou non
+- [x] Ajouter la carte du monde
+- [x] Faire l'affichage du wiki
+- [ ] Créer la fenêtre d'affichage pour les magasins
 - [ ] Faire quelque chose de beau
 
 ### Partie backend
@@ -18,7 +21,11 @@ Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachv
 - [x] Affecter à chaque type de combattant une image, des caractéristiques et des des attaques différentes (au moins 4)
 - [x] Programmer les attaques, les dégats, le tour par tour
 - [x] Faire plus de héros et de monstres (avec leurs attaques)
-- [ ] Ajouter les effets (enflammé, paralysé, ...)
+- [x] Ajouter les effets (enflammé, paralysé, ...)
+- [x] Générer automatiquement la carte du monde
+- [x] Faire un wiki fonctionnel
+- [ ] Ajouter des objets durant les combats
+- [ ] Ajouter des types aux monstres
+- [ ] Améliorer l'intelligence des ennemis
+- [ ] Faire des magasins dans la carte du monde
 - [ ] Faire encore plus de héros et de monstres
-
-## Description

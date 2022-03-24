@@ -92,6 +92,7 @@ class Wiki(var stage : Stage) {
 	}
 	navigationBar.add(quickAccess, 0, 0)
 
+	/* Correspond à la partie inférieure dans la barre de navigation */
 	var searchHistory : Array[Button] = Array()
 	val historyAccess = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(50), new ColumnConstraints(200), new ColumnConstraints(50))
