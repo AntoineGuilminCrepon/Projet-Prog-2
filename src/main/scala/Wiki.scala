@@ -17,6 +17,7 @@ import javafx.geometry._
 import worldmap._
 import buttons._
 import menus._
+import pages._
 
 import heroesentries._
 import monstersentries._
@@ -25,6 +26,20 @@ import attackeffectsentries._
 
 /* Classe principale du Wiki du jeu */
 class Wiki(var stage : Stage) {
+	def chooseRandomPage() : Page = {
+		val random = new scala.util.Random
+		random.nextInt(7) match {
+			case 0 => SwordmanPage
+			case 1 => MagicianPage
+			case 2 => ArcherPage
+			case 3 => SlimePage
+			case 4 => GoblinPage
+			case 5 => SkeletonPage
+			case 6 => FightMechanics
+			case 7 => AttackEffectPage
+		}
+	}
+
 	/* Correspond à l'écran entier */
 	var root = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(300), new ColumnConstraints(2), new ColumnConstraints(2), new ColumnConstraints(1616))
@@ -56,7 +71,9 @@ class Wiki(var stage : Stage) {
 	val heroesBarButton = new BarButton(this, "HÉROS", heroesMenu)
 	val monstersBarButton = new BarButton(this, "MONSTRES", monsterMenu)
 	val otherBarButton = new BarButton(this, "AUTRES", otherMenu)
-	val aleaButton = new BarButton(this, "ALÉATOIRE", new Pane())
+	val aleaButton = new BarButton(this, "ALÉATOIRE", chooseRandomPage()) {
+		setOnAction(_ => updateWikiScene(chooseRandomPage()))
+	}
 	
 	/* Correspond à la partie supérieure dans la barre de navigation */
 	val quickAccess = new GridPane() {
@@ -75,6 +92,17 @@ class Wiki(var stage : Stage) {
 	}
 	navigationBar.add(quickAccess, 0, 0)
 
+	var searchHistory : Array[Button] = Array()
+	val historyAccess = new GridPane() {
+		this.getColumnConstraints.addAll(new ColumnConstraints(50), new ColumnConstraints(200), new ColumnConstraints(50))
+		this.getRowConstraints.addAll(new RowConstraints(59), new RowConstraints(60), new RowConstraints(100), new RowConstraints(100), new RowConstraints(100), new RowConstraints(100), new RowConstraints(20))
+		this.add(new TextFlow(new Text("         Historique") {
+			setFill(Color.RED)
+			setStyle("-fx-font-size: 18")
+		}), 1, 1)
+	}
+	navigationBar.add(historyAccess, 0, 2)
+
 	val heroButton = new WikiButton(this, 460, 780, "HÉROS", "/Fighters/swordman.png", heroesMenu)
 	val monsterButton = new WikiButton(this, 460, 780, "MONSTRES", "/Fighters/goblin.png", monsterMenu)
 	val otherButton = new WikiButton(this, 460, 780, "AUTRES", "/Items/chest.png", otherMenu)
@@ -82,6 +110,18 @@ class Wiki(var stage : Stage) {
 
 	/* Fonction principale permettant de mettre à jour la partie centrale du wiki pour ne pas tout recharger */
 	def updateWikiScene(centralNode : Node) : Unit = {
+		if (centralNode.isInstanceOf[Page]) {
+			searchHistory = (new BarButton(this, centralNode.asInstanceOf[Page].name, centralNode)) +: searchHistory
+			historyAccess.getChildren.clear()
+			historyAccess.add(new TextFlow(new Text("         Historique") {
+				setFill(Color.RED)
+				setStyle("-fx-font-size: 18")
+			}), 1, 1)
+			for (i <- 0 to 3.min(searchHistory.size - 1)) {
+				historyAccess.add(searchHistory(i), 1, i + 2)
+			}
+		}
+
 		root.getChildren.clear()
 		root.add(navigationBar, 0, 0)
 		root.add(new Separator(Orientation.VERTICAL) {setPrefHeight(1080)}, 1, 0)

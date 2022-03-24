@@ -26,7 +26,7 @@ class BulletList(elements : Array[String], indentation : Int = 0) extends Text("
 }
 
 /* Permet d'afficher simplement du texte dans la partie centrale du Wiki */
-class Page(val name : String, val content : TextFlow) extends GridPane {
+class Page(var name : String, var content : TextFlow) extends GridPane {
 	this.getColumnConstraints.addAll(new ColumnConstraints(150), new ColumnConstraints(700), new ColumnConstraints(450), new ColumnConstraints(170), new ColumnConstraints(150))
 	this.getRowConstraints.addAll(new RowConstraints(100), new RowConstraints(100), new RowConstraints(50), new RowConstraints(510), new RowConstraints(100))
 
