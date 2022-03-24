@@ -15,6 +15,7 @@ import javafx.geometry._
 
 import wiki._
 
+/* Boutons présents dans la partie centrale du Wiki */
 class WikiButton(wiki : Wiki, width : Int, height : Int, text : String, imageURL : String, updatedNode : Node) 
 	extends Button(text, new ImageView(new Image(imageURL, width, height, true, false)) {setPreserveRatio(true)}) {
 		setPrefSize(width, height)
@@ -25,6 +26,7 @@ class WikiButton(wiki : Wiki, width : Int, height : Int, text : String, imageURL
 		setOnAction(_ => wiki.updateWikiScene(updatedNode))
 }
 
+/* Boutons présents dans la barre de navigation */
 class BarButton(wiki : Wiki, text : String, updatedNode : Node) extends Button(text) {
 	setPrefSize(200, 75)
 	setFocusTraversable(false)

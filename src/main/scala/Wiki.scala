@@ -18,25 +18,32 @@ import worldmap._
 import buttons._
 import menus._
 
+import heroesentries._
+import monstersentries._
+
+/* Classe principale du Wiki du jeu */
 class Wiki(var stage : Stage) {
+	/* Correspond à l'écran entier */
 	var root = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(300), new ColumnConstraints(2), new ColumnConstraints(2), new ColumnConstraints(1616))
 	}
 
+	/* Correspond à la barre de naviagation à gauche */
 	var navigationBar = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(300))
 		this.getRowConstraints.addAll(new RowConstraints(539), new RowConstraints(2), new RowConstraints(539))
 		this.add(new Separator(Orientation.HORIZONTAL) {setPrefWidth(300)}, 0, 1)
 	}
 
-	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", new Pane())
-	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", new Pane())
-	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", new Pane())
+	/* Préparation des différents boutons qui seront utilisés */
+	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", swordmanPage)
+	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", magicianPage)
+	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", archerPage)
 	val heroesMenu = new MenuThreeChoices(swordmanButton, magicianButton, archerButton)
 
-	val slimeButton = new WikiButton(this, 380, 460, "SLIME", "/Fighters/slime.png", new Pane())
-	val goblinButton = new WikiButton(this, 360, 390, "GOBELIN", "/Fighters/goblin.png", new Pane())
-	val skeletonButton = new WikiButton(this, 345, 390, "SQUELETTE", "/Fighters/skeleton.png", new Pane())
+	val slimeButton = new WikiButton(this, 380, 460, "SLIME", "/Fighters/slime.png", slimePage)
+	val goblinButton = new WikiButton(this, 360, 390, "GOBELIN", "/Fighters/goblin.png", goblinPage)
+	val skeletonButton = new WikiButton(this, 345, 390, "SQUELETTE", "/Fighters/skeleton.png", skeletonPage)
 	val monsterMenu = new MenuEightChoices(slimeButton, goblinButton, skeletonButton, new Pane(), new Pane(), new Pane(), new Pane(), new Pane())
 
 	val heroesBarButton = new BarButton(this, "HÉROS", heroesMenu)
@@ -44,6 +51,7 @@ class Wiki(var stage : Stage) {
 	val otherBarButton = new BarButton(this, "AUTRES", new Pane())
 	val aleaButton = new BarButton(this, "ALÉATOIRE", new Pane())
 	
+	/* Correspond à la partie supérieure dans la barre de navigation */
 	val quickAccess = new GridPane() {
 		this.getColumnConstraints.addAll(new ColumnConstraints(50), new ColumnConstraints(200), new ColumnConstraints(50))
 		this.getRowConstraints.addAll(new RowConstraints(59), new RowConstraints(60), new RowConstraints(100), new RowConstraints(100), new RowConstraints(100), new RowConstraints(100), new RowConstraints(20))
@@ -65,6 +73,7 @@ class Wiki(var stage : Stage) {
 	val otherButton = new WikiButton(this, 460, 780, "AUTRES", "/Items/chest.png", new Pane())
 	val mainMenu = new MenuThreeChoices(heroButton, monsterButton, otherButton)
 
+	/* Fonction principale permettant de mettre à jour la partie centrale du wiki pour ne pas tout recharger */
 	def updateWikiScene(centralNode : Node) : Unit = {
 		root.getChildren.clear()
 		root.add(navigationBar, 0, 0)
@@ -73,11 +82,13 @@ class Wiki(var stage : Stage) {
 		
 		var mainMenuButton = new Button("Retour au menu principal") {
 			setPrefSize(300, 150)
+			setFocusTraversable(false)
 			setOnAction(_ => updateWikiScene(mainMenu))
 		}
 		
 		var exitButton = new Button("Retour à la carte du monde") {
 			setPrefSize(300, 150)
+			setFocusTraversable(false)
 			setOnAction(_ => (new WorldMap).start(stage))
 		}
 

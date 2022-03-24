@@ -4,8 +4,8 @@ import attackeffect._
 
 object AttackType {
     sealed trait EnumVal
-    case object RangeAttack extends EnumVal
-    case object MeleeAttack extends EnumVal
+    case object RangeAttack extends EnumVal {override def toString() = {"Distance"}}
+    case object MeleeAttack extends EnumVal {override def toString() = {"Corps à corps"}}
 }
 
 abstract class Attack {
