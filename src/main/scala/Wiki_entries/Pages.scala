@@ -39,7 +39,7 @@ class Page(val name : String, val content : TextFlow) extends GridPane {
 	) {setAlignment(Pos.CENTER)}
 
 	this.add(title, 1, 1, 2, 1)
-	this.add(content, 1, 3)
+	this.add(content, 1, 3, 2, 1)
 }
 
 /* Permet d'afficher simplement toutes les caractéristiques d'un combattant */

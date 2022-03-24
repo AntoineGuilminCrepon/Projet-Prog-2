@@ -20,6 +20,8 @@ import menus._
 
 import heroesentries._
 import monstersentries._
+import fightmechanics._
+import attackeffectsentries._
 
 /* Classe principale du Wiki du jeu */
 class Wiki(var stage : Stage) {
@@ -36,19 +38,24 @@ class Wiki(var stage : Stage) {
 	}
 
 	/* Préparation des différents boutons qui seront utilisés */
-	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", swordmanPage)
-	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", magicianPage)
-	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", archerPage)
+	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", SwordmanPage)
+	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", MagicianPage)
+	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", ArcherPage)
 	val heroesMenu = new MenuThreeChoices(swordmanButton, magicianButton, archerButton)
 
-	val slimeButton = new WikiButton(this, 380, 460, "SLIME", "/Fighters/slime.png", slimePage)
-	val goblinButton = new WikiButton(this, 360, 390, "GOBELIN", "/Fighters/goblin.png", goblinPage)
-	val skeletonButton = new WikiButton(this, 345, 390, "SQUELETTE", "/Fighters/skeleton.png", skeletonPage)
+	val slimeButton = new WikiButton(this, 380, 460, "SLIME", "/Fighters/slime.png", SlimePage)
+	val goblinButton = new WikiButton(this, 360, 390, "GOBELIN", "/Fighters/goblin.png", GoblinPage)
+	val skeletonButton = new WikiButton(this, 345, 390, "SQUELETTE", "/Fighters/skeleton.png", SkeletonPage)
 	val monsterMenu = new MenuEightChoices(slimeButton, goblinButton, skeletonButton, new Pane(), new Pane(), new Pane(), new Pane(), new Pane())
+
+	val fightMechanicsButton = new WikiButton(this, 460, 780, "MÉCANIQUES DE COMBAT", "/Items/crossed swords.png", FightMechanics)
+	val attackEffectsButton = new WikiButton(this, 460, 780, "EFFETS D'ATTAQUES", "/Items/blood drop.png", AttackEffectPage)
+
+	val otherMenu = new MenuThreeChoices(fightMechanicsButton, attackEffectsButton, new Pane())
 
 	val heroesBarButton = new BarButton(this, "HÉROS", heroesMenu)
 	val monstersBarButton = new BarButton(this, "MONSTRES", monsterMenu)
-	val otherBarButton = new BarButton(this, "AUTRES", new Pane())
+	val otherBarButton = new BarButton(this, "AUTRES", otherMenu)
 	val aleaButton = new BarButton(this, "ALÉATOIRE", new Pane())
 	
 	/* Correspond à la partie supérieure dans la barre de navigation */
@@ -70,7 +77,7 @@ class Wiki(var stage : Stage) {
 
 	val heroButton = new WikiButton(this, 460, 780, "HÉROS", "/Fighters/swordman.png", heroesMenu)
 	val monsterButton = new WikiButton(this, 460, 780, "MONSTRES", "/Fighters/goblin.png", monsterMenu)
-	val otherButton = new WikiButton(this, 460, 780, "AUTRES", "/Items/chest.png", new Pane())
+	val otherButton = new WikiButton(this, 460, 780, "AUTRES", "/Items/chest.png", otherMenu)
 	val mainMenu = new MenuThreeChoices(heroButton, monsterButton, otherButton)
 
 	/* Fonction principale permettant de mettre à jour la partie centrale du wiki pour ne pas tout recharger */
