@@ -3,6 +3,7 @@ package archer
 import attack._
 import attackeffect._
 import fighter._
+import fighterclasses._
 
 object LongBow extends Attack {
     override def toString = "Arc long"
@@ -46,6 +47,7 @@ class Archer(id : Int) extends Fighter(id : Int) {
     override def toString = "Archer"
 
     val faction = FactionAlignment.Hero
+	val fighterClass = FighterClass.RangeFighter
     var maxLifePoints = 12
     var lifePoints = maxLifePoints
     var meleeCapacity = 3

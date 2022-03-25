@@ -33,6 +33,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         val capacityNeeded = attack.attackType match {
             case AttackType.MeleeAttack => attacker.meleeCapacity
             case AttackType.RangeAttack => attacker.rangeCapacity
+			case AttackType.MagicAttack => attacker.magicCapacity
         }
 
         val random = new scala.util.Random

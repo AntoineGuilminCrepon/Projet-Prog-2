@@ -3,7 +3,7 @@ package skeleton
 import attack._
 import attackeffect._
 import fighter._
-
+import fighterclasses._
 
 object Fear extends Attack {
     override def toString = "Peur"
@@ -49,6 +49,7 @@ class Skeleton(id : Int) extends Fighter(id : Int) {
     override def toString = "Squelette"
 
     val faction = FactionAlignment.Monster
+	val fighterClass = FighterClass.MeleeFighter
     var maxLifePoints = 20
     var lifePoints = maxLifePoints
     var meleeCapacity = 5

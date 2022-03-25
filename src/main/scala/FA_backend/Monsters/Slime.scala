@@ -3,6 +3,7 @@ package slime
 import attack._
 import attackeffect._
 import fighter._
+import fighterclasses._
 
 object AcidShot extends Attack {
     override def toString = "Jet d'acide"
@@ -48,6 +49,7 @@ class Slime(id : Int) extends Fighter(id : Int) {
     override def toString = "Slime"
 
     val faction = FactionAlignment.Monster
+	val fighterClass = FighterClass.MeleeFighter
     var maxLifePoints = 10
     var lifePoints = maxLifePoints
     var meleeCapacity = 4

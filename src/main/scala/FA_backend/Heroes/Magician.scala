@@ -3,12 +3,12 @@ package magician
 import attack._
 import attackeffect._
 import fighter._
-
+import fighterclasses._
 
 object Fireball extends Attack {
     override def toString = "Boule de feu"
     override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 7
     override val damageModifier = 3
 
@@ -18,7 +18,7 @@ object Fireball extends Attack {
 object Thunder extends Attack {
     override def toString = "Foudre"
     override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 6
     override val damageModifier = 2
 
@@ -28,7 +28,7 @@ object Thunder extends Attack {
 object Explosion extends Attack {
     override def toString = "Explosion !"
     override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 12
     override val damageModifier = 8
 
@@ -40,7 +40,7 @@ object Heal extends Attack {
     override def toString = "Soin"
     override def description = "soigne"
     override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 3
     override val damageModifier = -5
 }
@@ -51,10 +51,12 @@ class Magician(id : Int) extends Fighter(id : Int) {
     override def toString = "Magicien"
 
     val faction = FactionAlignment.Hero
+	override val fighterClass = FighterClass.MagicFighter
     var maxLifePoints = 8
     var lifePoints = maxLifePoints
     var meleeCapacity = 2
-    var rangeCapacity = 7
+    var rangeCapacity = 3
+	magicCapacity = 7
     var strength = 3
     var toughness = 3
     var initiative = 3

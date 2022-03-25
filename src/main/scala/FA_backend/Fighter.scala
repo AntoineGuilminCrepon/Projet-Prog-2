@@ -2,6 +2,7 @@ package fighter
 
 import java.io.InputStream
 
+import fighterclasses._
 import attack._
 import attackeffect._
 import math.rint
@@ -15,6 +16,8 @@ object FactionAlignment {
 abstract class Fighter(id : Int) {
     val fighterID = id
     val faction : FactionAlignment.EnumVal
+	val fighterClass : FighterClass.EnumVal
+	val fighterTypes : Array[FighterType.EnumVal] = Array()
 	val classIndice : Int
 
     var maxLifePoints : Int
@@ -22,6 +25,8 @@ abstract class Fighter(id : Int) {
 
     var meleeCapacity : Int
     var rangeCapacity : Int
+	var magicCapacity : Int = 0
+
     var strength : Int
     var toughness : Int
     var initiative : Int
@@ -46,6 +51,10 @@ abstract class Fighter(id : Int) {
 
     /* Renvoie le nombre de dégats infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {
-        return (this.strength * attack.damageModifier / enemy.toughness.toFloat).toInt
+        return (attack.attackType match {
+					case AttackType.MagicAttack => attack.damageModifier * attack.damageModifier / enemy.toughness.toFloat
+					case _ => FighterClass.compare(attack.attackType, enemy.fighterClass) * this.strength * attack.damageModifier / enemy.toughness.toFloat
+				}
+			).toInt
     }
 }
