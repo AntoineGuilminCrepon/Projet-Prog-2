@@ -44,7 +44,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
             defender.lifePoints = if (defender.lifePoints < 0) 0 else if (defender.lifePoints > defender.maxLifePoints) defender.maxLifePoints else defender.lifePoints
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
 
-            if (attack.enemyEffect.isDefined && random.nextDouble <= attack.enemyEffect.get.probability) {
+            if (attack.enemyEffect.isDefined && random.nextDouble <= attack.enemyEffect.get.probability && !(defender.fighterTypes.foldLeft(false)(_ || attack.enemyEffect.get.immuneTypes.contains(_)))) {
                 messagesDispayer.continueMessage(defender + " est maintenant affecté par : " + attack.enemyEffect.get + " !")
                 attack.enemyEffect.get.effectBeginning(defender)
 

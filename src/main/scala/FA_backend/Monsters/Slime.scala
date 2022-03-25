@@ -50,6 +50,7 @@ class Slime(id : Int) extends Fighter(id : Int) {
 
     val faction = FactionAlignment.Monster
 	val fighterClass = FighterClass.MeleeFighter
+	override val fighterTypes = Array(FighterType.Gelatinous)
     var maxLifePoints = 10
     var lifePoints = maxLifePoints
     var meleeCapacity = 4

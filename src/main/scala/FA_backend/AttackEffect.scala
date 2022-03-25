@@ -1,9 +1,11 @@
 package attackeffect
 
 import fighter.Fighter
+import fighterclasses._
 
 class AttackEffect(tmr : Int, pbty : Double) {
     override def toString () : String = {"Effet"} 
+	val immuneTypes : Array[FighterType.EnumVal] = Array()
 
     var timer = tmr
     val probability = pbty
@@ -30,7 +32,8 @@ class Acid(timer : Int, probability : Double, damage : Int) extends AttackEffect
 
 class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Saignement"}
-    
+	override val immuneTypes = Array(FighterType.Undead)
+
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
         return "Il saigne et perd " + damage + " PV !"
