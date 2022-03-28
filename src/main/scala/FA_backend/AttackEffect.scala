@@ -3,9 +3,10 @@ package attackeffect
 import fighter.Fighter
 import fighterclasses._
 
-class AttackEffect(tmr : Int, pbty : Double) {
+abstract class AttackEffect(tmr : Int, pbty : Double) {
     override def toString () : String = {"Effet"} 
 	val immuneTypes : Array[FighterType.EnumVal] = Array()
+	val expectedDamages : Int = 0
 
     var timer = tmr
     val probability = pbty
@@ -19,7 +20,8 @@ class AttackEffect(tmr : Int, pbty : Double) {
 
 class Acid(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Corrodé"}
-    
+    override val expectedDamages = (damage * timer * probability).toInt
+
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
         return " est brûle par l'acide et perd " + damage + " PV !"
@@ -32,7 +34,8 @@ class Acid(timer : Int, probability : Double, damage : Int) extends AttackEffect
 
 class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Saignement"}
-	override val immuneTypes = Array(FighterType.Undead)
+	override val immuneTypes = Array(FighterType.Undead, FighterType.Gelatinous)
+	override val expectedDamages = (damage * timer * probability).toInt
 
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
@@ -46,7 +49,7 @@ class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffec
 
 class CapacitiesDebuf(timer : Int, probability : Double, ccDebuf : Int, ctDebuf : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Engourdi"}
-    
+
     override def effectBeginning(myself : Fighter) = {
         myself.meleeCapacity -= ccDebuf
         myself.rangeCapacity -= ctDebuf
@@ -62,7 +65,8 @@ class CapacitiesDebuf(timer : Int, probability : Double, ccDebuf : Int, ctDebuf 
 
 class Fire(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Enflammé"}
-    
+    override val expectedDamages = (damage * timer * probability).toInt
+
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
         return " brûle et perd " + damage + " PV !"
@@ -75,7 +79,8 @@ class Fire(timer : Int, probability : Double, damage : Int) extends AttackEffect
 
 class Poison(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Empoisonné"}
-    
+    override val expectedDamages = (damage * timer * probability).toInt
+
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
         return "Il est empoisonné et perd " + damage + " PV !"
@@ -91,8 +96,8 @@ class Stun(timer : Int, probability : Double) extends AttackEffect(timer, probab
     
     override def effectBeginning(myself : Fighter) : Unit = {
         savedValues = List(myself.meleeCapacity, myself.rangeCapacity)
-        myself.meleeCapacity = 0
-        myself.rangeCapacity = 0
+        myself.meleeCapacity = -10
+        myself.rangeCapacity = -10
     }
 
     override def effectAfterAttack(myself : Fighter) : String = {
