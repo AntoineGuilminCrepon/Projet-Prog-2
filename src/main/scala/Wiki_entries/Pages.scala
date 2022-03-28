@@ -49,6 +49,12 @@ class FighterPage(fighter : Fighter, quote : String) extends Page(fighter.toStri
 	this.add(new Group(new ImageView(new Image(fighter.visual, 450, 510, true, false))), 2, 3)
 	fullText.getChildren.add(new Text(quote + "\n\n") {setStyle("-fx-font-style: italic; -fx-font-size: 12")})
 
+	/* Partie indiquant la classe et les éventuels types de chaque combattant */
+	fullText.getChildren.addAll(
+		new Text("Classe du combattant : " + fighter.fighterClass + "\n") {setStyle("-fx-font-size: 14")},
+		new Text("Type(s) du combattant : " + (if (fighter.fighterTypes.length > 0) fighter.fighterTypes.foldLeft("")(_ + _.toString()) else "∅") + "\n\n") {setStyle("-fx-font-size: 14")}
+	)
+
 	fullText.getChildren.addAll(new BulletList(Array(
 		"Points de vie : " + fighter.maxLifePoints,
 		"Capacité de combat : " + fighter.meleeCapacity,
