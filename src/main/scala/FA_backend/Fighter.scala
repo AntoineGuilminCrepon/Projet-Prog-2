@@ -51,7 +51,7 @@ abstract class Fighter(id : Int) {
 
     /* Renvoie le nombre de dégats infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {
-        return (enemy.fighterTypes.foldLeft(0.0)(_ + FighterType.checkTypeResistance(_, attack.attackType)) * (attack.attackType match {
+        return (enemy.fighterTypes.foldLeft(1.0)(_ * FighterType.checkTypeResistance(_, attack.attackType)) * (attack.attackType match {
 					case AttackType.MagicAttack => attack.damageModifier * attack.damageModifier / enemy.toughness.toFloat
 					case _ => FighterClass.compare(attack.attackType, enemy.fighterClass) * this.strength * attack.damageModifier / enemy.toughness.toFloat
 				}).toFloat).toInt

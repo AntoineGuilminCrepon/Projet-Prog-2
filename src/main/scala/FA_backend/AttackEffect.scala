@@ -22,11 +22,11 @@ class Acid(timer : Int, probability : Double, damage : Int) extends AttackEffect
     
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
-        return "L'acide le brûle et il perd " + damage + " PV !"
+        return " est brûle par l'acide et perd " + damage + " PV !"
     }
     
     override def effectEnding(myself : Fighter) : String = {
-        return "Il parvient à enlever l'acide."
+        return " parvient à enlever l'acide."
     }
 }
 
@@ -36,11 +36,11 @@ class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffec
 
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
-        return "Il saigne et perd " + damage + " PV !"
+        return " saigne et perd " + damage + " PV !"
     }
     
     override def effectEnding(myself : Fighter) : String = {
-        return "Le saignement s'arrête."
+        return " ne saigne plus."
     }
 }
 
@@ -65,11 +65,11 @@ class Fire(timer : Int, probability : Double, damage : Int) extends AttackEffect
     
     override def effectAfterAttack(myself : Fighter) : String = {
         myself.lifePoints -= damage
-        return "Il brûle et perd " + damage + " PV !"
+        return " brûle et perd " + damage + " PV !"
     }
     
     override def effectEnding(myself : Fighter) : String = {
-        return "Le feu s'éteint."
+        return " n'est plus brûlé."
     }
 }
 
@@ -96,7 +96,7 @@ class Stun(timer : Int, probability : Double) extends AttackEffect(timer, probab
     }
 
     override def effectAfterAttack(myself : Fighter) : String = {
-        return "Il est sonné !"
+        return " est sonné !"
     }
     
     override def effectEnding(myself : Fighter) : String = {

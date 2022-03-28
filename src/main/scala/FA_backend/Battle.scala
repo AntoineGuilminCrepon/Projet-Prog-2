@@ -68,21 +68,35 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
     }
 
     /* Permet de définir un défenseur à partir d'un attaquant donné */
-    def defineDefender(attackerID : Int) : Int = {
+    def defineDefender(attackerID : Int) : (Int, Int) = {
         val attacker = fightOrder(attackerID)
         val defenderFaction = attacker.faction match {
-            case FactionAlignment.Hero => 
-                return Array(0, 1, 2, 3, 4, 5)
-                    .filter(fightOrder(_).isLiving())
-                    .filter(!fightOrder(_).isHero())
-                    .sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
+            case FactionAlignment.Hero => return (-1, -1)
             case FactionAlignment.Monster =>
-                return Array(0, 1, 2, 3, 4, 5)
-                    .filter(fightOrder(_).isLiving())
-                    .filter(fightOrder(_).isHero())
-                    .sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
+				
+				/* On teste ici toutes les attaques et le monstre choisira l'attaque et le héros auquel il fera le plus de dommages */
+				var defenderIDMax = 0
+				var attackIDMax = 0
+				var damagesMax = 0
+				for (i <- 0 to 5) {
+					if (fightOrder(i).isHero() && fightOrder(i).isLiving()) {
+						for (j <- 0 to 3) {
+							/* Si le monstre a la possibilité de tuer immédiatement un héros, il le fait. */
+							if (attacker.fight(fightOrder(i), attacker.attacks(j)) >= fightOrder(i).lifePoints) {
+								return (i, j)
+							}
+
+							if (attacker.fight(fightOrder(i), attacker.attacks(j)) >= damagesMax) {
+								damagesMax = attacker.fight(fightOrder(i), attacker.attacks(j))
+								defenderIDMax = i
+								attackIDMax = j
+							}
+						}
+					}
+				}
+				return (defenderIDMax, attackIDMax)
         }
-        return 0
+		return (-1, -1)
     }
 
     def getNewFighter(currentFighterID : Int) : (Int, Fighter) = {

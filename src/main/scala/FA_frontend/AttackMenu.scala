@@ -83,18 +83,17 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 
                         battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter), i)
                     case FactionAlignment.Monster =>
-                        val random = new scala.util.Random
-                        battle.launchAttack(battle.currentFighterID, battle.defineDefender(battle.currentFighterID), random.nextInt(4))
-                    
+						val definedAttack = battle.defineDefender(battle.currentFighterID)
+                        battle.launchAttack(battle.currentFighterID, definedAttack._1, definedAttack._2)
                 }
                 
                 messagesDispayer.continueMessage("")
                 fighter.effects.foreach{
                     effect =>
-                        messagesDispayer.continueMessage(effect.effectAfterAttack(fighter))
+                        messagesDispayer.continueMessage(if (effect.effectAfterAttack(fighter) != "") fighter.toString() + effect.effectAfterAttack(fighter) else "")
                         effect.timer -= 1
-                        if (effect.timer == 0) {
-                            messagesDispayer.continueMessage(effect.effectEnding(fighter))
+                        if (effect.timer <= 0) {
+                            messagesDispayer.continueMessage(if (effect.effectEnding(fighter) != "") fighter.toString() + effect.effectEnding(fighter) else "")
                         }
                 }
 
@@ -146,9 +145,9 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 						for (i <- 0 to 3) {
 							attackButtons(i).text = "Continuer"
 							attackButtons(i).onAction = _ => {
-								stage.close()
 								var worldMap = new WorldMap
 								worldMap.start(stage)
+								return
 							}
 						}
 					}
