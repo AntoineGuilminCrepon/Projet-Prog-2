@@ -6,7 +6,7 @@ import fighter._
 
 import slime._
 import goblin._
-import skavens._
+import skaven._
 import bandit._
 import dragon._
 import ghost._
@@ -23,7 +23,7 @@ object Monsters {
             case 2 => new Skeleton(id)
             case 3 => new Witch(id)
             case 4 => new Dragon(id)
-            case 5 => new Skavens(id)
+            case 5 => new Skaven(id)
             case 6 => new Ghost(id)
             case 7 => new Bandit(id)
         }

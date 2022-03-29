@@ -3,12 +3,12 @@ package witch
 import attack._
 import attackeffect._
 import fighter._
-
+import fighterclasses._
 
 object Doom extends Attack {
     override def toString = "Malédiction"
     override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                          /*MAGIC*/
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 7
     override val damageModifier = 0
 
@@ -18,7 +18,7 @@ object Doom extends Attack {
 object PoisonPotion extends Attack {
     override def toString = "Potion d'empoisonnement"
     override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack                          /*MAGIC*/
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 1
     override val damageModifier = 0
 
@@ -38,17 +38,18 @@ object BroomHit extends Attack {
 object NightShade extends Attack {
     override def toString = "Ténèbres"
     override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                        /*MAGIC*/
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 7
     override val damageModifier = 4
 }
 
 class Witch(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
-	override val classIndice = 4
+	override val classIndice = 3
     override def toString = "Sorcière"
 
     val faction = FactionAlignment.Monster
+	val fighterClass = FighterClass.MagicFighter
     var maxLifePoints = 10
     var lifePoints = maxLifePoints
     var meleeCapacity = 2

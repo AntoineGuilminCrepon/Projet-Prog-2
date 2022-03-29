@@ -3,9 +3,9 @@ package bandit
 import attack._
 import attackeffect._
 import fighter._
+import fighterclasses._
 
-
-object ShowerofArrows extends Attack {
+object ArrowShower extends Attack {
     override def toString = "Volée de flèches"
     override val targetAlignment = FactionAlignment.Hero                 /*Could later be relevant as a multi-target attack*/
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack                     
@@ -45,12 +45,13 @@ object FireBomb extends Attack {
 
 class Bandit(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
-	override val classIndice = 8
+	override val classIndice = 7
     override def toString = "Bandit"
 
     val faction = FactionAlignment.Monster
-    var maxLifePoints = 10
-    var lifePoints = maxLifePoints
+    val fighterClass = FighterClass.RangeFighter
+	var maxLifePoints = 10
+	var lifePoints = maxLifePoints
     var meleeCapacity = 4
     var rangeCapacity = 8
     var strength = 3
@@ -59,5 +60,5 @@ class Bandit(id : Int) extends Fighter(id : Int) {
 
     override val visual = getClass.getResourceAsStream("/Fighters/bandit.png")
 
-    val attacks = Array(ShowerofArrows, Mania, PoisonousArrow, FireBomb)
+    val attacks = Array(ArrowShower, Mania, PoisonousArrow, FireBomb)
 }

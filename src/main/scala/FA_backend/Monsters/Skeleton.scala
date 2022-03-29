@@ -45,7 +45,7 @@ object BoneThrow extends Attack {
 
 class Skeleton(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
-	override val classIndice = 3
+	override val classIndice = 2
     override def toString = "Squelette"
 
     val faction = FactionAlignment.Monster

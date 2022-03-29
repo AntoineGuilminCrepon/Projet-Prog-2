@@ -43,7 +43,7 @@ object SurpriseAttack extends Attack {
 
 class Goblin(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
-	override val classIndice = 2
+	override val classIndice = 1
     override def toString = "Gobelin"
 
     val faction = FactionAlignment.Monster

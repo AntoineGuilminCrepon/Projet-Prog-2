@@ -3,7 +3,7 @@ package dragon
 import attack._
 import attackeffect._
 import fighter._
-
+import fighterclasses._
 
 object Fireblast extends Attack {
     override def toString = "Déflagration"
@@ -20,8 +20,9 @@ object ThorneThrow extends Attack {
     override val targetAlignment = FactionAlignment.Hero
     override val attackType : AttackType.EnumVal = AttackType.RangeAttack                        
     override val attackDifficulty = 5
-    override val damageModifier = 2
+    override val damageModifier = 3
 
+	enemyEffect = Some(new Bleed(2, 0.7, 2))
 }
 
 object Crushing extends Attack {
@@ -31,29 +32,30 @@ object Crushing extends Attack {
     override val attackDifficulty = 4
     override val damageModifier = 2
 
-    enemyEffect = Some(new Stun(1, 0.5))
+    enemyEffect = Some(new Stun(1, 0.6))
 }
 
 object Howling extends Attack {
     override def toString = "Hurlement"
     override val targetAlignment = FactionAlignment.Hero                 /*Could later be relevant as a multi-target attack*/
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                        /*MAGIC*/
+    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
     override val attackDifficulty = 1
     override val damageModifier = 1
 
-    enemyEffect = Some(new Stun(2, 0.9))
+    enemyEffect = Some(new Stun(3, 0.9))
 }
 
 class Dragon(id : Int) extends Fighter(id : Int) {
     override val fighterID = id
-	override val classIndice = 5
+	override val classIndice = 4
     override def toString = "Dragon"
 
     val faction = FactionAlignment.Monster
-    var maxLifePoints = 10
+	val fighterClass = FighterClass.RangeFighter
+    var maxLifePoints = 25
     var lifePoints = maxLifePoints
-    var meleeCapacity = 3
-    var rangeCapacity = 3
+    var meleeCapacity = 7
+    var rangeCapacity = 7
     var strength = 8
     var toughness = 8
     var initiative = 1
