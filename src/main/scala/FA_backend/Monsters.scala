@@ -6,16 +6,26 @@ import fighter._
 
 import slime._
 import goblin._
+import skavens._
+import bandit._
+import dragon._
+import ghost._
 import skeleton._
+import witch._
 
 object Monsters {
-    val nbMonsterClasses = 3
+    val nbMonsterClasses = 8
 
     def indiceToClass(classIndice : Int, id : Int) : Fighter = {
         return classIndice match {
             case 0 => new Slime(id)
             case 1 => new Goblin(id)
             case 2 => new Skeleton(id)
+            case 3 => new Witch(id)
+            case 4 => new Dragon(id)
+            case 5 => new Skavens(id)
+            case 6 => new Ghost(id)
+            case 7 => new Bandit(id)
         }
     }
 

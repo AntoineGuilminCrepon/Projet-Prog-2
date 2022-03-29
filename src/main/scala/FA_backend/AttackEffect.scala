@@ -83,6 +83,19 @@ class Poison(timer : Int, probability : Double, damage : Int) extends AttackEffe
     }
 }
 
+class Curse(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
+    override def toString() : String = {"Maudit"}
+    
+    override def effectAfterAttack(myself : Fighter) : String = {
+        myself.lifePoints -= damage
+        return "La malédiction frappe. - " + damage + " PV !"
+    }
+    
+    override def effectEnding(myself : Fighter) : String = {
+        return "La malédiction est levée."
+    }
+}
+
 class Stun(timer : Int, probability : Double) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Étourdi"}
     
