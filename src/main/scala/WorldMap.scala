@@ -79,7 +79,6 @@ class WorldMap extends Application with InitFightArena {
                     nodeMap.currentNode = (nodeMap.currentNode._1, 1)
 					direction = Direction.Down
                 } else if (e.getCode == KeyCode.SPACE || e.getCode == KeyCode.ENTER && nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.FightNode) {
-					stage.close()
 					restartFA(stage, heroes, monsters)
 					return
 				}

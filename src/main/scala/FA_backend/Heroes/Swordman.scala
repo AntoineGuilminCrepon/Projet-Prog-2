@@ -3,6 +3,7 @@ package swordman
 import attack._
 import attackeffect._
 import fighter._
+import fighterclasses._
 
 object Punch extends Attack {
     override def toString = "Coup de poing"
@@ -46,6 +47,7 @@ class Swordman(id : Int) extends Fighter(id : Int) {
     override def toString = "Épéiste"
 
     val faction = FactionAlignment.Hero
+	val fighterClass = FighterClass.MeleeFighter
     var maxLifePoints = 15
     var lifePoints = maxLifePoints
     var meleeCapacity = 7

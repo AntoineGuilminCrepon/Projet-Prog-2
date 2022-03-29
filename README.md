@@ -25,7 +25,8 @@ Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachv
 - [x] Générer automatiquement la carte du monde
 - [x] Faire un wiki fonctionnel
 - [ ] Ajouter des objets durant les combats
-- [ ] Ajouter des types aux monstres
-- [ ] Améliorer l'intelligence des ennemis
+- [x] Ajouter des types aux monstres
+- [x] Améliorer l'intelligence des ennemis
+- [ ] Prendre en compte tous les effets d'attaque pour l'intelligence des ennemis
 - [ ] Faire des magasins dans la carte du monde
 - [ ] Faire encore plus de héros et de monstres

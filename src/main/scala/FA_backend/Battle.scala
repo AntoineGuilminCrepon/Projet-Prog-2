@@ -33,6 +33,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         val capacityNeeded = attack.attackType match {
             case AttackType.MeleeAttack => attacker.meleeCapacity
             case AttackType.RangeAttack => attacker.rangeCapacity
+			case AttackType.MagicAttack => attacker.magicCapacity
         }
 
         val random = new scala.util.Random
@@ -43,7 +44,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
             defender.lifePoints = if (defender.lifePoints < 0) 0 else if (defender.lifePoints > defender.maxLifePoints) defender.maxLifePoints else defender.lifePoints
             messagesDispayer.continueMessage("Il reste " + defender.lifePoints.max(0) + " PV à " + defender + ".")
 
-            if (attack.enemyEffect.isDefined && random.nextDouble <= attack.enemyEffect.get.probability) {
+            if (defender.isLiving() && attack.enemyEffect.isDefined && random.nextDouble <= attack.enemyEffect.get.probability && !(defender.fighterTypes.foldLeft(false)(_ || attack.enemyEffect.get.immuneTypes.contains(_)))) {
                 messagesDispayer.continueMessage(defender + " est maintenant affecté par : " + attack.enemyEffect.get + " !")
                 attack.enemyEffect.get.effectBeginning(defender)
 
@@ -67,21 +68,37 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
     }
 
     /* Permet de définir un défenseur à partir d'un attaquant donné */
-    def defineDefender(attackerID : Int) : Int = {
+    def defineDefender(attackerID : Int) : (Int, Int) = {
         val attacker = fightOrder(attackerID)
         val defenderFaction = attacker.faction match {
-            case FactionAlignment.Hero => 
-                return Array(0, 1, 2, 3, 4, 5)
-                    .filter(fightOrder(_).isLiving())
-                    .filter(!fightOrder(_).isHero())
-                    .sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
+            case FactionAlignment.Hero => return (-1, -1)
             case FactionAlignment.Monster =>
-                return Array(0, 1, 2, 3, 4, 5)
-                    .filter(fightOrder(_).isLiving())
-                    .filter(fightOrder(_).isHero())
-                    .sortWith(fightOrder(_).lifePoints <= fightOrder(_).lifePoints)(0)
+				
+				/* On teste ici toutes les attaques et le monstre choisira l'attaque et le héros auquel il fera le plus de dommages */
+				var defenderIDMax = 0
+				var attackIDMax = 0
+				var damagesMax = 0
+				for (i <- 0 to 5) {
+					if (fightOrder(i).isHero() && fightOrder(i).isLiving()) {
+						for (j <- 0 to 3) {
+							/* Si le monstre a la possibilité de tuer immédiatement un héros, il le fait. */
+							if (attacker.fight(fightOrder(i), attacker.attacks(j)) >= fightOrder(i).lifePoints) {
+								return (i, j)
+							}
+
+							if (attacker.fight(fightOrder(i), attacker.attacks(j)) 
+								+ (if (attacker.attacks(j).enemyEffect.isDefined) attacker.attacks(j).enemyEffect.get.expectedDamages else 0) >= damagesMax) {
+									damagesMax = attacker.fight(fightOrder(i), attacker.attacks(j)) 
+										+ (if (attacker.attacks(j).enemyEffect.isDefined) attacker.attacks(j).enemyEffect.get.expectedDamages else 0)
+									defenderIDMax = i
+									attackIDMax = j
+							}
+						}
+					}
+				}
+				return (defenderIDMax, attackIDMax)
         }
-        return 0
+		return (-1, -1)
     }
 
     def getNewFighter(currentFighterID : Int) : (Int, Fighter) = {
