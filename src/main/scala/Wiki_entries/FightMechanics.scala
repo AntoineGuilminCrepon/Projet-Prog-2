@@ -27,6 +27,6 @@ object FightMechanics extends Page("Mécaniques de combat", new TextFlow()) {
 	content.getChildren.add(new Text("Un combat est déterminé par un attaquant, un défenseur et une attaque. " + 
 		"Par ailleurs, avant de déterminer les dégâts, il faut savoir si l'attaque touche sa cible ou non. " + 
 		"Pour cela, on tire un nombre aléatoire entre 0 et 10, et on ajoute ce nombre à la capacité correspondante au type de l'attaque en question." + 
-		"Si le résultat est supérieur à la difficulté de l'attaque, elle touche et on résout les dégats selon :\n force de l'attaquant * modificateur de dégâts de l'attaque / endurance du défenseur.\n") 
+		"Si le résultat est supérieur à la difficulté de l'attaque, elle touche et on résout les dégats.\n")
 		{setStyle("-fx-font-size: 16;")})
 }
