@@ -37,6 +37,7 @@ object FighterType {
 			case (Gelatinous, AttackType.MagicAttack) => 2.0
 			case (NonPhysical, AttackType.MeleeAttack) | (NonPhysical, AttackType.RangeAttack) => 0.4
 			case (NonPhysical, AttackType.MagicAttack) => 2.5
+			case _ => 1.0
 		}
 	}
 }

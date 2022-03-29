@@ -50,7 +50,7 @@ class Ghost(id : Int) extends Fighter(id : Int) {
 
     val faction = FactionAlignment.Monster
 	val fighterClass = FighterClass.MagicFighter
-	override val fighterType = Array(FighterType.NonPhysical)
+	override val fighterTypes = Array(FighterType.NonPhysical)
     var maxLifePoints = 7
     var lifePoints = maxLifePoints
     var meleeCapacity = 2
