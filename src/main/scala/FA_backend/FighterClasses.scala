@@ -1,5 +1,7 @@
 package fighterclasses
 
+import io.circe._
+
 import attack._
 
 /* Relation d'avantage : Melee -> Magic -> Range -> Melee */

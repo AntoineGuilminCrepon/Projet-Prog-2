@@ -1,6 +1,7 @@
 package fighter
 
 import java.io.InputStream
+import io.circe._
 
 import fighterclasses._
 import attack._
@@ -56,4 +57,5 @@ abstract class Fighter(id : Int) {
 					case _ => FighterClass.compare(attack.attackType, enemy.fighterClass) * this.strength * attack.damageModifier / enemy.toughness.toFloat
 				}).toFloat).toInt
     }
+	
 }

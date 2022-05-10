@@ -1,5 +1,5 @@
-# Projet-Prog-2
-Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachvili
+# Projet-Prog-
+Projet Programmation 2 en Scala par Pauline [] et Balthazar Patiachvili
 
 ## TODO
 
@@ -19,7 +19,7 @@ Projet Programmation 2 en Scala par Antoine Guilmin Crepon et Balthazar Patiachv
 
 - [x] Programmer les classes des combattants, amis (héros) et ennemis (monstres)
 - [x] Affecter à chaque type de combattant une image, des caractéristiques et des des attaques différentes (au moins 4)
-- [x] Programmer les attaques, les dégats, le tour par tour
+- [x] Programmer les attaques, les dégâts, le tour par tour
 - [x] Faire plus de héros et de monstres (avec leurs attaques)
 - [x] Ajouter les effets (enflammé, paralysé, ...)
 - [x] Générer automatiquement la carte du monde

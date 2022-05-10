@@ -28,7 +28,7 @@ object InitWorldMap {
 
 	def coordToPosition(coord : (Int, Int)) : (Int, Int) = {(((coord._1.toFloat + 0.5) * (1290.toFloat / 7.toFloat)).toInt, if (coord._2  == 0) 175 else 525)}
 
-	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter], Array[Fighter]) = {
+	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter]) = {
 		if (isAlreadyDefined) {
 			for (i <- 0 to 2) {
 				val previousHero = initHeroes(i)
@@ -36,7 +36,7 @@ object InitWorldMap {
 				initHeroes(i).lifePoints = 1.max(previousHero.lifePoints)
 			}
 
-			return (initNodeMap, initMap, initNodeGraph, initHeroes, Monsters.getThreeRandomMonsters(3))
+			return (initNodeMap, initMap, initNodeGraph, initHeroes)
 		} else {
 			var nodeMap = new NodeMap(length)
 
@@ -68,7 +68,7 @@ object InitWorldMap {
 			initNodeGraph = nodeGraph
 			initHeroes = Heroes.getThreeRandomUniqueHeroes(0)
 
-			return (nodeMap, map, nodeGraph, initHeroes, Monsters.getThreeRandomMonsters(3))
+			return (nodeMap, map, nodeGraph, initHeroes)
 		}
 
 	}

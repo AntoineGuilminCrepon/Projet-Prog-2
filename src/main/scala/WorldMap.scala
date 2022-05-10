@@ -14,9 +14,11 @@ import javafx.scene.transform._
 import javafx.geometry._
 
 import initfightarena._
+import monsters._
 import wiki._
 
 import initworldmap._
+import savesbackend._
 import nodemap._
 import nodeshapes._
 
@@ -29,7 +31,6 @@ class WorldMap extends Application with InitFightArena {
 	var map = initWM._2
 	var nodeGraph = initWM._3
 	var heroes = initWM._4
-	var monsters = initWM._5
 
 	override def start(stage : Stage) : Unit = {
         stage.setTitle("World map")
@@ -78,9 +79,11 @@ class WorldMap extends Application with InitFightArena {
                 } else if (e.getCode == KeyCode.DOWN) {
                     nodeMap.currentNode = (nodeMap.currentNode._1, 1)
 					direction = Direction.Down
-                } else if (e.getCode == KeyCode.SPACE || e.getCode == KeyCode.ENTER && nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.FightNode) {
-					restartFA(stage, heroes, monsters)
+                } else if ((e.getCode == KeyCode.SPACE || e.getCode == KeyCode.ENTER) && nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.FightNode) {
+					restartFA(stage, heroes, Monsters.getThreeRandomMonsters(3))
 					return
+				} else if (e.getCode == KeyCode.ESCAPE) {
+					Saves.makeSave(nodeMap, map, nodeGraph, heroes)
 				}
 
 				if (previousNode != nodeMap.currentNode && !nodeMap.isThereBound(previousNode, direction)) {
