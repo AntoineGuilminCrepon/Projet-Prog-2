@@ -11,7 +11,7 @@ import math.rint
 object FactionAlignment {
     sealed trait EnumVal
     case object Hero extends EnumVal {override def toString() : String = {"Héros"}}
-    case object Monster extends EnumVal {override def toString() : String = {"Monstres"}}
+    case object Monster extends EnumVal {override def toString() : String = {"Monstre"}}
 }
 
 abstract class Fighter(id : Int) {
