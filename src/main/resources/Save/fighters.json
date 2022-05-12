@@ -2,15 +2,15 @@
   {
     "fighterID" : 0,
     "faction" : "Héros",
-    "classIndice" : 1,
-    "maxLifePoints" : 8,
-    "lifePoints" : 8,
-    "meleeCapacity" : 2,
-    "rangeCapacity" : 3,
-    "magicCapacity" : 7,
-    "strength" : 3,
-    "toughness" : 3,
-    "initiative" : 3
+    "classIndice" : 2,
+    "maxLifePoints" : 12,
+    "lifePoints" : 12,
+    "meleeCapacity" : 3,
+    "rangeCapacity" : 6,
+    "magicCapacity" : 0,
+    "strength" : 5,
+    "toughness" : 4,
+    "initiative" : 9
   },
   {
     "fighterID" : 1,
@@ -28,14 +28,14 @@
   {
     "fighterID" : 2,
     "faction" : "Héros",
-    "classIndice" : 2,
-    "maxLifePoints" : 12,
-    "lifePoints" : 12,
-    "meleeCapacity" : 3,
-    "rangeCapacity" : 6,
-    "magicCapacity" : 0,
-    "strength" : 5,
-    "toughness" : 4,
-    "initiative" : 9
+    "classIndice" : 1,
+    "maxLifePoints" : 8,
+    "lifePoints" : 8,
+    "meleeCapacity" : 2,
+    "rangeCapacity" : 3,
+    "magicCapacity" : 7,
+    "strength" : 3,
+    "toughness" : 3,
+    "initiative" : 3
   }
 ]
