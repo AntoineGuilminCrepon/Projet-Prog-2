@@ -5,53 +5,55 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Fireblast extends Attack {
-    override def toString = "Déflagration"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 7
-    override val damageModifier = 4
+object FireBlast extends Attack("Déflagration", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 7, damageModifier = 4) {
+	var time : Int = 2
+	var prob : Double = 0.7
+	var damage : Int = 2
 
-    enemyEffect = Some(new Fire(2, 0.7, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Fire(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object ThorneThrow extends Attack {
-    override def toString = "Lancé d'épine"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                        
-    override val attackDifficulty = 5
-    override val damageModifier = 3
+object ThornThrow extends Attack("Lancé d'épine", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 5, damageModifier = 3) {
+	var time : Int = 2
+	var prob : Double = 0.7
+	var damage : Int = 2
 
-	enemyEffect = Some(new Bleed(2, 0.7, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Crushing extends Attack {
-    override def toString = "Écrasement"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 2
+object Crushing extends Attack("Écrasement", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 4, damageModifier = 2) {
+	var time : Int = 1
+	var prob : Double = 0.6
 
-    enemyEffect = Some(new Stun(1, 0.6))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object Howling extends Attack {
-    override def toString = "Hurlement"
-    override val targetAlignment = FactionAlignment.Hero                 /*Could later be relevant as a multi-target attack*/
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 1
-    override val damageModifier = 1
+object Howling extends Attack("Hurlement", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 1, damageModifier = 1) {
+	var time : Int = 3
+	var prob : Double = 0.9
 
-    enemyEffect = Some(new Stun(3, 0.9))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-class Dragon(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 4
+class Dragon(fighterID : Int) extends Fighter(fighterID, 4, FactionAlignment.Monster, FighterClass.RangeFighter) {
     override def toString = "Dragon"
 
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.RangeFighter
     var maxLifePoints = 25
     var lifePoints = maxLifePoints
     var meleeCapacity = 7
@@ -62,5 +64,5 @@ class Dragon(id : Int) extends Fighter(id : Int) {
 
     override val visual = getClass.getResourceAsStream("/Fighters/dragon.png")
 
-    val attacks = Array(Fireblast, ThorneThrow, Crushing, Howling)
+    val attacks = Array(FireBlast, ThornThrow, Crushing, Howling)
 }

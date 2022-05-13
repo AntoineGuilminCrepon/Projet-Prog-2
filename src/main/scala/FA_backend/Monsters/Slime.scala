@@ -5,52 +5,48 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object AcidShot extends Attack {
-    override def toString = "Jet d'acide"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 8
-    override val damageModifier = 2
+object AcidShot extends Attack("Jet d'acide", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 8, damageModifier = 2) {
+	var time : Int = 3
+	var prob : Double = 0.9
+	var damage : Int = 3
 
-    enemyEffect = Some(new Acid(3, 0.9, 3))
+	override def updateEffects() = {
+		enemyEffect = Some(new Acid(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Rush extends Attack {
-    override def toString = "Charge"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 5
-    override val damageModifier = 2
+object Rush extends Attack("Charge", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 5, damageModifier = 2)
+
+object Wrap extends Attack("Enveloppement", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 7, damageModifier = 3) {
+	var time : Int = 1
+	var prob : Double = 0.7
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object Wrap extends Attack {
-    override def toString = "Enveloppement"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 7
-    override val damageModifier = 3
+object SlimyPunch extends Attack("Coup gluant", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 6, damageModifier = 1) {
+	var time : Int = 2
+	var prob : Double = 0.65
+	var ccDebuf : Int = 4
+	var ctDebuf : Int = 4
 
-    enemyEffect = Some(new Stun(1, 0.7))
+	override def updateEffects() = {
+		enemyEffect = Some(new CapacitiesDebuf(time, prob, ccDebuf, ctDebuf))
+	}
+
+	updateEffects()
 }
 
-object SlimyPunch extends Attack {
-    override def toString = "Coup gluant"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 6
-    override val damageModifier = 1
-
-    enemyEffect = Some(new CapacitiesDebuf(2, 0.65, 4, 4))
-}
-
-class Slime(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 0
+class Slime(fighterID : Int) extends Fighter(fighterID, 0, FactionAlignment.Monster, FighterClass.MeleeFighter) {
     override def toString = "Slime"
-
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.MeleeFighter
 	override val fighterTypes = Array(FighterType.Gelatinous)
+
     var maxLifePoints = 10
     var lifePoints = maxLifePoints
     var meleeCapacity = 4

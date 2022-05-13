@@ -14,12 +14,11 @@ object FactionAlignment {
     case object Monster extends EnumVal {override def toString() : String = {"Monstre"}}
 }
 
-abstract class Fighter(id : Int) {
-    val fighterID = id
-    val faction : FactionAlignment.EnumVal
-	val fighterClass : FighterClass.EnumVal
+abstract class Fighter(val fighterID : Int, val classIndice : Int, val faction : FactionAlignment.EnumVal, val fighterClass : FighterClass.EnumVal) {
 	val fighterTypes : Array[FighterType.EnumVal] = Array()
-	val classIndice : Int
+
+	var level : Int = 1
+	var exp : Int = 0
 
     var maxLifePoints : Int
     var lifePoints : Int
@@ -57,5 +56,16 @@ abstract class Fighter(id : Int) {
 					case _ => FighterClass.compare(attack.attackType, enemy.fighterClass) * this.strength * attack.damageModifier / enemy.toughness.toFloat
 				}).toFloat).toInt
     }
-	
+
+	def levelUp() = {
+		this.level += 1
+		this.upgradeStats()
+		
+		if (level % 5 == 0) {
+			this.upgradeAttacks()
+		}
+	}
+
+	def upgradeStats() = {}
+	def upgradeAttacks() = {}
 }

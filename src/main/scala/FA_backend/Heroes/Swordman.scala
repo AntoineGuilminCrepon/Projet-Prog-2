@@ -5,49 +5,36 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Punch extends Attack {
-    override def toString = "Coup de poing"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 5
-    override val damageModifier = 2
+object Punch extends Attack("Coup de poing", FactionAlignment.Monster, AttackType.MeleeAttack, attackDifficulty = 5, damageModifier = 2)
+
+object Slash extends Attack("Trancher", FactionAlignment.Monster, AttackType.MeleeAttack, attackDifficulty = 9, damageModifier = 3) {
+	var time : Int = 3
+	var prob : Double = 0.5
+	var damage : Int = 3
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Slash extends Attack {
-    override def toString = "Trancher"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 9
-    override val damageModifier = 3
+object Thrust extends Attack("Coup d'estoc", FactionAlignment.Monster, AttackType.MeleeAttack, attackDifficulty = 10, damageModifier = 5)
 
-    enemyEffect = Some(new Bleed(3, 0.5, 3))
+object PommelHit extends Attack("Coup de pommeau", FactionAlignment.Monster, AttackType.MeleeAttack, attackDifficulty = 4, damageModifier = 1) {
+	var time : Int = 1
+	var prob : Double = 0.8
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object Thrust extends Attack {
-    override def toString = "Coup d'estoc"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 10
-    override val damageModifier = 5
-}
-
-object PommelHit extends Attack {
-    override def toString = "Coup de pommeau"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 1
-
-    enemyEffect = Some(new Stun(1, 0.8))
-}
-
-class Swordman(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 0
+class Swordman(fighterID : Int) extends Fighter(fighterID, 0, FactionAlignment.Hero, FighterClass.MeleeFighter) {
     override def toString = "Épéiste"
 
-    val faction = FactionAlignment.Hero
-	val fighterClass = FighterClass.MeleeFighter
     var maxLifePoints = 15
     var lifePoints = maxLifePoints
     var meleeCapacity = 7

@@ -5,51 +5,47 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Earthquake extends Attack {
-    override def toString = "Séisme"
-    override val targetAlignment = FactionAlignment.Hero                 /*Could later be relevant as a multi-target attack*/
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 7
-    override val damageModifier = 4
+object Earthquake extends Attack("Séisme", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 7, damageModifier = 4)
+
+object Blade extends Attack("Coup de lame", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 2, damageModifier = 3) {
+	var time : Int = 3
+	var prob : Double = 0.85
+	var damage : Int = 2
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Poison(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Blade extends Attack {
-    override def toString = "Coup de lame"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 2
-    override val damageModifier = 3
+object Bite extends Attack("Morsure", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 2, damageModifier = 2) {
+	var time : Int = 3
+	var prob : Double = 0.8
+	var damage : Int = 2
 
-    enemyEffect = Some(new Poison(3, 0.8, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Bite extends Attack {
-    override def toString = "Morsure"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 2
-    override val damageModifier = 2
+object WarpstoneThrow extends Attack("Jet de malpierre", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 1, damageModifier = 2) {
+	var time : Int = 3
+	var prob : Double = 0.8
+	var damage : Int = 1
 
-    enemyEffect = Some(new Bleed(3, 0.8, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Poison(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object WarpstonThrow extends Attack {
-    override def toString = "Jet de malpierre"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 1
-    override val damageModifier = 2
-
-    enemyEffect = Some(new Poison(3, 0.8, 2))
-}
-
-class Skaven(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 5
+class Skaven(fighterID : Int) extends Fighter(fighterID, 5, FactionAlignment.Monster, FighterClass.MeleeFighter) {
     override def toString = "Skaven"
 
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.MeleeFighter
     var maxLifePoints = 8
     var lifePoints = maxLifePoints
     var meleeCapacity = 3
@@ -60,5 +56,5 @@ class Skaven(id : Int) extends Fighter(id : Int) {
 
     override val visual = getClass.getResourceAsStream("/Fighters/skaven.png")
 
-    val attacks = Array(Earthquake, Blade, Bite, WarpstonThrow)
+    val attacks = Array(Earthquake, Blade, Bite, WarpstoneThrow)
 }

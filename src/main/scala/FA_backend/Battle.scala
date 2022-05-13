@@ -28,7 +28,7 @@ class Battle(messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemie
         var defender = fightOrder(defenderID)
         var attack = attacker.attacks(attackID)
         println(attacker + " -> " + defender)
-        messagesDispayer.newMessage(attacker + " " + attack.description() + " " + defender + " avec " + attack + ".")
+        messagesDispayer.newMessage(attacker + " attaque " + defender + " avec " + attack + ".")
         
         val capacityNeeded = attack.attackType match {
             case AttackType.MeleeAttack => attacker.meleeCapacity

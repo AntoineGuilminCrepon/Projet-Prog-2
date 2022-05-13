@@ -5,52 +5,46 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Fear extends Attack {
-    override def toString = "Peur"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 1
-    override val damageModifier = 1
+object Fear extends Attack("Peur", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 1, damageModifier = 1) {
+	var time : Int = 1
+	var prob : Double = 0.8
 
-    enemyEffect = Some(new Stun(1, 0.8))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object Slash extends Attack {
-    override def toString = "Trancher"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 8
-    override val damageModifier = 3
+object Slash extends Attack("Trancher", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 8, damageModifier = 3) {
+	var time : Int = 2
+	var prob : Double = 0.7
+	var damage : Int = 3
 
-    enemyEffect = Some(new Bleed(2, 0.7, 3))
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object ShieldHit extends Attack {
-    override def toString = "Coup de bouclier"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 10
-    override val damageModifier = 4
+object ShieldHit extends Attack("Coup de bouclier", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 10, damageModifier = 4) {
+	var time : Int = 2
+	var prob : Double = 0.8
 
-    enemyEffect = Some(new Stun(2, 0.8))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object BoneThrow extends Attack {
-    override def toString = "Jet d'os"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 2
-}
+object BoneThrow extends Attack("Jet d'os", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 4, damageModifier = 2)
 
-class Skeleton(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 2
+class Skeleton(fighterID : Int) extends Fighter(fighterID, 2, FactionAlignment.Monster, FighterClass.MeleeFighter) {
     override def toString = "Squelette"
-
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.MeleeFighter
 	override val fighterTypes = Array(FighterType.Undead)
+
     var maxLifePoints = 20
     var lifePoints = maxLifePoints
     var meleeCapacity = 5

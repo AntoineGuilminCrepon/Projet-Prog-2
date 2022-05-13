@@ -5,49 +5,37 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Rush extends Attack {
-    override def toString = "Charge"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 6
-    override val damageModifier = 2
+object Rush extends Attack("Charge", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 6, damageModifier = 2)
+
+object BackStab extends Attack("Poignarder dans le dos", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 11, damageModifier = 5) {
+	var time : Int = 3
+	var prob : Double = 0.7
+	var damage : Int = 2
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Backstab extends Attack {
-    override def toString = "Poignarder dans le dos"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 11
-    override val damageModifier = 5
+object PoisonousDagger extends Attack("Dague empoisonnée", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 4, damageModifier = 2) {
+	var time : Int = 3
+	var prob : Double = 0.6
+	var damage : Int = 3
 
-    enemyEffect = Some(new Bleed(3, 0.7, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Poison(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object PoisonousDagger extends Attack {
-    override def toString = "Dague empoisonnée"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 2
+object SurpriseAttack extends Attack("Attaque surprise", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 8, damageModifier = 3)
 
-    enemyEffect = Some(new Poison(3, 0.6, 3))
-}
-
-object SurpriseAttack extends Attack {
-    override def toString = "Attaque surprise"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 8
-    override val damageModifier = 3
-}
-
-class Goblin(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 1
+class Goblin(fighterID : Int) extends Fighter(fighterID, 1, FactionAlignment.Monster, FighterClass.MeleeFighter) {
     override def toString = "Gobelin"
 
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.MeleeFighter
     var maxLifePoints = 8
     var lifePoints = maxLifePoints
     var meleeCapacity = 4
@@ -58,5 +46,5 @@ class Goblin(id : Int) extends Fighter(id : Int) {
 
     override val visual = getClass.getResourceAsStream("/Fighters/goblin.png")
 
-    val attacks = Array(Rush, Backstab, PoisonousDagger, SurpriseAttack)
+    val attacks = Array(Rush, BackStab, PoisonousDagger, SurpriseAttack)
 }

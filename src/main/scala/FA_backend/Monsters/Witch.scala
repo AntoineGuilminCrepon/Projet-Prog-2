@@ -5,51 +5,46 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Doom extends Attack {
-    override def toString = "Malédiction"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 7
-    override val damageModifier = 0
+object Doom extends Attack("Malédiction", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 7, damageModifier = 0) {
+	var time : Int = 3
+	var prob : Double = 0.8
+	var damage : Int = 4
 
-    enemyEffect = Some(new Curse(3, 1, 4))                                                                                
+	override def updateEffects() = {
+		enemyEffect = Some(new Curse(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object PoisonPotion extends Attack {
-    override def toString = "Potion d'empoisonnement"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 1
-    override val damageModifier = 0
+object PoisonPotion extends Attack("Potion d'empoisonnement", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 1, damageModifier = 0) {
+	var time : Int = 4
+	var prob : Double = 0.6
+	var damage : Int = 2
 
-    enemyEffect = Some(new Poison(5, 1, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Poison(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object BroomHit extends Attack {
-    override def toString = "Coup de balai"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 2
+object BroomHit extends Attack("Coup de balai", FactionAlignment.Hero, AttackType.MeleeAttack, attackDifficulty = 4, damageModifier = 2) {
+	var time : Int = 1
+	var prob : Double = 0.5
 
-    enemyEffect = Some(new Stun(1, 0.5))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object NightShade extends Attack {
-    override def toString = "Ténèbres"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 7
-    override val damageModifier = 4
-}
+object NightShade extends Attack("Ténèbres", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 7, damageModifier = 4)
 
-class Witch(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 3
+class Witch(fighterID : Int) extends Fighter(fighterID, 3, FactionAlignment.Monster, FighterClass.MagicFighter) {
     override def toString = "Sorcière"
 
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.MagicFighter
     var maxLifePoints = 10
     var lifePoints = maxLifePoints
     var meleeCapacity = 2

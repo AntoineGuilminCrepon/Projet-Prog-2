@@ -5,51 +5,46 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object ArrowShower extends Attack {
-    override def toString = "Volée de flèches"
-    override val targetAlignment = FactionAlignment.Hero                 /*Could later be relevant as a multi-target attack*/
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                     
-    override val attackDifficulty = 3
-    override val damageModifier = 3
+object ArrowShower extends Attack("Volée de flèches", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 3, damageModifier = 3)
+
+object Mania extends Attack("Furie", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 7, damageModifier = 4) {
+	var time : Int = 2
+	var prob : Double = 0.3
+	var damage : Int = 2
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Mania extends Attack {
-    override def toString = "Furie"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack                      
-    override val attackDifficulty = 7
-    override val damageModifier = 4
+object PoisonousArrow extends Attack("Flèche empoisonnée", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 3, damageModifier = 2) {
+	var time : Int = 3
+	var prob : Double = 0.7
+	var damage : Int = 1
 
-    enemyEffect = Some(new Bleed(2, 0.3, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Poison(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object PoisonousArrow extends Attack {
-    override def toString = "Flèche empoisonnée"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                     
-    override val attackDifficulty = 3
-    override val damageModifier = 2
+object Bomb extends Attack("Bombe !", FactionAlignment.Hero, AttackType.RangeAttack, attackDifficulty = 5, damageModifier = 4) {
+	var time : Int = 1
+	var prob : Double = 0.4
 
-    enemyEffect = Some(new Poison(3, 0.7, 1))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object FireBomb extends Attack {
-    override def toString = "Bombe explosive"
-    override val targetAlignment = FactionAlignment.Hero                 /*Could later be relevant as a multi-target attack*/
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack                     
-    override val attackDifficulty = 5
-    override val damageModifier = 4
-
-    enemyEffect = Some(new Stun(1, 0.4))
-}
-
-class Bandit(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 7
+class Bandit(fighterID : Int) extends Fighter(fighterID, 7, FactionAlignment.Monster, FighterClass.RangeFighter) {
     override def toString = "Bandit"
 
-    val faction = FactionAlignment.Monster
-    val fighterClass = FighterClass.RangeFighter
 	var maxLifePoints = 10
 	var lifePoints = maxLifePoints
     var meleeCapacity = 4
@@ -60,5 +55,5 @@ class Bandit(id : Int) extends Fighter(id : Int) {
 
     override val visual = getClass.getResourceAsStream("/Fighters/bandit.png")
 
-    val attacks = Array(ArrowShower, Mania, PoisonousArrow, FireBomb)
+    val attacks = Array(ArrowShower, Mania, PoisonousArrow, Bomb)
 }

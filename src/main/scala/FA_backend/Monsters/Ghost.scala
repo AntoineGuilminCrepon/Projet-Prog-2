@@ -5,52 +5,48 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object Fear extends Attack {
-    override def toString = "Terreur"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 1
-    override val damageModifier = 0
+object Fear extends Attack("Terreur", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 1, damageModifier = 0) {
+	var time : Int = 3
+	var prob : Double = 1
 
-    enemyEffect = Some(new Stun(3, 1))
+	override def updateEffects() = {
+		enemyEffect = Some(new Stun(time, prob))
+	}
+
+	updateEffects()
 }
 
-object BloodyCurse extends Attack {
-    override def toString = "Saignée"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 3
-    override val damageModifier = 1
+object BloodyCurse extends Attack("Malédiction de sang", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 3, damageModifier = 1) {
+	var time : Int = 3
+	var prob : Double = 1
+	var damage : Int = 2
 
-    enemyEffect = Some(new Bleed(3, 1, 2))
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object Intimidation extends Attack {
-    override def toString = "Intimidation"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 3
-    override val damageModifier = 1
+object Intimidation extends Attack("Intimidation", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 3, damageModifier = 1) {
+	var time : Int = 3
+	var prob : Double = 1
+	var ccDebuf : Int = 3
+	var ctDebuf : Int = 3
 
-    enemyEffect = Some(new CapacitiesDebuf(3, 1, 3, 3))
+	override def updateEffects() = {
+		enemyEffect = Some(new CapacitiesDebuf(time, prob, ccDebuf, ctDebuf))
+	}
+
+	updateEffects()
 }
 
-object Tornado extends Attack {
-    override def toString = "Tornade"
-    override val targetAlignment = FactionAlignment.Hero
-    override val attackType : AttackType.EnumVal = AttackType.MagicAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 2
-}
+object Tornado extends Attack("Tornade", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 4, damageModifier = 2)
 
-class Ghost(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 6
+class Ghost(fighterID : Int) extends Fighter(fighterID, 6, FactionAlignment.Monster, FighterClass.MagicFighter) {
     override def toString = "Fantôme"
-
-    val faction = FactionAlignment.Monster
-	val fighterClass = FighterClass.MagicFighter
 	override val fighterTypes = Array(FighterType.NonPhysical)
+
     var maxLifePoints = 7
     var lifePoints = maxLifePoints
     var meleeCapacity = 2

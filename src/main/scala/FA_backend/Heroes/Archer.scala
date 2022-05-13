@@ -5,49 +5,37 @@ import attackeffect._
 import fighter._
 import fighterclasses._
 
-object LongBow extends Attack {
-    override def toString = "Arc long"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 7
-    override val damageModifier = 3
+object LongBow extends Attack("Arc long", FactionAlignment.Monster, AttackType.RangeAttack, attackDifficulty = 7, damageModifier = 3)
+
+object ShortBow extends Attack("Arc court", FactionAlignment.Monster, AttackType.RangeAttack, attackDifficulty = 4, damageModifier = 2)
+
+object FireArrow extends Attack("Flèche enflammée", FactionAlignment.Monster, AttackType.RangeAttack, attackDifficulty = 2, damageModifier = 1) {
+    var time : Int = 2
+	var prob : Double = 0.7
+	var damage : Int = 2
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Fire(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object ShortBow extends Attack {
-    override def toString = "Arc court"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 4
-    override val damageModifier = 2
+object Dagger extends Attack("Dague", FactionAlignment.Monster, AttackType.MeleeAttack, attackDifficulty = 3, damageModifier = 2) {
+var time : Int = 2
+	var prob : Double = 0.4
+	var damage : Int = 2
+
+	override def updateEffects() = {
+		enemyEffect = Some(new Bleed(time, prob, damage))
+	}
+
+	updateEffects()
 }
 
-object FireArrow extends Attack {
-    override def toString = "Flèche enflammée"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.RangeAttack
-    override val attackDifficulty = 2
-    override val damageModifier = 1
-
-    enemyEffect = Some(new Fire(2, 0.7, 2))
-}
-
-object Dagger extends Attack {
-    override def toString = "Dague"
-    override val targetAlignment = FactionAlignment.Monster
-    override val attackType : AttackType.EnumVal = AttackType.MeleeAttack
-    override val attackDifficulty = 3
-    override val damageModifier = 2
-
-    enemyEffect = Some(new Bleed(2, 0.4, 2))
-}
-
-class Archer(id : Int) extends Fighter(id : Int) {
-    override val fighterID = id
-	override val classIndice = 2
+class Archer(fighterID : Int) extends Fighter(fighterID, 2, FactionAlignment.Hero, FighterClass.RangeFighter) {
     override def toString = "Archer"
 
-    val faction = FactionAlignment.Hero
-	val fighterClass = FighterClass.RangeFighter
     var maxLifePoints = 12
     var lifePoints = maxLifePoints
     var meleeCapacity = 3
