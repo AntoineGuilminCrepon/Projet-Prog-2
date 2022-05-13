@@ -1,6 +1,7 @@
 *.class
 *.log
 *.pdf
+*.json
 .bsp/
 project/
 target/
