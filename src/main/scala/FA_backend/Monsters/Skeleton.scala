@@ -56,4 +56,37 @@ class Skeleton(fighterID : Int) extends Fighter(fighterID, 2, FactionAlignment.M
     override val visual = getClass.getResourceAsStream("/Fighters/skeleton.png")
 
     val attacks = Array(Fear, Slash, ShieldHit, BoneThrow)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 4
+		
+		if (this.level % 2 == 0) {
+			this.meleeCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.strength += 1
+			this.toughness += 1
+		}
+
+		if (this.level % 9 == 0) {
+			this.initiative += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		ShieldHit.prob = (ShieldHit.prob + 1.0) / 2.0
+		Slash.prob = (Slash.prob + 1.0) / 2.0
+		Fear.prob = 1
+
+		if (this.level % 10 == 0) {
+			ShieldHit.time += 1
+			Slash.time += 1
+			Fear.time += 1
+
+			Slash.damage += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

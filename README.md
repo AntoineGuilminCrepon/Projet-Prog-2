@@ -12,8 +12,8 @@ Projet Programmation 2 en Scala par Pauline [] et Balthazar Patiachvili
 - [x] Ajout choix recommencer ou non
 - [x] Ajouter la carte du monde
 - [x] Faire l'affichage du wiki
-- [ ] Créer la fenêtre d'affichage pour les magasins
-- [ ] Faire quelque chose de beau
+- [x] Faire un menu de sauvegarde
+- [ ] Afficher les niveaux, XP et montées de niveau
 
 ### Partie backend
 
@@ -27,6 +27,6 @@ Projet Programmation 2 en Scala par Pauline [] et Balthazar Patiachvili
 - [ ] Ajouter des objets durant les combats
 - [x] Ajouter des types aux monstres
 - [x] Améliorer l'intelligence des ennemis
-- [ ] Prendre en compte tous les effets d'attaque pour l'intelligence des ennemis
-- [ ] Faire des magasins dans la carte du monde
-- [ ] Faire encore plus de héros et de monstres
+- [x] Prendre en compte tous les effets d'attaque pour l'intelligence des ennemis
+- [ ] Programmer des niveaux, des montées de niveau, et attribuer de l'expérience à chaque ennemi
+- [ ] Ajouter la notion de progression sur la carte du monde

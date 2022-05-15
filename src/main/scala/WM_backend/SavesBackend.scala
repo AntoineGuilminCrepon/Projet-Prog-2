@@ -34,14 +34,8 @@ object Saves {
 			("fighterID", Json.fromInt(fighter.fighterID)),
 			("faction", fighter.faction.asJson),
 			("classIndice", Json.fromInt(fighter.classIndice)),
-			("maxLifePoints", Json.fromInt(fighter.maxLifePoints)),
-			("lifePoints", Json.fromInt(fighter.lifePoints)),
-			("meleeCapacity", Json.fromInt(fighter.meleeCapacity)),
-			("rangeCapacity", Json.fromInt(fighter.rangeCapacity)),
-			("magicCapacity", Json.fromInt(fighter.magicCapacity)),
-			("strength", Json.fromInt(fighter.strength)),
-			("toughness", Json.fromInt(fighter.toughness)),
-			("initiative", Json.fromInt(fighter.initiative))
+			("level", Json.fromInt(fighter.level)),
+			("exp", Json.fromInt(fighter.exp))
 		)
 	}
 
@@ -51,24 +45,12 @@ object Saves {
 				fighterID <- c.downField("fighterID").as[Int]
 				faction <- c.downField("faction").as[String]
 				classIndice <- c.downField("classIndice").as[Int]
-				maxLifePoints <- c.downField("maxLifePoints").as[Int]
-				lifePoints <- c.downField("lifePoints").as[Int]
-				meleeCapacity <- c.downField("meleeCapacity").as[Int]
-				rangeCapacity <- c.downField("rangeCapacity").as[Int]
-				magicCapacity <- c.downField("magicCapacity").as[Int]
-				strength <- c.downField("strength").as[Int]
-				toughness <- c.downField("toughness").as[Int]
-				initiative <- c.downField("initiative").as[Int]
+				level <- c.downField("level").as[Int]
+				exp <- c.downField("exp").as[Int]
 			} yield {
 				var hero = Heroes.indiceToClass(classIndice, fighterID)
-				hero.maxLifePoints = maxLifePoints
-				hero.lifePoints = lifePoints
-				hero.meleeCapacity = meleeCapacity
-				hero.rangeCapacity = rangeCapacity
-				hero.magicCapacity = magicCapacity
-				hero.strength = strength
-				hero.toughness = toughness
-				hero.initiative = initiative
+				hero.levelUp(level)
+				hero.exp = exp
 				hero
 			}
 		}

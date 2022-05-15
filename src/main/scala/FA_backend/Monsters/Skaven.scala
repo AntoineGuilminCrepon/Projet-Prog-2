@@ -50,6 +50,7 @@ class Skaven(fighterID : Int) extends Fighter(fighterID, 5, FactionAlignment.Mon
     var lifePoints = maxLifePoints
     var meleeCapacity = 3
     var rangeCapacity = 7
+	/* magicCapacity = 13 */
     var strength = 3
     var toughness = 4
     var initiative = 8
@@ -57,4 +58,37 @@ class Skaven(fighterID : Int) extends Fighter(fighterID, 5, FactionAlignment.Mon
     override val visual = getClass.getResourceAsStream("/Fighters/skaven.png")
 
     val attacks = Array(Earthquake, Blade, Bite, WarpstoneThrow)
+	
+	def upgradeStats() = {
+		this.maxLifePoints += 3
+		
+		if (this.level % 2 == 0) {
+			this.meleeCapacity += 1
+			this.rangeCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.initiative += 2
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		Blade.prob = (Blade.prob + 1.0) / 2.0
+		Bite.prob = (Bite.prob + 1.0) / 2.0
+		WarpstoneThrow.prob = (WarpstoneThrow.prob + 1.0) / 2.0
+
+		if (this.level % 10 == 0) {
+			Blade.time += 1
+			Bite.time += 1
+			WarpstoneThrow.time += 1
+
+			Blade.damage += 1
+			Bite.damage += 1
+			WarpstoneThrow.damage += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

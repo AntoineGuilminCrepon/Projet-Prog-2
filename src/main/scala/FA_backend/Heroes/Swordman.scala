@@ -46,4 +46,30 @@ class Swordman(fighterID : Int) extends Fighter(fighterID, 0, FactionAlignment.H
     override val visual = getClass.getResourceAsStream("/Fighters/swordman.png")
 
     val attacks = Array(Punch, Slash, Thrust, PommelHit)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 3
+		
+		if (this.level % 2 == 0) {
+			this.meleeCapacity += 1
+			this.initiative += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		Slash.prob = (Slash.prob + 1.0) / 2.0
+		Slash.damage += 1
+
+		PommelHit.prob = 1
+		if (this.level % 10 == 0) {
+			PommelHit.time += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

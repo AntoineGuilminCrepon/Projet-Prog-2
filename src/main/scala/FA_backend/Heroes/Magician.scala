@@ -60,4 +60,36 @@ class Magician(fighterID : Int) extends Fighter(fighterID, 1, FactionAlignment.H
     override val visual = getClass.getResourceAsStream("/Fighters/magician.png")
 
     val attacks = Array(Fireball, Thunder, Explosion, Heal)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 2
+		
+		if (this.level % 2 == 0) {
+			this.magicCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.initiative += 1
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		Fireball.prob = (Fireball.prob + 1.0) / 2.0
+		Thunder.prob = (Fireball.prob + 1.0) / 2.0
+
+		Explosion.fireProb = 1
+		if (this.level % 10 == 0) {
+			Fireball.time += 1
+			Thunder.time += 1
+			Explosion.fireTime += 1
+
+			Fireball.damage += 1
+			Explosion.fireDamage += 2
+		}
+
+		Heal.damageModifier -= 2
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

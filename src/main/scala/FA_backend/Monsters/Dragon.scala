@@ -65,4 +65,41 @@ class Dragon(fighterID : Int) extends Fighter(fighterID, 4, FactionAlignment.Mon
     override val visual = getClass.getResourceAsStream("/Fighters/dragon.png")
 
     val attacks = Array(FireBlast, ThornThrow, Crushing, Howling)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 5
+		
+		if (this.level % 2 == 0) {
+			this.meleeCapacity += 1
+			this.rangeCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.strength += 1
+			this.toughness += 1
+		}
+
+		if (this.level % 6 == 0) {
+			this.initiative += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		FireBlast.prob = (FireBlast.prob + 1.0) / 2.0
+		ThornThrow.prob = (ThornThrow.prob + 1.0) / 2.0
+		Crushing.prob = (Crushing.prob + 0.1).min(1.0)
+		Howling.prob = 1
+
+		if (this.level % 10 == 0) {
+			FireBlast.time += 1
+			ThornThrow.time += 1
+			Crushing.time += 1
+			Howling.time += 1
+
+			FireBlast.damage += 1
+			ThornThrow.damage += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

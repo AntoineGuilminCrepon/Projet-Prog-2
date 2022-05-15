@@ -57,15 +57,30 @@ abstract class Fighter(val fighterID : Int, val classIndice : Int, val faction :
 				}).toFloat).toInt
     }
 
+	def upgradeStats() : Unit
+	def upgradeAttacks() : Unit
+	
 	def levelUp() = {
 		this.level += 1
 		this.upgradeStats()
-		
+		this.lifePoints = this.maxLifePoints
+
 		if (level % 5 == 0) {
 			this.upgradeAttacks()
+			this.attacks.foreach(_.updateEffects())
 		}
 	}
 
-	def upgradeStats() = {}
-	def upgradeAttacks() = {}
+	def levelUp(newLevel : Int) : Unit = {
+		println(this.maxLifePoints)
+		while (this.level < newLevel) {
+			this.levelUp()
+		}
+		println(this.maxLifePoints)
+	}
+
+	def expRewarded() : Int = {
+		return ((this.strength + this.toughness + this.initiative) * this.level
+			+ this.attacks.foldLeft(0)(((acc, attack) => acc + attack.damageModifier + (if (attack.enemyEffect.isDefined) attack.enemyEffect.get.expectedDamages else 0))))
+	}
 }

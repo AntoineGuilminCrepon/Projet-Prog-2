@@ -64,14 +64,18 @@ class WorldMap extends Application with InitFightArena {
 		var scene = new Scene(root, 1920, 1080)
 		nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
 	
-		SaveButton.setOnAction(_ => Saves.makeSave(nodeMap, heroes))
+		SaveButton.setOnAction(_ => {
+			Saves.makeSave(nodeMap, heroes)
+			SaveLabel.setText("Sauvegarde effectuée")
+		})
+
 		LoadButton.setOnAction(_ => {
 			initSave = Saves.loadSave()
 			nodeMap = initSave._1
 			heroes = initSave._2
 			initGraph = InitWorldMap.nodeMapToGraph(length, nodeMap.map, nodeMap.bounds)
 
-			map = initGraph._1			
+			map = initGraph._1
 			root = new Group() {
 				var grid = new GridPane()
 				this.getChildren.addAll(grid, SavesPane)
@@ -103,10 +107,11 @@ class WorldMap extends Application with InitFightArena {
 			nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
 			stage.setScene(scene)
 			updateScene()
+
+			SaveLabel.setText("Sauvegarde chargée")
 		})
 	
         def updateScene() : Unit = {
-
             scene.setOnKeyPressed(e => {
 				nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.BLACK)
 				var previousNode = nodeMap.currentNode
@@ -145,6 +150,7 @@ class WorldMap extends Application with InitFightArena {
 						previousNode = nodeMap.currentNode
 					}
 					case KeyCode.ESCAPE => {
+						SaveLabel.setText("Menu de sauvegarde")
 						SavesPane.setVisible(!SavesPane.isVisible())
 					}
 					case _ => ()

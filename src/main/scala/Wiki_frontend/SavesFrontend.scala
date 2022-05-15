@@ -4,6 +4,12 @@ import javafx._
 import javafx.scene.control._
 import javafx.scene.layout._
 
+object SaveLabel extends Label("Menu de sauvegarde") {
+	setStyle("-fx-text-fill: red; -fx-font-size: 18")
+	setLayoutX(850)
+	setLayoutY(50)
+}
+
 object SaveButton extends Button("Sauvegarder") {
 	this.setPrefSize(300, 150)	
 	this.setLayoutX(450)
@@ -25,11 +31,7 @@ object SavesPane extends Pane {
 	this.setLayoutY(400)
 
 	this.getChildren().addAll(
-		new Label("Menu de sauvegarde") {
-			setStyle("-fx-text-fill: red; -fx-font-size: 18")
-			setLayoutX(850)
-			setLayoutY(50)
-		},
+		SaveLabel,
 		SaveButton,
 		LoadButton)
 }

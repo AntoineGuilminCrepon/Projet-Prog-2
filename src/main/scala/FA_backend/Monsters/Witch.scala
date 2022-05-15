@@ -48,7 +48,8 @@ class Witch(fighterID : Int) extends Fighter(fighterID, 3, FactionAlignment.Mons
     var maxLifePoints = 10
     var lifePoints = maxLifePoints
     var meleeCapacity = 2
-    var rangeCapacity = 7
+    var rangeCapacity = 3
+	magicCapacity = 7
     var strength = 3
     var toughness = 3
     var initiative = 3
@@ -56,4 +57,35 @@ class Witch(fighterID : Int) extends Fighter(fighterID, 3, FactionAlignment.Mons
     override val visual = getClass.getResourceAsStream("/Fighters/witch.png")
 
     val attacks = Array(Doom, PoisonPotion, BroomHit, NightShade)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 2
+		
+		if (this.level % 2 == 0) {
+			this.magicCapacity += 1
+		}
+
+		if (this.level % 7 == 0) {
+			this.initiative += 1
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		Doom.prob = (Doom.prob + 1.0) / 2.0
+		PoisonPotion.prob = (PoisonPotion.prob + 0.1).min(1.0)
+		BroomHit.prob = (BroomHit.prob + 0.1).min(1.0)
+
+		if (this.level % 10 == 0) {
+			Doom.time += 1
+			PoisonPotion.time += 1
+			BroomHit.time += 1
+
+			Doom.damage += 1
+			PoisonPotion.damage += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

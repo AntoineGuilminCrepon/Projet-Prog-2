@@ -9,7 +9,7 @@ object AttackType {
 	case object MagicAttack extends EnumVal {override def toString() = {"Magie"}}
 }
 
-class Attack(
+abstract class Attack(
 	val name : String,
 	val targetAlignment : fighter.FactionAlignment.EnumVal,
 	val attackType : AttackType.EnumVal,

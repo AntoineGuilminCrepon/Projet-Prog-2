@@ -58,4 +58,41 @@ class Slime(fighterID : Int) extends Fighter(fighterID, 0, FactionAlignment.Mons
     val visual = getClass.getResourceAsStream("/Fighters/slime.png")
 
     val attacks = Array(AcidShot, Rush, Wrap, SlimyPunch)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 3
+		
+		if (this.level % 3 == 0) {
+			this.meleeCapacity += 1
+			this.rangeCapacity += 1
+		}
+
+		if (this.level % 5 == 0) {
+			this.strength += 1
+			this.toughness += 1
+		}
+
+		if (this.level % 6 == 0) {
+			this.initiative += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		AcidShot.prob = 1
+		Wrap.prob = (Wrap.prob + 1.0) / 2.0
+		SlimyPunch.prob = (SlimyPunch.prob + 1.0) / 2.0
+
+		if (this.level % 10 == 0) {
+			AcidShot.time += 1
+			Wrap.time += 1
+			SlimyPunch.time += 1
+
+			AcidShot.damage += 1
+			SlimyPunch.ccDebuf += 3
+			SlimyPunch.ctDebuf += 3
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
+
 }

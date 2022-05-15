@@ -56,4 +56,36 @@ class Bandit(fighterID : Int) extends Fighter(fighterID, 7, FactionAlignment.Mon
     override val visual = getClass.getResourceAsStream("/Fighters/bandit.png")
 
     val attacks = Array(ArrowShower, Mania, PoisonousArrow, Bomb)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 2
+		
+		if (this.level % 2 == 0) {
+			this.rangeCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.initiative += 1
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		PoisonousArrow.prob = (PoisonousArrow.prob + 1.0) / 2.0
+		
+		Mania.prob = (Mania.prob + 0.1).min(1.0)
+		Bomb.prob = (Bomb.prob + 0.1).min(1.0)
+
+		if (this.level % 10 == 0) {
+			Bomb.time += 1
+			Mania.time += 1
+			PoisonousArrow.time += 1
+
+			PoisonousArrow.damage += 1
+			Mania.damage += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

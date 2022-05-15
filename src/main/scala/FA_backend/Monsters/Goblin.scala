@@ -47,4 +47,33 @@ class Goblin(fighterID : Int) extends Fighter(fighterID, 1, FactionAlignment.Mon
     override val visual = getClass.getResourceAsStream("/Fighters/goblin.png")
 
     val attacks = Array(Rush, BackStab, PoisonousDagger, SurpriseAttack)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 3
+		
+		if (this.level % 2 == 0) {
+			this.meleeCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.initiative += 1
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		BackStab.prob = (BackStab.prob + 1.0) / 2.0
+		PoisonousDagger.prob = (PoisonousDagger.prob + 0.1).min(1.0)
+
+		PoisonousDagger.time += 1
+		BackStab.damage += 1
+		if (this.level % 10 == 0) {
+			BackStab.time += 1
+
+			PoisonousDagger.damage += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

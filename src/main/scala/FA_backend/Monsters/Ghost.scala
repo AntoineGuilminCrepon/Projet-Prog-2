@@ -50,7 +50,8 @@ class Ghost(fighterID : Int) extends Fighter(fighterID, 6, FactionAlignment.Mons
     var maxLifePoints = 7
     var lifePoints = maxLifePoints
     var meleeCapacity = 2
-    var rangeCapacity = 6
+    var rangeCapacity = 3
+	magicCapacity = 7
     var strength = 3
     var toughness = 3
     var initiative = 3
@@ -58,4 +59,37 @@ class Ghost(fighterID : Int) extends Fighter(fighterID, 6, FactionAlignment.Mons
     override val visual = getClass.getResourceAsStream("/Fighters/ghost.png")
 
     val attacks = Array(Fear, BloodyCurse, Intimidation, Tornado)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 2
+		
+		if (this.level % 2 == 0) {
+			this.magicCapacity += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.strength += 1
+			this.toughness += 1
+		}
+		
+		if (this.level % 5 == 0) {
+			this.initiative += 1
+		}
+		
+	}
+
+	def upgradeAttacks() = {
+		Intimidation.ccDebuf += 5
+		Intimidation.ctDebuf += 5
+
+		if (this.level % 10 == 0) {
+			Fear.time += 1
+			BloodyCurse.time += 1
+			Intimidation.time += 1
+
+			BloodyCurse.damage += 2
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }

@@ -142,7 +142,14 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 						this.add(attackButtons(2), 0, 1)
 						this.add(attackButtons(3), 1, 1)
 					} else {
+						battle.fightOrder.filter(_.isHero()).foreach(
+							_.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
+							/* RAJOUTER L'AUGMENTATION DES NIVEAUX ICI */
+						)
+
+						/* CHANGER CE TRUC DÉGUEULASSE PAR UN TIMELINE */
 						for (i <- 0 to 3) {
+							
 							attackButtons(i).text = "Continuer"
 							attackButtons(i).onAction = _ => {
 								var worldMap = new WorldMap

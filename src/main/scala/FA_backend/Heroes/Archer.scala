@@ -47,4 +47,31 @@ class Archer(fighterID : Int) extends Fighter(fighterID, 2, FactionAlignment.Her
     override val visual = getClass.getResourceAsStream("/Fighters/archer.png")
 
     val attacks = Array(LongBow, ShortBow, FireArrow, Dagger)
+
+	def upgradeStats() = {
+		this.maxLifePoints += 3
+		
+		if (this.level % 2 == 0) {
+			this.rangeCapacity += 1
+			this.initiative += 1
+		}
+
+		if (this.level % 4 == 0) {
+			this.strength += 1
+			this.toughness += 1
+		}
+	}
+
+	def upgradeAttacks() = {
+		Dagger.prob = (Dagger.prob + 0.1).min(1.0)
+		Dagger.damage += 1
+
+		FireArrow.prob = (FireArrow.prob + 1.0) / 2
+		if (this.level % 10 == 0) {
+			Dagger.time += 1
+			FireArrow.time += 1
+		}
+
+		attacks.foreach(_.damageModifier += 1)
+	}
 }
