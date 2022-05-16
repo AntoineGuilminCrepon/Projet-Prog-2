@@ -116,6 +116,13 @@ class WorldMap extends Application with InitFightArena {
 
 			scene = new Scene(root, 1920, 1080)
 			nodeGraph = initGraph._2
+			
+			for (i <- 0 to length + 1) {
+				for (j <- 0 to 1) {
+					nodeGraph(i)(j).setColor(if (nodeMap.clearedMap(i)(j)) Color.GREEN else Color.BLACK)
+				}
+			}
+
 			nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
 			stage.setScene(scene)
 			updateScene()
