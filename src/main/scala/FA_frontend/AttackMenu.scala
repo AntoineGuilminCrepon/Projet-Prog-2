@@ -143,7 +143,7 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 						this.add(attackButtons(2), 0, 1)
 						this.add(attackButtons(3), 1, 1)
 					} else {
-						battle.fightOrder.filter(_.isHero() && _.isLiving()).foreach(hero => {
+						battle.fightOrder.filter(hero => hero.isHero() && hero.isLiving()).foreach(hero => {
 							hero.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
 							if (hero.checkLevelUp()) {
 								messagesDispayer.continueMessage(hero.toString() + " est désormais au niveau " + hero.level + " !")
@@ -154,6 +154,7 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 							attackButtons(i).text = "Continuer"
 							attackButtons(i).onAction = _ => {
 								var worldMap = new WorldMap
+								worldMap.clearStage()
 								worldMap.start(stage)
 								return
 							}

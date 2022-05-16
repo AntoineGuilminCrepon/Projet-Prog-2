@@ -39,9 +39,19 @@ class WorldMap extends Application with InitFightArena {
 	var initSave : (NodeMap, Array[Fighter]) = (new NodeMap(1), Array())
 	var initGraph : (Pane, Array[Array[Node with NodeShape]]) = (new Pane(), Array())
 
+	def clearStage() = {
+		nodeMap.clearedMap(nodeMap.currentNode._1)(nodeMap.currentNode._2) = true
+	}
 
 	override def start(stage : Stage) : Unit = {
         stage.setTitle("World map")
+
+		for (i <- 0 to length + 1) {
+			for (j <- 0 to 1) {
+				nodeGraph(i)(j).setColor(if (nodeMap.clearedMap(i)(j)) Color.GREEN else Color.BLACK)
+			}
+		}
+
 		var root = new Group() {
 			var grid = new GridPane()
 			this.getChildren.addAll(grid, SavesPane)
@@ -115,7 +125,7 @@ class WorldMap extends Application with InitFightArena {
 	
         def updateScene() : Unit = {
             scene.setOnKeyPressed(e => {
-				nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.BLACK)
+				nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(if (!nodeMap.clearedMap(nodeMap.currentNode._1)(nodeMap.currentNode._2)) Color.BLACK else Color.GREEN)
 				var previousNode = nodeMap.currentNode
 				var direction : Direction.EnumVal = Direction.Up
 				
@@ -160,9 +170,12 @@ class WorldMap extends Application with InitFightArena {
 					case _ => ()
 				}
 
-				if (previousNode != nodeMap.currentNode && !nodeMap.isThereBound(previousNode, direction)) {
-					nodeMap.currentNode = previousNode
+				if (previousNode != nodeMap.currentNode && 
+					(!nodeMap.isThereBound(previousNode, direction) 
+					|| (!nodeMap.clearedMap(previousNode._1)(previousNode._2) && !nodeMap.alreadyCrossedBound(previousNode, direction)))) {
+						nodeMap.currentNode = previousNode
 				} else if (previousNode != nodeMap.currentNode) {
+					nodeMap.crossBound(previousNode, direction)
 					e.getCode match {
 						case KeyCode.RIGHT | KeyCode.LEFT =>
 							map.getTransforms.clear()

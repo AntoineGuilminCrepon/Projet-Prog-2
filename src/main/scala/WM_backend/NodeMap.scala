@@ -5,9 +5,9 @@ import javafx.scene.paint._
 
 /* Classe énumérant les différents types de noeuds sur le monde extérieur */
 object NodeType {
-    sealed trait EnumVal { var isCleared = false }
+    sealed trait EnumVal
     case object FightNode extends EnumVal { override def toString() = {"X"} }
-    case object NeutralNode extends EnumVal { override def toString() = {"O"}; isCleared = true }
+    case object NeutralNode extends EnumVal { override def toString() = {"O"} }
     case object EmptyNode extends EnumVal { override def toString() = {" "} }
 }
 
@@ -97,8 +97,42 @@ class NodeMap(val length : Int) {
 
     this.generate()
 
+	var clearedMap : Array[Array[Boolean]] = Array.fill(length + 2)(Array(false, false))
+
+	for (i <- 0 to length + 1) {
+		for (j <- 0 to 1) {
+			if (map(i)(j) == NodeType.NeutralNode) {
+				clearedMap(i)(j) = true
+			}
+		}
+	}
+
 	def isThereBound(coord : (Int, Int), direction : Direction.EnumVal) : Boolean = {
 		return bounds(coord._1 + (if (coord._2 == 1) length + 2 else 0)).contains(direction)
+	}
+
+	var boundsAlreadyCrossed : List[((Int, Int), Direction.EnumVal)] = List()
+	def crossBound(coord : (Int, Int), direction : Direction.EnumVal) : Unit = {
+		if (!boundsAlreadyCrossed.contains(coord, direction)) {
+			boundsAlreadyCrossed = (coord, direction) :: boundsAlreadyCrossed
+		}
+
+
+		val tmp = 
+			(direction match {
+				case Direction.Up => ((coord._1, 0), Direction.Down)
+				case Direction.Down => ((coord._1, 1), Direction.Up)
+				case Direction.Right => ((coord._1 + 1, coord._2), Direction.Left)
+				case Direction.Left => ((coord._1 - 1, coord._2), Direction.Right)
+			})
+
+		if (!boundsAlreadyCrossed.contains(tmp)) {
+			boundsAlreadyCrossed = tmp :: boundsAlreadyCrossed
+		}
+	}
+
+	def alreadyCrossedBound(coord : (Int, Int), direction : Direction.EnumVal) : Boolean = {
+		return boundsAlreadyCrossed.contains((coord, direction))
 	}
 
     override def toString() : String = {

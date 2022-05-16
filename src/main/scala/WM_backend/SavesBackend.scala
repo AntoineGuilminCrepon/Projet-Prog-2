@@ -135,7 +135,9 @@ object Saves {
 			("length", Json.fromInt(nodeMap.length)),
 			("currentNode", Json.fromValues(List(Json.fromInt(nodeMap.currentNode._1), Json.fromInt(nodeMap.currentNode._2)))),
 			("internalMap", nodeMap.map.asJson),
-			("bounds", nodeMap.bounds.asJson)
+			("clearedMap", nodeMap.clearedMap.asJson),
+			("bounds", nodeMap.bounds.asJson),
+			("boundsAlreadyCrossed", nodeMap.boundsAlreadyCrossed.asJson),
 		)
 	}
 
@@ -145,12 +147,16 @@ object Saves {
 				length <- c.downField("length").as[Int]
 				currentNode <- c.downField("currentNode").as[List[Int]]
 				internalMap <- c.downField("internalMap").as[Array[Array[NodeType.EnumVal]]]
+				clearedMap <- c.downField("clearedMap").as[Array[Array[Boolean]]]
 				bounds <- c.downField("bounds").as[Array[List[Direction.EnumVal]]]
+				boundsAlreadyCrossed <- c.downField("boundsAlreadyCrossed").as[List[((Int, Int), Direction.EnumVal)]]
 			} yield {
 				var nodeMap = new NodeMap(length)
 				nodeMap.currentNode = (currentNode.head, currentNode.tail.head)
 				nodeMap.map = internalMap
+				nodeMap.clearedMap = clearedMap
 				nodeMap.bounds = bounds
+				nodeMap.boundsAlreadyCrossed = boundsAlreadyCrossed
 				nodeMap
 			}
 		}

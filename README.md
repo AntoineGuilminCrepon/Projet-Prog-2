@@ -29,4 +29,4 @@ Projet Programmation 2 en Scala par Pauline Bonnet et Balthazar Patiachvili
 - [x] Améliorer l'intelligence des ennemis
 - [x] Prendre en compte tous les effets d'attaque pour l'intelligence des ennemis
 - [x] Programmer des niveaux, des montées de niveau, et attribuer de l'expérience à chaque ennemi
-- [ ] Ajouter la notion de progression sur la carte du monde
+- [x] Ajouter la notion de progression sur la carte du monde
