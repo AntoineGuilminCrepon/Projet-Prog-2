@@ -12,6 +12,7 @@ import scalafx.geometry._
 import scalafx.scene._
 import scalafx.Includes._
 import scalafx.event.ActionEvent
+import scalafx.animation._
 
 import worldmap._
 import initworldmap._
@@ -142,14 +143,14 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 						this.add(attackButtons(2), 0, 1)
 						this.add(attackButtons(3), 1, 1)
 					} else {
-						battle.fightOrder.filter(_.isHero()).foreach(
-							_.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
-							/* RAJOUTER L'AUGMENTATION DES NIVEAUX ICI */
-						)
+						battle.fightOrder.filter(_.isHero() && _.isLiving()).foreach(hero => {
+							hero.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
+							if (hero.checkLevelUp()) {
+								messagesDispayer.continueMessage(hero.toString() + " est désormais au niveau " + hero.level + " !")
+							}
+						})
 
-						/* CHANGER CE TRUC DÉGUEULASSE PAR UN TIMELINE */
 						for (i <- 0 to 3) {
-							
 							attackButtons(i).text = "Continuer"
 							attackButtons(i).onAction = _ => {
 								var worldMap = new WorldMap

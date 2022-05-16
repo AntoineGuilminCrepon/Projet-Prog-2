@@ -24,6 +24,8 @@ import savesbackend._
 import nodemap._
 import nodeshapes._
 
+import java.util._
+
 /* Classe principale de cette partie */
 class WorldMap extends Application with InitFightArena {
     val length = 25
@@ -55,7 +57,7 @@ class WorldMap extends Application with InitFightArena {
 				setMinWidth(645)
 				setFocusTraversable(false)
 				getTransforms.add(new Translate() {setX(635)})
-				setOnAction(_ => new Wiki(stage))
+				setOnAction(_ => new Wiki(stage, heroes))
 			}
 
 			grid.add(wikiButton, 0, 1)
@@ -91,7 +93,7 @@ class WorldMap extends Application with InitFightArena {
 					setMinWidth(645)
 					setFocusTraversable(false)
 					getTransforms.add(new Translate() {setX(635)})
-					setOnAction(_ => new Wiki(stage))
+					setOnAction(_ => new Wiki(stage, heroes))
 				}
 
 				val translateX = new Translate() { setX(-1800) }
@@ -143,9 +145,11 @@ class WorldMap extends Application with InitFightArena {
 						return
 					}}
 					case KeyCode.S => {
+						/* Permet de sauvegarder directement */
 						SaveButton.fire()
 					} 
 					case KeyCode.L => {
+						/* Permet de charger la sauvegarde directement */
 						LoadButton.fire()
 						previousNode = nodeMap.currentNode
 					}

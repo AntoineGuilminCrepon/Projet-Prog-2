@@ -14,6 +14,8 @@ import javafx.scene.input._
 import javafx.scene.transform._
 import javafx.geometry._
 
+import fighter._
+
 import worldmap._
 import buttons._
 import menus._
@@ -25,13 +27,13 @@ import fightmechanics._
 import attackeffectsentries._
 
 /* Classe principale du Wiki du jeu */
-class Wiki(var stage : Stage) {
+class Wiki(var stage : Stage, heroes : Array[Fighter]) {
 	def chooseRandomPage() : Page = {
 		val random = new scala.util.Random
 		random.nextInt(7) match {
-			case 0 => SwordmanPage
-			case 1 => MagicianPage
-			case 2 => ArcherPage
+			case 0 => new SwordmanPage(heroes.filter(_.classIndice == 0)(0))
+			case 1 => new MagicianPage(heroes.filter(_.classIndice == 1)(0))
+			case 2 => new ArcherPage(heroes.filter(_.classIndice == 2)(0))
 			case 3 => SlimePage
 			case 4 => GoblinPage
 			case 5 => SkeletonPage
@@ -53,9 +55,9 @@ class Wiki(var stage : Stage) {
 	}
 
 	/* Préparation des différents boutons qui seront utilisés */
-	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", SwordmanPage)
-	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", MagicianPage)
-	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", ArcherPage)
+	val swordmanButton = new WikiButton(this, 460, 780, "ÉPÉISTE", "/Fighters/swordman.png", new SwordmanPage(heroes.filter(_.classIndice == 0)(0)))
+	val magicianButton = new WikiButton(this, 460, 745, "MAGICIEN", "/Fighters/magician.png", new MagicianPage(heroes.filter(_.classIndice == 1)(0)))
+	val archerButton = new WikiButton(this, 460, 780, "ARCHER", "/Fighters/archer.png", new ArcherPage(heroes.filter(_.classIndice == 2)(0)))
 	val heroesMenu = new MenuThreeChoices(swordmanButton, magicianButton, archerButton)
 
 	val slimeButton = new WikiButton(this, 340, 460, "SLIME", "/Fighters/slime.png", SlimePage)

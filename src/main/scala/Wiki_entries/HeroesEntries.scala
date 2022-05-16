@@ -4,10 +4,8 @@ import javafx.scene.text._
 
 import pages._
 
-import swordman._
-import magician._
-import archer._
+import fighter._
 
-object SwordmanPage extends FighterPage(new Swordman(0), "Je massacrerai tous les gobelins...")
-object MagicianPage extends FighterPage(new Magician(0), "Vous ne passerez pas !")
-object ArcherPage extends FighterPage(new Archer(0), "Et hop, sans les mains !")
+class SwordmanPage(hero : Fighter) extends FighterPage(hero, "Je massacrerai tous les gobelins...")
+class MagicianPage(hero : Fighter) extends FighterPage(hero, "Vous ne passerez pas !")
+class ArcherPage(hero : Fighter) extends FighterPage(hero, "Et hop, sans les mains !")

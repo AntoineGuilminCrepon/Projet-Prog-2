@@ -56,6 +56,8 @@ class FighterPage(fighter : Fighter, quote : String) extends Page(fighter.toStri
 	)
 
 	fullText.getChildren.addAll(new BulletList(Array(
+		"Niveau : " + fighter.level,
+		"Expérience : " + fighter.exp,
 		"Points de vie : " + fighter.maxLifePoints,
 		"Capacité de combat : " + fighter.meleeCapacity,
 		"Capacité de tir : " + fighter.rangeCapacity,
@@ -72,7 +74,7 @@ class FighterPage(fighter : Fighter, quote : String) extends Page(fighter.toStri
 				"Cible : " + fighter.attacks(i).targetAlignment,
 				"Type d'attaque : " + fighter.attacks(i).attackType,
 				"Difficulté : " + fighter.attacks(i).attackDifficulty,
-				"Modifieur de dégats : " + fighter.attacks(i).damageModifier
+				"Modificateur de " + (if (fighter.attacks(i).damageModifier >= 0) "dégâts" else "soins")  + " : " + fighter.attacks(i).damageModifier.abs
 			), 1),
 			new Text((if (fighter.attacks(i).enemyEffect.isEmpty) "" 
 				else ("\t• " + (fighter.attacks(i).enemyEffect.get.probability * 100) + "% d'infliger " + fighter.attacks(i).enemyEffect.get.toString() + " à l'ennemi pendant " + fighter.attacks(i).enemyEffect.get.timer + " tour(s)\n")) +

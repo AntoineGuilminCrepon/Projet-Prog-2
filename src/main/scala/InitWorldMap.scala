@@ -61,6 +61,8 @@ object InitWorldMap {
 			for (i <- 0 to 2) {
 				val previousHero = initHeroes(i)
 				initHeroes(i) = Heroes.indiceToClass(previousHero.classIndice, i)
+				initHeroes(i).levelUp(previousHero.level)
+				initHeroes(i).exp = previousHero.exp
 				initHeroes(i).lifePoints = 1.max(previousHero.lifePoints)
 			}
 

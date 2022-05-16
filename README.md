@@ -1,5 +1,5 @@
-# Projet-Prog-
-Projet Programmation 2 en Scala par Pauline [] et Balthazar Patiachvili
+# Projet programmation 2
+Projet Programmation 2 en Scala par Pauline Bonnet et Balthazar Patiachvili
 
 ## TODO
 
@@ -13,7 +13,7 @@ Projet Programmation 2 en Scala par Pauline [] et Balthazar Patiachvili
 - [x] Ajouter la carte du monde
 - [x] Faire l'affichage du wiki
 - [x] Faire un menu de sauvegarde
-- [ ] Afficher les niveaux, XP et montées de niveau
+- [x] Afficher les niveaux, XP et montées de niveau
 
 ### Partie backend
 
@@ -28,5 +28,5 @@ Projet Programmation 2 en Scala par Pauline [] et Balthazar Patiachvili
 - [x] Ajouter des types aux monstres
 - [x] Améliorer l'intelligence des ennemis
 - [x] Prendre en compte tous les effets d'attaque pour l'intelligence des ennemis
-- [ ] Programmer des niveaux, des montées de niveau, et attribuer de l'expérience à chaque ennemi
+- [x] Programmer des niveaux, des montées de niveau, et attribuer de l'expérience à chaque ennemi
 - [ ] Ajouter la notion de progression sur la carte du monde

@@ -49,7 +49,7 @@ abstract class Fighter(val fighterID : Int, val classIndice : Int, val faction :
         }
     }
 
-    /* Renvoie le nombre de dégats infligés par l'attaque */
+    /* Renvoie le nombre de dégâts infligés par l'attaque */
     def fight(enemy : Fighter, attack : Attack) : Int = {
         return (enemy.fighterTypes.foldLeft(1.0)(_ * FighterType.checkTypeResistance(_, attack.attackType)) * (attack.attackType match {
 					case AttackType.MagicAttack => attack.damageModifier * attack.damageModifier / enemy.toughness.toFloat
@@ -60,6 +60,7 @@ abstract class Fighter(val fighterID : Int, val classIndice : Int, val faction :
 	def upgradeStats() : Unit
 	def upgradeAttacks() : Unit
 	
+	/* Augmente d'un niveau */
 	def levelUp() = {
 		this.level += 1
 		this.upgradeStats()
@@ -71,16 +72,30 @@ abstract class Fighter(val fighterID : Int, val classIndice : Int, val faction :
 		}
 	}
 
+	/* Augmente d'autant de niveaux que nécessaire pour arriver à newLevel */
 	def levelUp(newLevel : Int) : Unit = {
-		println(this.maxLifePoints)
 		while (this.level < newLevel) {
 			this.levelUp()
 		}
-		println(this.maxLifePoints)
 	}
 
+	/* Défini la quantité d'XP donnée à sa mort (utile pour les monstres) */
 	def expRewarded() : Int = {
 		return ((this.strength + this.toughness + this.initiative) * this.level
 			+ this.attacks.foldLeft(0)(((acc, attack) => acc + attack.damageModifier + (if (attack.enemyEffect.isDefined) attack.enemyEffect.get.expectedDamages else 0))))
+	}
+
+	/* Renvoie vrai si le combattant a augmenté de niveau */
+	def checkLevelUp() : Boolean = {
+		val log9 = (x : Double) => math.log10(x) / math.log10(9.0)
+		val expNeeded = (x : Int) => 45 * x * (log9(x + 8) * log9(x + 8)).toInt
+		val previousLevel = this.level
+
+		while (this.exp >= expNeeded(this.level)) {
+			this.exp -= expNeeded(this.level)
+			this.levelUp()
+		}
+
+		return this.level != previousLevel
 	}
 }
