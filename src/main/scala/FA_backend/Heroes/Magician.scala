@@ -43,7 +43,7 @@ object Explosion extends Attack("Explosion !", FactionAlignment.Monster, AttackT
 
 }
 
-object Heal extends Attack("Soin", FactionAlignment.Monster, AttackType.MagicAttack, attackDifficulty = 4, damageModifier = -9)
+object Heal extends Attack("Soin", FactionAlignment.Hero, AttackType.MagicAttack, attackDifficulty = 4, damageModifier = -9)
 
 class Magician(fighterID : Int) extends Fighter(fighterID, 1, FactionAlignment.Hero, FighterClass.MagicFighter) {
     override def toString = "Magicien"

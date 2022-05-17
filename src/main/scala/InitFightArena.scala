@@ -21,10 +21,12 @@ import items._
 trait InitFightArena {
     def restartFA(stage : Stage, allies : Array[Fighter], enemies : Array[Fighter], inventory : (Int, List[Item])) = {
         stage.setTitle("Fight Arena")
-        var messagesDispayer = new MessagesDisplay
-        var battle = new Battle(messagesDispayer, allies, enemies)
-        var arena = new Arena(battle, messagesDispayer, allies, enemies)
-        var attackMenu = new AttackMenu(stage, battle, arena, messagesDispayer, inventory)
+		var messagesDisplayer = new MessagesDisplay
+        var battle = new Battle(messagesDisplayer, allies, enemies)
+        var arena = new Arena(battle, messagesDisplayer, allies, enemies)
+        var attackMenu = new AttackMenu(stage, battle, arena, messagesDisplayer, None, inventory)
+		var itemsPane = new ItemsPane(attackMenu, inventory._2)
+		attackMenu.itemsPane = Some(itemsPane)
         var root = new Pane { this.getChildren.addAll(new GridPane {
                 var rowArena = new RowConstraints(640)
                 var rowMD = new RowConstraints(180)
@@ -34,9 +36,9 @@ trait InitFightArena {
 
                 this.setAlignment(Pos.CENTER)
                 this.add(arena, 1, 0)
-                this.add(messagesDispayer, 1, 1)
+                this.add(messagesDisplayer, 1, 1)
                 this.add(attackMenu, 1, 2)
-            }, ItemsPane) }
+            }, itemsPane) }
 
         var scene = new Scene(root, 1920, 1080)
         stage.setScene(scene)

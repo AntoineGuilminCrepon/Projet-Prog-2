@@ -11,7 +11,6 @@ import javafx.geometry._
 import javafx.scene.shape._
 import javafx.scene.input._
 import javafx.scene.transform._
-import javafx.geometry._
 
 import wiki._
 

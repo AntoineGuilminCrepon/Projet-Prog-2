@@ -25,15 +25,90 @@ import heroes._
 import monsters._
 import items._
 
-object ItemsPane extends javafx.scene.layout.Pane {
+/* Panneau central utilisé pour les objets */
+class ItemsPane(attackMenu : AttackMenu, var items : List[Item]) extends javafx.scene.layout.Pane {
+	/* Boutons correspondant aux objets */
+	class ItemButton(itemsPane : ItemsPane, item : Item) extends Button(item.toString(), new javafx.scene.image.ImageView(new javafx.scene.image.Image(item.imageURL, 300, 200, true, false)) { setPreserveRatio(true) } ) {
+		this.setFocusTraversable(false)
+		this.setStyle("-fx-text-fill: red; -fx-font-size: 14;")
+		this.setContentDisplay(ContentDisplay.TOP)
+		this.getTransforms.add(new javafx.scene.transform.Translate() { setY(35) })
+		
+		this.setOnAction(_ => {
+			/* Cette partie ressemble beaucoup aux attaques usuelles */
+			/* car les fonctionnements des objets et des attaques sont similaires */
+			val currentFighter = attackMenu.battle.fightOrder(attackMenu.battle.currentFighterID)
+			val chosenFighterPosition = attackMenu.arena.getAFighter()
+			val chosenFighter = attackMenu.battle.fightOrder(attackMenu.battle.positionToFightOrder(chosenFighterPosition))
+			if (chosenFighterPosition == -1) {
+				attackMenu.messagesDisplayer.newMessage("Choisissez une cible avant d'attaquer ou d'utiliser un objet !")
+			} else if (chosenFighter.faction != item.targetAlignment) {
+				attackMenu.messagesDisplayer.newMessage("Vous ne pouvez pas choisir ce combattant pour cette action !")
+			}
+
+			attackMenu.messagesDisplayer.newMessage(item.description(currentFighter, chosenFighter))
+			item.effect.effectBeginning(chosenFighter)
+			chosenFighter.effects = item.effect :: chosenFighter.effects
+			items = items.filter(_ != item)
+
+			attackMenu.applyEffectsAfterAttacking(currentFighter)
+			attackMenu.afterAttack()
+
+			itemsPane.setVisible(false)
+		})
+	}
+
+	this.setVisible(false)
 	this.setPrefSize(1920, 300)
+	this.setMinWidth(1920)
 	this.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px")
 	this.setLayoutX(0)
 	this.setLayoutY(400)
+
+	var grid = new javafx.scene.layout.GridPane() {
+		this.getColumnConstraints().addAll(new ColumnConstraints(60), new ColumnConstraints(250), new ColumnConstraints(100), new ColumnConstraints(300), new ColumnConstraints(100), new ColumnConstraints(300), new ColumnConstraints(100), new ColumnConstraints(300), new ColumnConstraints(100), new ColumnConstraints(250), new ColumnConstraints(60))
+		this.setAlignment(Pos.CENTER)
+	}
+
+	def updateItemsButtons(currentPage : Int) : Unit = {
+		grid.getChildren().clear()
+
+		var leftArrow =
+			new javafx.scene.control.Button("", new javafx.scene.image.ImageView(new javafx.scene.image.Image("left_arrow.png", 300, 200, true, false))) {
+				this.setPrefSize(300, 200)
+				this.setVisible(false)
+				this.getTransforms.add(new javafx.scene.transform.Translate() { setY(35) })
+				this.setOnAction(_ => updateItemsButtons(currentPage - 1))
+			}
+		grid.add(leftArrow, 1, 0)
+
+		var rightArrow = 
+			new javafx.scene.control.Button("", new javafx.scene.image.ImageView(new javafx.scene.image.Image("left_arrow.png", 300, 200, true, false)) { this.setRotate(180) }) {
+				this.setPrefSize(300, 200)
+				this.setVisible(false)
+				this.getTransforms.add(new javafx.scene.transform.Translate() { setY(35) })
+				this.setOnAction(_ => updateItemsButtons(currentPage + 1))
+			}
+		grid.add(rightArrow, 9, 0)
+
+		val itemsShown = items.slice(currentPage * 3, currentPage * 3 + 3).toArray
+		for (i <- 0 to itemsShown.length - 1) {
+			grid.add(new ItemButton(this, itemsShown(i)), 3 + 2 * i, 0)
+		}
+
+		if (currentPage > 0) {
+			leftArrow.setVisible(true)
+		}
+		if (items.length >= (currentPage + 1) * 3) {
+			rightArrow.setVisible(true)
+		}
+	}
+
+	this.getChildren().add(grid)
 }
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDisplayer : MessagesDisplay, inventory : (Int, List[Item])) extends GridPane {
+class AttackMenu(stage : Stage, var battle : Battle, var arena : Arena, var messagesDisplayer : MessagesDisplay, var itemsPane : Option[ItemsPane], inventory : (Int, List[Item])) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -51,9 +126,6 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDisplaye
 	var itemButton = new Button("Objets")
 	itemButton.setMinWidth(300)
 	itemButton.setMinHeight(150)
-	itemButton.onAction = _ => {
-		ItemsPane.setVisible(!ItemsPane.isVisible())
-	}
 
 	def endMenu(winner : FactionAlignment.EnumVal) : Unit = {
 		for (i <- 0 to 5) {
@@ -80,8 +152,9 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDisplaye
 			this.add(attackButtons(2), 0, 1)
 			this.add(attackButtons(3), 1, 1)
 		} else {
-			battle.fightOrder.filter(hero => hero.isHero() && hero.isLiving()).foreach(hero => {
-				hero.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
+			battle.fightOrder.filter(hero => hero.isHero()).foreach(hero => {
+				val gainedExp = battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
+				hero.exp += (if (hero.isLiving()) gainedExp else gainedExp / 2)
 				if (hero.checkLevelUp()) {
 					messagesDisplayer.continueMessage(hero.toString() + " est désormais au niveau " + hero.level + " !")
 				}
@@ -99,8 +172,52 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDisplaye
 		}
 	}
 
+	def afterAttack() = {
+		for (i <- 0 to 5) {
+			arena.updateLifePoints(i)
+		}
+			
+		var deadFighters = battle.deadFighters()
+		deadFighters.foreach(i => arena.killFighter(i))
+
+		var gettingNewFighter = battle.getNewFighter(battle.currentFighterID)
+		var newFighter = gettingNewFighter._2
+		battle.currentFighterID = gettingNewFighter._1
+
+		var winner = battle.checkVictory()
+		
+		if (!winner.isDefined) {
+			setFighterMenu(newFighter)
+		} else {
+			battle.endBattle(winner.get)
+			endMenu(winner.get)
+		}
+	}
+
+	def applyEffectsAfterAttacking(fighter : Fighter) = {
+		fighter.effects.foreach({effect =>
+			messagesDisplayer.continueMessage(if (effect.effectAfterAttack(fighter) != "") fighter.toString() + effect.effectAfterAttack(fighter) else "")
+			effect.timer -= 1
+			if (effect.timer <= 0) {
+				messagesDisplayer.continueMessage(if (effect.effectEnding(fighter) != "") fighter.toString() + effect.effectEnding(fighter) else "")
+			}
+		})
+
+		fighter.effects = fighter.effects.filter(
+			_.timer > 0
+		)
+	}
+
     def setFighterMenu(fighter : Fighter) : Unit = {
 		this.getChildren.clear()
+		
+		itemButton.onAction = _ => {
+			itemsPane.get.setVisible(!itemsPane.get.isVisible() && fighter.faction == FactionAlignment.Hero)
+			if (itemsPane.get.isVisible()) {
+				itemsPane.get.updateItemsButtons(0)
+			}
+		}
+
 		add(itemButton, 3, 0, 1, 2)
         messagesDisplayer.continueMessage("\nC'est au tour de " + fighter + " d'attaquer.")
 
@@ -133,57 +250,28 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDisplaye
             b.setMinHeight(h)
 
             b.onAction = _ => {
+				itemsPane.get.setVisible(false)
                 battle.fightOrder(battle.currentFighterID).faction match {
                     case FactionAlignment.Hero =>
-                        var choosenFighter = arena.getAFighter()
-                        if (choosenFighter == -1) {
+                        var chosenFighter = arena.getAFighter()
+                        if (chosenFighter == -1) {
                             messagesDisplayer.newMessage("Choisissez une cible avant d'attaquer ou d'utiliser un objet")
                             return
-                        } else if (battle.fightOrder(battle.positionToFightOrder(choosenFighter)).faction != battle.fightOrder(battle.currentFighterID).attacks(i).targetAlignment) {
+                        } else if (battle.fightOrder(battle.positionToFightOrder(chosenFighter)).faction != battle.fightOrder(battle.currentFighterID).attacks(i).targetAlignment) {
                             messagesDisplayer.newMessage("Vous ne pouvez pas cibler ce combattant pour cette action !")
                             return
                         }
 
-                        battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(choosenFighter), i)
+                        battle.launchAttack(battle.currentFighterID, battle.positionToFightOrder(chosenFighter), i)
                     case FactionAlignment.Monster =>
 						val definedAttack = battle.defineDefender(battle.currentFighterID)
                         battle.launchAttack(battle.currentFighterID, definedAttack._1, definedAttack._2)
                 }
                 
                 messagesDisplayer.continueMessage("")
-                fighter.effects.foreach{
-                    effect =>
-                        messagesDisplayer.continueMessage(if (effect.effectAfterAttack(fighter) != "") fighter.toString() + effect.effectAfterAttack(fighter) else "")
-                        effect.timer -= 1
-                        if (effect.timer <= 0) {
-                            messagesDisplayer.continueMessage(if (effect.effectEnding(fighter) != "") fighter.toString() + effect.effectEnding(fighter) else "")
-                        }
-                }
+                applyEffectsAfterAttacking(fighter)
 
-                fighter.effects = fighter.effects.filter(
-                    _.timer > 0
-                )
-
-                for (i <- 0 to 5) {
-                    arena.updateLifePoints(i)
-                }
-                    
-                var deadFighters = battle.deadFighters()
-                deadFighters.foreach(i => arena.killFighter(i))
-
-                var gettingNewFighter = battle.getNewFighter(battle.currentFighterID)
-                var newFighter = gettingNewFighter._2
-                battle.currentFighterID = gettingNewFighter._1
-
-                var winner = battle.checkVictory()
-                
-				
-                if (!winner.isDefined) {
-                    setFighterMenu(newFighter)
-                } else {
-                    battle.endBattle(winner.get)
-					endMenu(winner.get)
-                }
+				afterAttack()
             }
 
             add(b, i%2, i/2)

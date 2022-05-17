@@ -175,6 +175,7 @@ class WorldMap extends Application with InitFightArena {
 						SaveLabel.setText("Menu de sauvegarde")
 						SavesPane.setVisible(!SavesPane.isVisible())
 					}
+					case KeyCode.Q => stage.close()
 					case _ => ()
 				}
 

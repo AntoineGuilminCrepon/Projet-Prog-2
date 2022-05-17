@@ -35,7 +35,7 @@ class FighterDescription(fighter : Fighter) extends Label {
 }
 
 /* Partie correspondant aux visuels des combattants */
-class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane with ChoosenFighter {
+class Arena(battle : Battle, messagesDisplayer : MessagesDisplay, allies : Array[Fighter], enemies : Array[Fighter]) extends GridPane with ChoosenFighter {
 
     /*Contrôle de la taille et position*/
     val w = 430
@@ -62,8 +62,8 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
                     battle.fightOrder(battle.currentFighterID).faction match {
                         case FactionAlignment.Hero =>
                             choosenFighter = 2 * i
-                            messagesDispayer.newMessage("Vous allez attaquer " + battle.fightOrder(battle.positionToFightOrder(2 * i)))
-                            messagesDispayer.continueMessage("Choisissez maintenant une attaque.")
+                            messagesDisplayer.newMessage("Vous allez attaquer " + battle.fightOrder(battle.positionToFightOrder(2 * i)))
+                            messagesDisplayer.continueMessage("Choisissez maintenant une attaque.")
                         
                         case FactionAlignment.Monster => 
                     }
@@ -85,8 +85,8 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
                     battle.fightOrder(battle.currentFighterID).faction match {
                         case FactionAlignment.Hero =>
                             choosenFighter = 2 * i + 1
-                            messagesDispayer.newMessage("Vous allez attaquer " + battle.fightOrder(battle.positionToFightOrder(2 * i + 1)))
-                            messagesDispayer.continueMessage("Choisissez maintenant une attaque.")
+                            messagesDisplayer.newMessage("Vous allez attaquer " + battle.fightOrder(battle.positionToFightOrder(2 * i + 1)))
+                            messagesDisplayer.continueMessage("Choisissez maintenant une attaque.")
                         
                         case FactionAlignment.Monster => 
                     }
