@@ -35,6 +35,7 @@ class WorldMap extends Application with InitFightArena {
 	var map = initWM._2
 	var nodeGraph = initWM._3
 	var heroes = initWM._4
+	var inventory = initWM._5
 
 	var initSave : (NodeMap, Array[Fighter]) = (new NodeMap(1), Array())
 	var initGraph : (Pane, Array[Array[Node with NodeShape]]) = (new Pane(), Array())
@@ -158,7 +159,7 @@ class WorldMap extends Application with InitFightArena {
 					} 
 					case KeyCode.SPACE | KeyCode.ENTER => {
 						if (nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.FightNode) {
-						restartFA(stage, heroes, Monsters.getThreeRandomMonsters(3))
+						restartFA(stage, heroes, Monsters.getThreeRandomMonsters(3, heroes.foldLeft(0)(_ + _.level) / 3), inventory)
 						return
 					}}
 					case KeyCode.S => {

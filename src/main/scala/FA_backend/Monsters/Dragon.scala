@@ -51,7 +51,7 @@ object Howling extends Attack("Hurlement", FactionAlignment.Hero, AttackType.Mag
 	updateEffects()
 }
 
-class Dragon(fighterID : Int) extends Fighter(fighterID, 4, FactionAlignment.Monster, FighterClass.RangeFighter) {
+class Dragon(fighterID : Int) extends Fighter(fighterID, 7, FactionAlignment.Monster, FighterClass.RangeFighter) {
     override def toString = "Dragon"
 
     var maxLifePoints = 25

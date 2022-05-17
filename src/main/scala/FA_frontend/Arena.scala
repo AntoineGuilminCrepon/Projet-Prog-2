@@ -125,10 +125,3 @@ class Arena(battle : Battle, messagesDispayer : MessagesDisplay, allies : Array[
         this.fighterDescriptions(fighterID).updateLifePoints()
     }
 }
-
-/* 
-    On peut obtenir les enfants de Arena avec children(i), où i est :
-    2   4   6
-    1   3   5
-    et 0 est la grille visible.
-*/

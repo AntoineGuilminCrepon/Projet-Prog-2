@@ -13,7 +13,7 @@ import scalafx.event.ActionEvent
 
 /* Correspond à la partie centrale où le texte est affiché */
 class MessagesDisplay extends Label {
-    translateX = 1050 / 2
+    translateX = 700
 
     textAlignment = TextAlignment.Center
 

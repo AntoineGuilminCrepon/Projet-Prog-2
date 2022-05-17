@@ -42,7 +42,7 @@ object Bomb extends Attack("Bombe !", FactionAlignment.Hero, AttackType.RangeAtt
 	updateEffects()
 }
 
-class Bandit(fighterID : Int) extends Fighter(fighterID, 7, FactionAlignment.Monster, FighterClass.RangeFighter) {
+class Bandit(fighterID : Int) extends Fighter(fighterID, 4, FactionAlignment.Monster, FighterClass.RangeFighter) {
     override def toString = "Bandit"
 
 	var maxLifePoints = 10

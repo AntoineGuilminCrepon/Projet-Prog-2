@@ -15,6 +15,7 @@ import javafx.scene.transform._
 import fighter._
 import heroes._
 import monsters._
+import items._
 
 import nodemap._
 import nodeshapes._
@@ -25,6 +26,7 @@ object InitWorldMap {
 	var initMap : Pane = new Pane()
 	var initNodeGraph : Array[Array[Node with NodeShape]] = Array()
 	var initHeroes : Array[Fighter] = Array()
+	var initInventory : (Int, List[Item]) = (0, List())
 
 	def coordToPosition(coord : (Int, Int)) : (Int, Int) = {(((coord._1.toFloat + 0.5) * (1290.toFloat / 7.toFloat)).toInt, if (coord._2  == 0) 175 else 525)}
 
@@ -56,7 +58,7 @@ object InitWorldMap {
 		return (map, nodeGraph)
 	}
 
-	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter]) = {
+	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter], (Int, List[Item])) = {
 		if (isAlreadyDefined) {
 			for (i <- 0 to 2) {
 				val previousHero = initHeroes(i)
@@ -66,7 +68,7 @@ object InitWorldMap {
 				initHeroes(i).lifePoints = 1.max(previousHero.lifePoints)
 			}
 
-			return (initNodeMap, initMap, initNodeGraph, initHeroes)
+			return (initNodeMap, initMap, initNodeGraph, initHeroes, initInventory)
 		} else {
 			var nodeMap = new NodeMap(length)
 
@@ -77,8 +79,9 @@ object InitWorldMap {
 			initMap = map
 			initNodeGraph = nodeGraph
 			initHeroes = Heroes.getThreeRandomUniqueHeroes(0)
+			initInventory = (0, List(new HealPotion(15)))
 
-			return (nodeMap, map, nodeGraph, initHeroes)
+			return (nodeMap, map, nodeGraph, initHeroes, initInventory)
 		}
 
 	}

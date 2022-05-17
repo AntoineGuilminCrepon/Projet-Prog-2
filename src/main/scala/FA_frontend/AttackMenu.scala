@@ -23,39 +23,101 @@ import messagedisplay._
 import fighter._
 import heroes._
 import monsters._
+import items._
+
+object ItemsPane extends javafx.scene.layout.Pane {
+	this.setPrefSize(1920, 300)
+	this.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px")
+	this.setLayoutX(0)
+	this.setLayoutY(400)
+}
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer : MessagesDisplay) extends GridPane {
+class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDisplayer : MessagesDisplay, inventory : (Int, List[Item])) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
     val h = 110
 
-    columnConstraints = List(new ColumnConstraints(w), new ColumnConstraints(w))
+    columnConstraints = List(new ColumnConstraints(w), new ColumnConstraints(w), new ColumnConstraints(100), new ColumnConstraints(300))
     rowConstraints = List(new RowConstraints(h), new RowConstraints(h))
 
     gridLinesVisible = true
 
     alignment = Pos.BottomCenter
 
+	var attackButtons : Array[Button] = Array()
+
+	var itemButton = new Button("Objets")
+	itemButton.setMinWidth(300)
+	itemButton.setMinHeight(150)
+	itemButton.onAction = _ => {
+		ItemsPane.setVisible(!ItemsPane.isVisible())
+	}
+
+	def endMenu(winner : FactionAlignment.EnumVal) : Unit = {
+		for (i <- 0 to 5) {
+			arena.disableFighter(i)
+		}
+
+		if (winner == FactionAlignment.Monster) {
+			this.getChildren.clear()
+			messagesDisplayer.continueMessage("Souhaitez vous recommencer l'aventure ?")
+			attackButtons(2).text = "OUI"
+			attackButtons(3).text = "NON"
+
+			attackButtons(2).onAction = _ => {
+				stage.close()
+				InitWorldMap.isAlreadyDefined = false
+				var worldMap = new WorldMap
+				worldMap.start(stage)
+			}
+
+			attackButtons(3).onAction = _ => {
+				stage.close()
+			}
+
+			this.add(attackButtons(2), 0, 1)
+			this.add(attackButtons(3), 1, 1)
+		} else {
+			battle.fightOrder.filter(hero => hero.isHero() && hero.isLiving()).foreach(hero => {
+				hero.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
+				if (hero.checkLevelUp()) {
+					messagesDisplayer.continueMessage(hero.toString() + " est désormais au niveau " + hero.level + " !")
+				}
+			})
+
+			for (i <- 0 to 3) {
+				attackButtons(i).text = "Continuer"
+				attackButtons(i).onAction = _ => {
+					var worldMap = new WorldMap
+					worldMap.clearStage()
+					worldMap.start(stage)
+					return
+				}
+			}
+		}
+	}
+
     def setFighterMenu(fighter : Fighter) : Unit = {
 		this.getChildren.clear()
-        messagesDispayer.continueMessage("\nC'est au tour de " + fighter + " d'attaquer.")
+		add(itemButton, 3, 0, 1, 2)
+        messagesDisplayer.continueMessage("\nC'est au tour de " + fighter + " d'attaquer.")
 
         fighter.effects.foreach{
             effect =>
-                messagesDispayer.continueMessage(effect.effectBeforeAttack(fighter))
+                messagesDisplayer.continueMessage(effect.effectBeforeAttack(fighter))
         }
 
         fighter.faction match {
             case FactionAlignment.Hero =>
-                messagesDispayer.continueMessage("Choisissez une cible puis une attaque.")
+                messagesDisplayer.continueMessage("Choisissez une cible puis une attaque.")
             
             case FactionAlignment.Monster =>
-                messagesDispayer.continueMessage("Appuyez sur \"Continuer\" pour qu'il attaque.")
+                messagesDisplayer.continueMessage("Appuyez sur \"Continuer\" pour qu'il attaque.")
         }
 
-        var attackButtons = new Array[Button](4)
+        attackButtons = new Array[Button](4)
 
         for (i <- 0 to 3) {
             var b = new Button(
@@ -75,10 +137,10 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                     case FactionAlignment.Hero =>
                         var choosenFighter = arena.getAFighter()
                         if (choosenFighter == -1) {
-                            messagesDispayer.newMessage("Choisissez une cible avant d'attaquer")
+                            messagesDisplayer.newMessage("Choisissez une cible avant d'attaquer ou d'utiliser un objet")
                             return
                         } else if (battle.fightOrder(battle.positionToFightOrder(choosenFighter)).faction != battle.fightOrder(battle.currentFighterID).attacks(i).targetAlignment) {
-                            messagesDispayer.newMessage("Vous ne pouvez pas cibler ce combattant pour cette action !")
+                            messagesDisplayer.newMessage("Vous ne pouvez pas cibler ce combattant pour cette action !")
                             return
                         }
 
@@ -88,13 +150,13 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
                         battle.launchAttack(battle.currentFighterID, definedAttack._1, definedAttack._2)
                 }
                 
-                messagesDispayer.continueMessage("")
+                messagesDisplayer.continueMessage("")
                 fighter.effects.foreach{
                     effect =>
-                        messagesDispayer.continueMessage(if (effect.effectAfterAttack(fighter) != "") fighter.toString() + effect.effectAfterAttack(fighter) else "")
+                        messagesDisplayer.continueMessage(if (effect.effectAfterAttack(fighter) != "") fighter.toString() + effect.effectAfterAttack(fighter) else "")
                         effect.timer -= 1
                         if (effect.timer <= 0) {
-                            messagesDispayer.continueMessage(if (effect.effectEnding(fighter) != "") fighter.toString() + effect.effectEnding(fighter) else "")
+                            messagesDisplayer.continueMessage(if (effect.effectEnding(fighter) != "") fighter.toString() + effect.effectEnding(fighter) else "")
                         }
                 }
 
@@ -115,52 +177,12 @@ class AttackMenu(stage : Stage, battle : Battle, arena : Arena, messagesDispayer
 
                 var winner = battle.checkVictory()
                 
+				
                 if (!winner.isDefined) {
                     setFighterMenu(newFighter)
                 } else {
                     battle.endBattle(winner.get)
-                    for (i <- 0 to 5) {
-                        arena.disableFighter(i)
-                    }
-
-					if (winner.get == FactionAlignment.Monster) {
-						this.getChildren.clear()
-						messagesDispayer.continueMessage("Souhaitez vous recommencer l'aventure ?")
-						attackButtons(2).text = "OUI"
-						attackButtons(3).text = "NON"
-
-						attackButtons(2).onAction = _ => {
-							stage.close()
-							InitWorldMap.isAlreadyDefined = false
-							var worldMap = new WorldMap
-							worldMap.start(stage)
-						}
-
-						attackButtons(3).onAction = _ => {
-							stage.close()
-						}
-
-						this.add(attackButtons(2), 0, 1)
-						this.add(attackButtons(3), 1, 1)
-					} else {
-						battle.fightOrder.filter(hero => hero.isHero() && hero.isLiving()).foreach(hero => {
-							hero.exp += battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.expRewarded())
-							if (hero.checkLevelUp()) {
-								messagesDispayer.continueMessage(hero.toString() + " est désormais au niveau " + hero.level + " !")
-							}
-						})
-
-						for (i <- 0 to 3) {
-							attackButtons(i).text = "Continuer"
-							attackButtons(i).onAction = _ => {
-								var worldMap = new WorldMap
-								worldMap.clearStage()
-								worldMap.start(stage)
-								return
-							}
-						}
-					}
-
+					endMenu(winner.get)
                 }
             }
 

@@ -22,20 +22,23 @@ object Monsters {
             case 1 => new Goblin(id)
             case 2 => new Skeleton(id)
             case 3 => new Witch(id)
-            case 4 => new Dragon(id)
+            case 4 => new Bandit(id)
             case 5 => new Skaven(id)
             case 6 => new Ghost(id)
-            case 7 => new Bandit(id)
+            case 7 => new Dragon(id)
         }
     }
 
-    def getRandomMonster(id : Int) : Fighter = {
+    def getRandomMonster(id : Int, level : Int) : Fighter = {
         val random = new scala.util.Random
-        return indiceToClass(random.nextInt(nbMonsterClasses), id)
+        val monster = indiceToClass(random.nextInt(nbMonsterClasses - 1), id)
+		monster.levelUp(level)
+		return monster
     }
 
-	def getThreeRandomMonsters(firstID : Int) : Array[Fighter] = {
-		return Array(getRandomMonster(firstID), getRandomMonster(firstID + 1), getRandomMonster(firstID + 2))
+	def getThreeRandomMonsters(firstID : Int, avgLvl : Int) : Array[Fighter] = {
+		val random = new scala.util.Random
+		return Array(getRandomMonster(firstID, (avgLvl - 2 + random.nextInt(2)).max(0)), getRandomMonster(firstID + 1, (avgLvl - 2 + random.nextInt(2)).max(0)), getRandomMonster(firstID + 2, (avgLvl - 2 + random.nextInt(2)).max(0)))
 	}
 
     def getThreeRandomUniqueMonsters(firstID : Int) : Array[Fighter] = {

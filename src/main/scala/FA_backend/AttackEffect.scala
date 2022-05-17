@@ -93,6 +93,14 @@ class Fire(timer : Int, probability : Double, damage : Int) extends AttackEffect
     }
 }
 
+class InstantHeal(prob : Double, heal : Int) extends AttackEffect(0, prob) {
+	override def toString() = { "Soin instantané" }
+	
+	override def effectBeginning(myself : Fighter) = {
+		myself.lifePoints = myself.maxLifePoints.min(myself.lifePoints + heal)
+	}
+}
+
 class Poison(timer : Int, probability : Double, damage : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Empoisonné"}
 	override val immuneTypes = Array(FighterType.NonPhysical)
