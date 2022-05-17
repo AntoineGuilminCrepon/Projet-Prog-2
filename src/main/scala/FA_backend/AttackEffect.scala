@@ -48,6 +48,23 @@ class Bleed(timer : Int, probability : Double, damage : Int) extends AttackEffec
     }
 }
 
+class Boost(timer : Int, probability : Double, strBoost : Double, tgnBoost : Double) extends AttackEffect(timer, probability) {
+	override def toString() : String = {"Renforcé"}
+
+    override def effectBeginning(myself : Fighter) = {
+        savedValues = List(myself.strength, myself.toughness)
+		myself.strength = ((1 + strBoost) * myself.strength).toInt
+		myself.toughness = ((1 + tgnBoost) * myself.toughness).toInt
+    }
+
+    override def effectEnding(myself : Fighter) : String = {
+        myself.strength = savedValues.last
+        myself.toughness = savedValues.init.last
+
+        return "Le renforcement de " + myself + " s'estompe."
+    }
+}
+
 class CapacitiesDebuf(timer : Int, probability : Double, ccDebuf : Int, ctDebuf : Int) extends AttackEffect(timer, probability) {
     override def toString() : String = {"Engourdi"}
 
@@ -121,8 +138,8 @@ class Stun(timer : Int, probability : Double) extends AttackEffect(timer, probab
     
     override def effectBeginning(myself : Fighter) : Unit = {
         savedValues = List(myself.meleeCapacity, myself.rangeCapacity)
-        myself.meleeCapacity = -10
-        myself.rangeCapacity = -10
+        myself.meleeCapacity = -1000
+        myself.rangeCapacity = -1000
     }
 
     override def effectAfterAttack(myself : Fighter) : String = {

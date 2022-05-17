@@ -14,6 +14,7 @@ Projet Programmation 2 en Scala par Pauline Bonnet et Balthazar Patiachvili
 - [x] Faire l'affichage du wiki
 - [x] Faire un menu de sauvegarde
 - [x] Afficher les niveaux, XP et montées de niveau
+- [ ] Ajouter des magasins sur la carte
 
 ### Partie backend
 
@@ -24,9 +25,9 @@ Projet Programmation 2 en Scala par Pauline Bonnet et Balthazar Patiachvili
 - [x] Ajouter les effets (enflammé, paralysé, ...)
 - [x] Générer automatiquement la carte du monde
 - [x] Faire un wiki fonctionnel
-- [ ] Ajouter des objets durant les combats
 - [x] Ajouter des types aux monstres
 - [x] Améliorer l'intelligence des ennemis
 - [x] Prendre en compte tous les effets d'attaque pour l'intelligence des ennemis
 - [x] Programmer des niveaux, des montées de niveau, et attribuer de l'expérience à chaque ennemi
 - [x] Ajouter la notion de progression sur la carte du monde
+- [x] Ajouter des objets durant les combats

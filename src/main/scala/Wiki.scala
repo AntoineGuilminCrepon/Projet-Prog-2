@@ -15,6 +15,7 @@ import javafx.scene.transform._
 import javafx.geometry._
 
 import fighter._
+import items._
 
 import worldmap._
 import buttons._
@@ -70,10 +71,21 @@ class Wiki(var stage : Stage, heroes : Array[Fighter]) {
 	val banditButton = new WikiButton(this, 345, 350, "BANDIT", "/Fighters/bandit.png", BanditPage)
 	val monsterMenu = new MenuEightChoices(slimeButton, goblinButton, skeletonButton, witchButton, dragonButton, skavenButton, ghostButton, banditButton)
 
+	val minorHealingPotionButton = new WikiButton(this, 340, 460, "POTION DE SOIN MINEURE", "/Items/minor_healing_potion.png", new ItemPage(new MinorHealingPotion))
+	val majorHealingPotionButton = new WikiButton(this, 340, 460, "POTION DE SOIN MAJEURE", "/Items/major_healing_potion.png", new ItemPage(new MajorHealingPotion))
+	val exaltedHealingPotionButton = new WikiButton(this, 340, 460, "POTION DE SOIN EXALTÉE", "/Items/exalted_healing_potion.png", new ItemPage(new ExaltedHealingPotion))
+	val curseScrollButton = new WikiButton(this, 340, 460, "PARCHEMIN DE MALÉDICTION", "/Items/curse_scroll.png", new ItemPage(new CurseScroll))
+	val fireBombButton = new WikiButton(this, 340, 400, "BOMBE INCENDIAIRE", "/Items/fire_bomb.png", new ItemPage(new FireBomb))
+	val poisonDartButton = new WikiButton(this, 340, 350, "DARD EMPOISONNÉ", "/Items/poison_dart.png", new ItemPage(new PoisonDart))
+	val strengthPotionButton = new WikiButton(this, 340, 350, "POTION DE FORCE", "/Items/strength_potion.png", new ItemPage(new StrengthPotion))
+	val toughnessPotionButton = new WikiButton(this, 340, 350, "POTION D'ENDURANCE", "/Items/toughness_potion.png", new ItemPage(new ToughnessPotion))
+	val itemsMenu = new MenuEightChoices(minorHealingPotionButton, majorHealingPotionButton, exaltedHealingPotionButton, curseScrollButton, fireBombButton, poisonDartButton, strengthPotionButton, toughnessPotionButton)
+
 	val fightMechanicsButton = new WikiButton(this, 460, 780, "MÉCANIQUES DE COMBAT", "/Items/crossed swords.png", FightMechanics)
 	val attackEffectsButton = new WikiButton(this, 460, 780, "EFFETS D'ATTAQUES", "/Items/blood drop.png", AttackEffectPage)
+	val itemsButton = new WikiButton(this, 460, 780, "OBJETS", "/Items/major_healing_potion.png", itemsMenu)
 
-	val otherMenu = new MenuThreeChoices(fightMechanicsButton, attackEffectsButton, new Pane())
+	val otherMenu = new MenuThreeChoices(fightMechanicsButton, attackEffectsButton, itemsButton)
 
 	val heroesBarButton = new BarButton(this, "HÉROS", heroesMenu)
 	val monstersBarButton = new BarButton(this, "MONSTRES", monsterMenu)

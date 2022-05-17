@@ -46,7 +46,7 @@ class ItemsPane(attackMenu : AttackMenu, var items : List[Item]) extends javafx.
 				attackMenu.messagesDisplayer.newMessage("Vous ne pouvez pas choisir ce combattant pour cette action !")
 			}
 
-			attackMenu.messagesDisplayer.newMessage(item.description(currentFighter, chosenFighter))
+			attackMenu.messagesDisplayer.newMessage(item.use(currentFighter, chosenFighter))
 			item.effect.effectBeginning(chosenFighter)
 			chosenFighter.effects = item.effect :: chosenFighter.effects
 			items = items.filter(_ != item)
@@ -99,7 +99,7 @@ class ItemsPane(attackMenu : AttackMenu, var items : List[Item]) extends javafx.
 		if (currentPage > 0) {
 			leftArrow.setVisible(true)
 		}
-		if (items.length >= (currentPage + 1) * 3) {
+		if (items.length > (currentPage + 1) * 3) {
 			rightArrow.setVisible(true)
 		}
 	}

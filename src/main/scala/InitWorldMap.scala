@@ -79,7 +79,7 @@ object InitWorldMap {
 			initMap = map
 			initNodeGraph = nodeGraph
 			initHeroes = Heroes.getThreeRandomUniqueHeroes(0)
-			initInventory = (0, List(new HealPotion(15), new HealPotion(15), new HealPotion(15), new HealPotion(15), new HealPotion(15)))
+			initInventory = (0, List(new MinorHealingPotion, new MajorHealingPotion, new ExaltedHealingPotion, new FireBomb, new PoisonDart, new CurseScroll, new StrengthPotion, new ToughnessPotion))
 
 			return (nodeMap, map, nodeGraph, initHeroes, initInventory)
 		}

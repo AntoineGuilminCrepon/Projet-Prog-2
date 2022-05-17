@@ -16,6 +16,7 @@ import javafx.geometry._
 
 import fighter._
 import attack._
+import items._
 
 /* Classe utile pour créer rapidement des listes à puces */
 class BulletList(elements : Array[String], indentation : Int = 0) extends Text("") {
@@ -82,4 +83,14 @@ class FighterPage(fighter : Fighter, quote : String) extends Page(fighter.toStri
 				{setStyle("-fx-font-size: 14")}
 		)
 	}
+}
+
+class ItemPage(item : Item) extends Page(item.toString(), new TextFlow()) {
+	var fullText = new TextFlow()
+	this.add(fullText, 1, 3)
+	this.add(new Group(new ImageView(new Image(item.imageURL, 450, 510, true, false))), 2, 3)
+	fullText.getChildren.addAll(new BulletList(Array(
+		"Prix : " + item.price,
+		"Effet : " + item.description
+	)), new Text("\n"))
 }
