@@ -12,6 +12,7 @@ import nodemap._
 import fighter._
 import heroes._
 import monsters._
+import items._
 
 object Saves {
 	/* Encodage et décodage des héros */
@@ -162,7 +163,46 @@ object Saves {
 		}
 	}
 
-	def makeSave(nodeMap : NodeMap, heroes : Array[Fighter]) : Unit = {
+	implicit val itemEncoder : Encoder[Item] = new Encoder[Item] {
+		final def apply(item : Item) : Json = Json.fromString(item.toString)
+	}
+
+	implicit val itemDecoder : Decoder[Item] = new Decoder[Item] {
+		final def apply(c : HCursor) : Decoder.Result[Item] = {
+			c.as[String] match {
+				case Left(_) => throw new Exception("Impossible de lire les objets possédés")
+				case Right("Potion de soin mineure") => Right(new MinorHealingPotion)
+				case Right("Potion de soin majeure") => Right(new MajorHealingPotion)
+				case Right("Potion de soin exaltée") => Right(new ExaltedHealingPotion)
+				case Right("Bombe incendiaire") => Right(new FireBomb)
+				case Right("Dards empoisonnés") => Right(new PoisonDart)
+				case Right("Parchemin de malédiction") => Right(new CurseScroll)
+				case Right("Potion de force") => Right(new StrengthPotion)
+				case Right("Potion d'endurance") => Right(new ToughnessPotion)
+				case Right(x) => throw new Exception("Objet " + x + " inconnu")
+			}
+		}
+	}
+
+	implicit val inventoryEncoder : Encoder[Inventory] = new Encoder[Inventory] {
+		final def apply(inventory : Inventory) : Json = Json.obj(
+			("balance", Json.fromInt(inventory.balance)),
+			("items", inventory.items.asJson)
+		)
+	}
+
+	implicit val inventoryDecoder : Decoder[Inventory] = new Decoder[Inventory] {
+		final def apply(c : HCursor) : Decoder.Result[Inventory] = {
+			for {
+				balance <- c.downField("balance").as[Int]
+				items <- c.downField("items").as[List[Item]]
+			} yield {
+				Inventory(balance, items)
+			}
+		}
+	}
+
+	def makeSave(nodeMap : NodeMap, heroes : Array[Fighter], inventory : Inventory) : Unit = {
 		val fighterWriter = new PrintWriter(new File("src/main/resources/Save/fighters.json"))
 		fighterWriter.write(heroes.asJson.toString)
 		fighterWriter.close()
@@ -170,6 +210,10 @@ object Saves {
 		val mapWriter = new PrintWriter(new File("src/main/resources/Save/map.json"))
 		mapWriter.write(nodeMap.asJson.toString)
 		mapWriter.close()
+
+		val inventoryWriter = new PrintWriter(new File("src/main/resources/Save/inventory.json"))
+		inventoryWriter.write(inventory.asJson.toString)
+		inventoryWriter.close()
 	}
 		
 	def loadSave() : (NodeMap, Array[Fighter]) = {

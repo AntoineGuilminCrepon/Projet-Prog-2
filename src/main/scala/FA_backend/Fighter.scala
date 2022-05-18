@@ -85,6 +85,10 @@ abstract class Fighter(val fighterID : Int, val classIndice : Int, val faction :
 			+ this.attacks.foldLeft(0)(((acc, attack) => acc + attack.damageModifier + (if (attack.enemyEffect.isDefined) attack.enemyEffect.get.expectedDamages else 0))))
 	}
 
+	def moneyRewarded() : Int = {
+		return this.level * (this.strength + this.toughness)
+	}
+
 	/* Renvoie vrai si le combattant a augmenté de niveau */
 	def checkLevelUp() : Boolean = {
 		val log9 = (x : Double) => math.log10(x) / math.log10(9.0)

@@ -19,13 +19,13 @@ import items._
 
 /* Permet d'appeler la fonction restart pour démarrer un combat à partir d'un stage, et d'alliés et d'ennemis */
 trait InitFightArena {
-    def restartFA(stage : Stage, allies : Array[Fighter], enemies : Array[Fighter], inventory : (Int, List[Item])) = {
+    def restartFA(stage : Stage, allies : Array[Fighter], enemies : Array[Fighter], inventory : Inventory) = {
         stage.setTitle("Fight Arena")
 		var messagesDisplayer = new MessagesDisplay
         var battle = new Battle(messagesDisplayer, allies, enemies)
         var arena = new Arena(battle, messagesDisplayer, allies, enemies)
         var attackMenu = new AttackMenu(stage, battle, arena, messagesDisplayer, None, inventory)
-		var itemsPane = new ItemsPane(attackMenu, inventory._2)
+		var itemsPane = new ItemsPane(attackMenu, inventory.items)
 		attackMenu.itemsPane = Some(itemsPane)
         var root = new Pane { this.getChildren.addAll(new GridPane {
                 var rowArena = new RowConstraints(640)

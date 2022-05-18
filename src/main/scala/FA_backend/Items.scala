@@ -3,6 +3,8 @@ package items
 import fighter._
 import attackeffect._
 
+case class Inventory(var balance : Int, var items : List[Item])
+
 abstract class Item(val name : String, val price : Int) {
 	val effect : AttackEffect
 	val imageURL : String

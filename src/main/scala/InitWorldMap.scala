@@ -26,7 +26,7 @@ object InitWorldMap {
 	var initMap : Pane = new Pane()
 	var initNodeGraph : Array[Array[Node with NodeShape]] = Array()
 	var initHeroes : Array[Fighter] = Array()
-	var initInventory : (Int, List[Item]) = (0, List())
+	var initInventory : Inventory = Inventory(0, List())
 
 	def coordToPosition(coord : (Int, Int)) : (Int, Int) = {(((coord._1.toFloat + 0.5) * (1290.toFloat / 7.toFloat)).toInt, if (coord._2  == 0) 175 else 525)}
 
@@ -58,7 +58,7 @@ object InitWorldMap {
 		return (map, nodeGraph)
 	}
 
-	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter], (Int, List[Item])) = {
+	def createWM(length : Int) : (NodeMap, Pane, Array[Array[Node with NodeShape]], Array[Fighter], Inventory) = {
 		if (isAlreadyDefined) {
 			for (i <- 0 to 2) {
 				val previousHero = initHeroes(i)
@@ -79,7 +79,7 @@ object InitWorldMap {
 			initMap = map
 			initNodeGraph = nodeGraph
 			initHeroes = Heroes.getThreeRandomUniqueHeroes(0)
-			initInventory = (0, List(new MinorHealingPotion, new MajorHealingPotion, new ExaltedHealingPotion, new FireBomb, new PoisonDart, new CurseScroll, new StrengthPotion, new ToughnessPotion))
+			initInventory = Inventory(0, List(new MinorHealingPotion, new MajorHealingPotion, new ExaltedHealingPotion, new FireBomb, new PoisonDart, new CurseScroll, new StrengthPotion, new ToughnessPotion))
 
 			return (nodeMap, map, nodeGraph, initHeroes, initInventory)
 		}

@@ -78,7 +78,7 @@ class WorldMap extends Application with InitFightArena {
 		nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
 	
 		SaveButton.setOnAction(_ => {
-			Saves.makeSave(nodeMap, heroes)
+			Saves.makeSave(nodeMap, heroes, inventory)
 			SaveLabel.setText("Sauvegarde effectuée")
 		})
 
@@ -125,6 +125,13 @@ class WorldMap extends Application with InitFightArena {
 			}
 
 			nodeGraph(nodeMap.currentNode._1)(nodeMap.currentNode._2).setColor(Color.RED)
+
+			InitWorldMap.initNodeMap = nodeMap
+			InitWorldMap.initMap = map
+			InitWorldMap.initNodeGraph = nodeGraph
+			InitWorldMap.initHeroes = heroes
+			InitWorldMap.initInventory = inventory
+
 			stage.setScene(scene)
 			updateScene()
 

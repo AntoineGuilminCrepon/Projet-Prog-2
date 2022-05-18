@@ -108,7 +108,7 @@ class ItemsPane(attackMenu : AttackMenu, var items : List[Item]) extends javafx.
 }
 
 /* Partie correspondant aux boutons du bas de la fenêtre permettant de choisir les attaques */
-class AttackMenu(stage : Stage, var battle : Battle, var arena : Arena, var messagesDisplayer : MessagesDisplay, var itemsPane : Option[ItemsPane], inventory : (Int, List[Item])) extends GridPane {
+class AttackMenu(stage : Stage, var battle : Battle, var arena : Arena, var messagesDisplayer : MessagesDisplay, var itemsPane : Option[ItemsPane], var inventory : Inventory) extends GridPane {
 
     /*Contrôle de la taille et position*/
     val w = 645
@@ -159,6 +159,10 @@ class AttackMenu(stage : Stage, var battle : Battle, var arena : Arena, var mess
 					messagesDisplayer.continueMessage(hero.toString() + " est désormais au niveau " + hero.level + " !")
 				}
 			})
+			val moneyWon = battle.fightOrder.filter(!_.isHero()).foldLeft(0)(_ + _.moneyRewarded())
+			inventory.balance += moneyWon
+			messagesDisplayer.continueMessage("\nVous avez gagné " + moneyWon + " pièces d'or !")
+			messagesDisplayer.continueMessage("Votre compte s'élève désormais à : " + inventory.balance + " pièces d'or !")
 
 			for (i <- 0 to 3) {
 				attackButtons(i).text = "Continuer"
