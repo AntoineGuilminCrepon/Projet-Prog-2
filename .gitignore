@@ -8,5 +8,5 @@ target/
 .metals/
 .vscode/
 .bloop/
-build
+build/
 Rendus/
