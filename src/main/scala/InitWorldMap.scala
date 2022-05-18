@@ -39,6 +39,7 @@ object InitWorldMap {
 					internalMap(i)(j) match {
 						case NodeType.FightNode => new CrossNode(coordToPosition((i,j)))
 						case NodeType.NeutralNode => new EllipseNode(coordToPosition((i,j)))
+						case NodeType.ShopNode => new TriangleNode(coordToPosition((i,j)))
 						case NodeType.EmptyNode => new NoneNode
 					}
 			}
@@ -79,7 +80,7 @@ object InitWorldMap {
 			initMap = map
 			initNodeGraph = nodeGraph
 			initHeroes = Heroes.getThreeRandomUniqueHeroes(0)
-			initInventory = Inventory(0, List(new MinorHealingPotion, new MajorHealingPotion, new ExaltedHealingPotion, new FireBomb, new PoisonDart, new CurseScroll, new StrengthPotion, new ToughnessPotion))
+			initInventory = Inventory(100, List(new MinorHealingPotion, new MajorHealingPotion, new ExaltedHealingPotion, new FireBomb, new PoisonDart, new CurseScroll, new StrengthPotion, new ToughnessPotion))
 
 			return (nodeMap, map, nodeGraph, initHeroes, initInventory)
 		}

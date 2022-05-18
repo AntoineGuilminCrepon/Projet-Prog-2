@@ -1,7 +1,6 @@
 package initfightarena
 
 import javafx._
-import javafx.application._
 import javafx.stage._
 import javafx.scene._
 import javafx.scene.control._

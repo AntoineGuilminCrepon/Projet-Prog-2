@@ -14,7 +14,8 @@ Projet Programmation 2 en Scala par Pauline Bonnet et Balthazar Patiachvili
 - [x] Faire l'affichage du wiki
 - [x] Faire un menu de sauvegarde
 - [x] Afficher les niveaux, XP et montées de niveau
-- [ ] Ajouter des magasins sur la carte
+- [x] Ajouter des magasins sur la carte
+- [x] Ajouter un bandeau pour afficher les objets possédés
 
 ### Partie backend
 

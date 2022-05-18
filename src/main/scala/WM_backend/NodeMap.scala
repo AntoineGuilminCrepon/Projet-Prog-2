@@ -8,6 +8,7 @@ object NodeType {
     sealed trait EnumVal
     case object FightNode extends EnumVal { override def toString() = {"X"} }
     case object NeutralNode extends EnumVal { override def toString() = {"O"} }
+	case object ShopNode extends EnumVal { override def toString() = {"T"} }
     case object EmptyNode extends EnumVal { override def toString() = {" "} }
 }
 
@@ -41,7 +42,7 @@ class NodeMap(val length : Int) {
 	}
 
     private def generate() : Unit = {
-        map(0)(0) = NodeType.NeutralNode
+        map(0)(0) = NodeType.ShopNode
         map(0)(1) = NodeType.EmptyNode
 
         var random = new scala.util.Random
@@ -92,7 +93,20 @@ class NodeMap(val length : Int) {
 
         map(length + 1)(0) = NodeType.FightNode
         map(length + 1)(1) = NodeType.EmptyNode
- 
+	
+		var counter = 0
+		for (i <- 0 to length + 1) {
+			for (j <- 0 to 1) {
+				if (map(i)(j) == NodeType.FightNode) {
+					counter += 1
+					if (counter == 9) {
+						counter = 0
+						map(i)(j) = NodeType.ShopNode
+					}
+				}
+			}
+		}
+
     }
 
     this.generate()
@@ -101,7 +115,7 @@ class NodeMap(val length : Int) {
 
 	for (i <- 0 to length + 1) {
 		for (j <- 0 to 1) {
-			if (map(i)(j) == NodeType.NeutralNode) {
+			if (map(i)(j) == NodeType.NeutralNode || map(i)(j) == NodeType.ShopNode) {
 				clearedMap(i)(j) = true
 			}
 		}

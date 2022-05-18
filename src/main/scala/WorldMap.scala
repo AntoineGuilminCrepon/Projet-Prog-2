@@ -17,10 +17,12 @@ import initfightarena._
 import fighter._
 import monsters._
 import wiki._
+import shop._
 
 import initworldmap._
 import savesfrontend._
 import savesbackend._
+import itemspane._
 import nodemap._
 import nodeshapes._
 
@@ -40,6 +42,8 @@ class WorldMap extends Application with InitFightArena {
 	var initSave : (NodeMap, Array[Fighter]) = (new NodeMap(1), Array())
 	var initGraph : (Pane, Array[Array[Node with NodeShape]]) = (new Pane(), Array())
 
+	var itemsPane = new ItemsPane(inventory.items)
+
 	def clearStage() = {
 		nodeMap.clearedMap(nodeMap.currentNode._1)(nodeMap.currentNode._2) = true
 	}
@@ -55,23 +59,36 @@ class WorldMap extends Application with InitFightArena {
 
 		var root = new Group() {
 			var grid = new GridPane()
-			this.getChildren.addAll(grid, SavesPane)
+			this.getChildren.addAll(grid, itemsPane, SavesPane)
 			SavesPane.setVisible(false)
 
 			grid.setAlignment(Pos.CENTER)
+			grid.getColumnConstraints().addAll(new ColumnConstraints(960), new ColumnConstraints(960))
 			grid.getRowConstraints().addAll(new RowConstraints(700), new RowConstraints(340))		
 			
-			grid.add(map, 0, 0)
+			grid.add(map, 0, 0, 2, 1)
 
 			var wikiButton = new Button("Wiki") {
 				setMinHeight(110)
 				setMinWidth(645)
 				setFocusTraversable(false)
-				getTransforms.add(new Translate() {setX(635)})
+				getTransforms.add(new Translate() {setX(150)})
 				setOnAction(_ => new Wiki(stage, heroes))
 			}
 
+			var itemsButton = new Button("Objets possédés") {
+				setMinHeight(110)
+				setMinWidth(645)
+				setFocusTraversable(false)
+				getTransforms.add(new Translate() {setX(150)})
+				setOnAction(_ => { 
+					itemsPane.setVisible(!itemsPane.isVisible())
+					itemsPane.updateItemsButtons(0)
+				})
+			}
+
 			grid.add(wikiButton, 0, 1)
+			grid.add(itemsButton, 1, 1)
 		}
 
 		var scene = new Scene(root, 1920, 1080)
@@ -87,24 +104,37 @@ class WorldMap extends Application with InitFightArena {
 			nodeMap = initSave._1
 			heroes = initSave._2
 			initGraph = InitWorldMap.nodeMapToGraph(length, nodeMap.map, nodeMap.bounds)
+			itemsPane = new ItemsPane(inventory.items)
 
 			map = initGraph._1
 			root = new Group() {
 				var grid = new GridPane()
-				this.getChildren.addAll(grid, SavesPane)
+				this.getChildren.addAll(grid, itemsPane, SavesPane)
 				SavesPane.setVisible(false)
 
 				grid.setAlignment(Pos.CENTER)
+				grid.getColumnConstraints().addAll(new ColumnConstraints(960), new ColumnConstraints(960))
 				grid.getRowConstraints().addAll(new RowConstraints(700), new RowConstraints(340))		
 				
-				grid.add(map, 0, 0)
+				grid.add(map, 0, 0, 2, 1)
 
 				var wikiButton = new Button("Wiki") {
 					setMinHeight(110)
 					setMinWidth(645)
 					setFocusTraversable(false)
-					getTransforms.add(new Translate() {setX(635)})
+					getTransforms.add(new Translate() {setX(150)})
 					setOnAction(_ => new Wiki(stage, heroes))
+				}
+
+				var itemsButton = new Button("Objets possédés") {
+					setMinHeight(110)
+					setMinWidth(645)
+					setFocusTraversable(false)
+					getTransforms.add(new Translate() {setX(150)})
+					setOnAction(_ => {
+						itemsPane.setVisible(!itemsPane.isVisible())
+						itemsPane.updateItemsButtons(0)
+					})
 				}
 
 				val translateX = new Translate() { setX(-1800) }
@@ -113,6 +143,7 @@ class WorldMap extends Application with InitFightArena {
 				}
 
 				grid.add(wikiButton, 0, 1)
+				grid.add(itemsButton, 1, 1)
 			}
 
 			scene = new Scene(root, 1920, 1080)
@@ -166,9 +197,14 @@ class WorldMap extends Application with InitFightArena {
 					} 
 					case KeyCode.SPACE | KeyCode.ENTER => {
 						if (nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.FightNode) {
-						restartFA(stage, heroes, Monsters.getThreeRandomMonsters(3, heroes.foldLeft(0)(_ + _.level) / 3), inventory)
-						return
-					}}
+							restartFA(stage, heroes, Monsters.getThreeRandomMonsters(3, heroes.foldLeft(0)(_ + _.level) / 3), inventory)
+							return
+						} else if (nodeMap.map(nodeMap.currentNode._1)(nodeMap.currentNode._2) == NodeType.ShopNode) {
+							var shop = new Shop
+							shop.start(stage, inventory)
+							return
+						}
+					}
 					case KeyCode.S => {
 						/* Permet de sauvegarder directement */
 						SaveButton.fire()

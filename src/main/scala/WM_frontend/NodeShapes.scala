@@ -53,6 +53,21 @@ class EllipseNode(coord : (Int, Int)) extends Group with NodeShape {
 	override def setColor(color : Color) = {outerEllipse.setFill(color)}
 }
 
+class TriangleNode(coord : (Int, Int)) extends Group with NodeShape {
+	val (x, y) = coord
+	
+	var lines = Array(
+		new Line(x - 60, y - 25, x - 60, y + 25),
+		new Line(x + 60, y - 25, x + 60, y + 25),
+		new Line(x - 60, y - 25, x + 60, y + 25),
+		new Line(x - 60, y + 25, x + 60, y - 25)
+	)
+
+	lines.foreach(this.getChildren().add(_))
+
+	override def setColor(color : Color) = { lines.foreach(_.setStroke(color)) }
+}
+
 class NoneNode extends Group with NodeShape {}
 
 class PathBetweenNodes(coord : (Int, Int), direction : Direction.EnumVal) extends Group {
