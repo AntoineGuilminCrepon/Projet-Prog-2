@@ -18,6 +18,7 @@ import fighter._
 import monsters._
 import wiki._
 import shop._
+import items._
 
 import initworldmap._
 import savesfrontend._
@@ -25,8 +26,6 @@ import savesbackend._
 import itemspane._
 import nodemap._
 import nodeshapes._
-
-import java.util._
 
 /* Classe principale de cette partie */
 class WorldMap extends Application with InitFightArena {
@@ -39,7 +38,7 @@ class WorldMap extends Application with InitFightArena {
 	var heroes = initWM._4
 	var inventory = initWM._5
 
-	var initSave : (NodeMap, Array[Fighter]) = (new NodeMap(1), Array())
+	var initSave : (NodeMap, Array[Fighter], Inventory) = (new NodeMap(1), Array(), Inventory(0, List()))
 	var initGraph : (Pane, Array[Array[Node with NodeShape]]) = (new Pane(), Array())
 
 	var itemsPane = new ItemsPane(inventory.items)
@@ -103,6 +102,7 @@ class WorldMap extends Application with InitFightArena {
 			initSave = Saves.loadSave()
 			nodeMap = initSave._1
 			heroes = initSave._2
+			inventory = initSave._3
 			initGraph = InitWorldMap.nodeMapToGraph(length, nodeMap.map, nodeMap.bounds)
 			itemsPane = new ItemsPane(inventory.items)
 

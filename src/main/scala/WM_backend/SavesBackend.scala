@@ -73,6 +73,7 @@ object Saves {
 			c.as[String] match {
 				case Right("X") => Right(NodeType.FightNode)
 				case Right("O") => Right(NodeType.NeutralNode)
+				case Right("T") => Right(NodeType.ShopNode)
 				case Right(" ") => Right(NodeType.EmptyNode)
 				case _ => throw new Exception("Erreur : Type de nœud inconnu")
 			}
@@ -216,7 +217,7 @@ object Saves {
 		inventoryWriter.close()
 	}
 		
-	def loadSave() : (NodeMap, Array[Fighter]) = {
+	def loadSave() : (NodeMap, Array[Fighter], Inventory) = {
 		val fighterSave = Source.fromFile("src/main/resources/Save/fighters.json").mkString
 		val parseFighters = parse(fighterSave)
 		val heroes = parseFighters match {
@@ -239,6 +240,17 @@ object Saves {
 				}
 		}
 
-		return (nodeMap, heroes)
+		val invSave = Source.fromFile("src/main/resources/Save/inventory.json").mkString
+		val parseInv = parse(mapSave)
+		val inventory = parseMap match {
+			case Left(x) => throw new Exception("Erreur : Impossible de parser la sauvegarde de l'inventaire")
+			case Right(x) =>
+				decode[Inventory](invSave) match {
+					case Left(x) => throw new Exception("Erreur : Impossible de décoder la carte")
+					case Right(x) => x
+				}
+		} 
+
+		return (nodeMap, heroes, inventory)
 	}
 }
